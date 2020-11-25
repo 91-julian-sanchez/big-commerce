@@ -2,34 +2,9 @@ import argparse
 import logging
 import category_page_objects as pages
 from common import config
-import requests
-import bs4
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 host = None
-
-
-def requestMercadolibre(path):
-    """
-    function that makes request to Mercado libre
-    :param path:
-    :return: request response
-    """
-    response = requests.get(path)
-    response.encoding = 'utf-8'
-    # print(response.text)
-    return response
-
-
-def requestCategory(category, marketplace_uid):
-    """
-    function to handle marketplace requests
-    :param category:
-    :param marketplace_uid:
-    :return:
-    """
-    if marketplace_uid == 'mercadolibre':
-        return requestMercadolibre(f"{host}/{category}/")
 
 
 def marketplaceScrapper(marketplace_uid):
