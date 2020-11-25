@@ -9,6 +9,11 @@ host = None
 
 
 def requestLinio(path):
+    """
+    function that makes request to Linio
+    :param path:
+    :return: request response
+    """
     response = requests.get(path)
     response.encoding = 'utf-8'
     # print(response.text)
@@ -16,6 +21,11 @@ def requestLinio(path):
 
 
 def requestMercadolibre(path):
+    """
+    function that makes request to Mercado libre
+    :param path:
+    :return: request response
+    """
     response = requests.get(path)
     response.encoding = 'utf-8'
     # print(response.text)
@@ -23,7 +33,12 @@ def requestMercadolibre(path):
 
 
 def requestCategory(category, marketplace_uid):
-
+    """
+    function to handle marketplace requests
+    :param category:
+    :param marketplace_uid:
+    :return:
+    """
     if marketplace_uid == 'mercadolibre':
         return requestMercadolibre(f"{host}/{category}/")
     elif marketplace_uid == 'linio':
@@ -31,7 +46,10 @@ def requestCategory(category, marketplace_uid):
 
 
 def marketplaceScrapper(marketplace_uid):
-
+    """
+    Scrappy start function
+    :param marketplace_uid: marketplace id for scrappy
+    """
     global host
     host = config()['marketplace'][marketplace_uid]['url']
     logger.info(f"Beginning scraper for {marketplace_uid}: {host}.")
@@ -40,11 +58,11 @@ def marketplaceScrapper(marketplace_uid):
     response = requestCategory(category, marketplace_uid)
     soup = bs4.BeautifulSoup(response.text, 'html.parser', )
 
+    counter = 1
     if marketplace_uid == 'mercadolibre':
 
         categories_link = soup.select('.ui-search-filter-container > a')
 
-        counter = 1
         for category_link in categories_link:
             # print("\n\n", "==" * 40, category_link)
             class_ui_search_filter_name = category_link.select('.ui-search-filter-name')
@@ -57,7 +75,6 @@ def marketplaceScrapper(marketplace_uid):
 
         categories_link = soup.select('.catalogue-list > ul > li > a')
 
-        counter = 1
         for category_link in categories_link:
             # print("\n\n","=="*40,category_link)
 
