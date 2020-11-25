@@ -1,23 +1,12 @@
 import argparse
 import logging
+import category_page_objects as pages
 from common import config
 import requests
 import bs4
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 host = None
-
-
-def requestLinio(path):
-    """
-    function that makes request to Linio
-    :param path:
-    :return: request response
-    """
-    response = requests.get(path)
-    response.encoding = 'utf-8'
-    # print(response.text)
-    return response
 
 
 def requestMercadolibre(path):
@@ -41,8 +30,6 @@ def requestCategory(category, marketplace_uid):
     """
     if marketplace_uid == 'mercadolibre':
         return requestMercadolibre(f"{host}/{category}/")
-    elif marketplace_uid == 'linio':
-        return requestLinio(f"{host}/{category}/")
 
 
 def marketplaceScrapper(marketplace_uid):
@@ -54,32 +41,13 @@ def marketplaceScrapper(marketplace_uid):
     host = config()['marketplace'][marketplace_uid]['url']
     logger.info(f"Beginning scraper for {marketplace_uid}: {host}.")
 
-    category = input("Escriba subcategoria que quiere buscar en deportes: ")
-    response = requestCategory(category, marketplace_uid)
-    soup = bs4.BeautifulSoup(response.text, 'html.parser', )
+    subcategory = input("Escriba subcategoria que quiere buscar en deportes: ")
+    categoryPage = pages.CategoryPage(marketplace_uid, host, subcategory=subcategory)
 
     counter = 1
-    if marketplace_uid == 'mercadolibre':
-
-        categories_link = soup.select('.ui-search-filter-container > a')
-
-        for category_link in categories_link:
-            # print("\n\n", "==" * 40, category_link)
-            class_ui_search_filter_name = category_link.select('.ui-search-filter-name')
-
-            if len(class_ui_search_filter_name) > 0:
-                logger.info(f"{counter}. {class_ui_search_filter_name[0].text} -> {category_link['href']}")
-                counter += 1
-
-    elif marketplace_uid == 'linio':
-
-        categories_link = soup.select('.catalogue-list > ul > li > a')
-
-        for category_link in categories_link:
-            # print("\n\n","=="*40,category_link)
-
-            logger.info(f"{counter}. {category_link.span.text} -> https://www.linio.com.co{category_link['href']}")
-            counter += 1
+    for link in categoryPage.subcategories_links:
+        logger.info(f"{counter}. {link}")
+        counter += 1
 
 
 if __name__ == '__main__':
