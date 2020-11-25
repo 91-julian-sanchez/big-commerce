@@ -1,0 +1,5 @@
+marketplace:
+  mercadolibre:
+    url: https://deportes.mercadolibre.com.co
+  linio:
+    url: https://linio.com.co/c/deportes 
