@@ -1,5 +1,13 @@
 marketplace:
   mercadolibre:
+    id: mercadolibre
+    origin: https://www.mercadolibre.com.co
     url: https://deportes.mercadolibre.com.co
+    queries:
+      categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
   linio:
+    id: linio
+    origin: https://www.linio.com.co
     url: https://linio.com.co/c/deportes 
+    queries:
+      categorypage_subcategories_links: '.catalogue-list > ul > li.active > ul > li > a'
