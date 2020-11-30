@@ -2,7 +2,8 @@ import bs4
 import requests
 from common import config
 import logging
-logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+# logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
 
 class HomePage:
@@ -21,6 +22,16 @@ class HomePage:
     def _select(self, query_string):
         return self._html.select(query_string)
 
+    def _find(self, html, tag, class_=None):
+        return html.find(tag, class_=class_)
+
+    def _findText(self, html, tag, class_=None):
+        found = self._find(html, tag, class_=class_)
+        if found is not None:
+            return found.text
+        else:
+            return None
+
     def _visit(self, url):
         response = requests.get(url)
         response.encoding = 'utf-8'
@@ -33,7 +44,7 @@ class HomePage:
 class CategoryPage(HomePage):
     
     def __init__(self, marketplace_id, url, subcategory=None):
-        print("CategoryPage.__init__(self)")
+        # print("CategoryPage.__init__(self)")
         self._config = config()['marketplace'][marketplace_id]
         self._queries = self._config['queries']
         self._html = None
@@ -56,12 +67,12 @@ class CategoryPage(HomePage):
     @property
     def subcategories_links(self):
         link_list = []
-        categorypage_subcategories_links = self._select(self._queries['categorypage_subcategories_links'])
 
         for link in self._select(self._queries['categorypage_subcategories_links']):
-            print(link)
+            # print(link)
             if link and link.has_attr('href'):
                 link_list.append(link)
+        # print(link_list)
 
         if self._config['id'] == 'linio':
             return set(f"{link.span.text} -> {self._config['origin']}{link['href']}" for link in link_list)
@@ -77,54 +88,58 @@ class ProductPage(HomePage):
         super().__init__(marketplace_id, url, subcategory)
 
     @property
-    def product_body(self):
+    def produtcs(self):
 
         layout_products = self._select(self._queries['list_products'])
+        products_list = []
 
         if len(layout_products) == 1:
             layout_products = layout_products[0]
 
             for layout_product in layout_products.select(".ui-search-layout__item"):
-                # print(layout_product.select('.ui-search-item__title')[0])
-                name = layout_product.find("h2", class_="ui-search-item__title").text
-                print(name)
+                # producto
+                name = self._findText(layout_product, "h2", class_=self._queries['product_title'])
+                # print(name)
+
                 # Precio
-                price_symbol = layout_product.find("span", class_="price-tag-symbol").text
-                price = layout_product.find("span", class_="price-tag-fraction").text
-                print(f"{price_symbol} {price}")
+                price_symbol = self._findText(layout_product, "span", class_=self._queries['product_price_symbol'])
+                price = self._findText(layout_product, "span", class_=self._queries['product_price'])
+                # print(f"Precio: {price_symbol} {price}")
 
-                price_discount = layout_product.find("span", class_="ui-search-price__discount")
-                if price_discount is not None:
-                    price_discount = price_discount.text
-                    print(f"Discount: {price_discount}")
-                else:
-                    print(f"Discount: 0%")
+                # Descuento
+                price_discount = self._findText(layout_product, "span", class_=self._queries['product_price_discount'])
+                # print(f"Descuento: {price_discount}")
 
+                # Best seller
+                best_seller = self._findText(layout_product, "div", class_=self._queries['product_best_seller'])
+                # logging.warning(best_seller)
 
-                # Tags
-                best_seller = layout_product.select(".ui-search-item__highlight-label--best_seller")
-                if len(best_seller) == 1:
+                if best_seller is not None:
                     best_seller = True
                 else:
                     best_seller = False
-
-                print(f"Best seller: {best_seller}")
+                # print(f"Más Vendido: {best_seller}")
 
                 promotional = layout_product.select(".ui-search-item__ad-label--blue")
-                logging.warning(promotional)
+                # logging.warning(best_seller)
 
                 if len(promotional) == 1:
                     promotional = True
                 else:
                     promotional = False
 
-                print(f"Promotional: {promotional}")
+                # print(f"Promotional: {promotional}")
 
-                print("\n")
+                # print("\n")
+                products_list.append({
+                    'name': name,
+                    'price_simbol': price_symbol,
+                    'price': price,
+                    'price_discount': price_discount,
+                    'best_seller': best_seller,
+                    'promotional': promotional
+                })
         else:
             raise Exception("Multiple products layout")
 
-        # print(layout_products)
-        # print(len(layout_products))
-        raise Exception("kill")
-        return self._select(self._queries['product'])
+        return products_list

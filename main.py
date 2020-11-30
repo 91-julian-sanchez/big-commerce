@@ -16,20 +16,34 @@ def marketplaceScrapper(marketplace_uid):
     host = config()['marketplace'][marketplace_uid]['url']
     logger.info(f"Beginning scraper for {marketplace_uid}: {host}.")
 
-    # subcategory = input("Escriba subcategoria que quiere buscar en deportes: ")
-    # categoryPage = pages.CategoryPage(marketplace_uid, host, subcategory=subcategory)
-    #
-    # counter = 1
-    # for link in categoryPage.subcategories_links:
-    #     logger.info(f"{counter}. {link}")
-    #     counter += 1
+    subcategory = input("Escriba subcategoria que quiere buscar en deportes: ")
 
-    productsPage = pages.ProductPage(marketplace_uid, host, None)
-    productsPage.product_body
-    # print(productsPage.product_body)
+    print("\n\nSUBCATEGORIAS:\n")
+    categoryPage = pages.CategoryPage(marketplace_uid, host, subcategory=subcategory)
 
-    # for product_body in productsPage.product_body:
-    #     print("=="*40,"\n\n",product_body)
+    counter = 1
+    subcategories_links = categoryPage.subcategories_links
+
+    for link in subcategories_links:
+        logger.info(f"{counter}. {link}")
+        counter += 1
+
+    if marketplace_uid == 'mercadolibre':
+        print(" \n\nPRODUCTOS:\n")
+        productsPage = pages.ProductPage(marketplace_uid, host, subcategory=subcategory)
+        products = productsPage.produtcs
+        counter = 1
+        for product in products:
+            logger.info(f"""
+            ======================================================================
+            {counter}. {product['name']} 
+            ======================================================================
+            Precio: {product['price_simbol']} {product['price']}
+            Descuento: {product['price_discount']}
+            Más Vendido: {product['best_seller']}
+            Promocionado (Ads): {product['promotional']}
+            """)
+            counter += 1
 
 
 if __name__ == '__main__':
