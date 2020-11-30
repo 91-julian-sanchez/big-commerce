@@ -1,6 +1,6 @@
 import argparse
 import logging
-import category_page_objects as pages
+import page_objects as pages
 from common import config
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -17,12 +17,33 @@ def marketplaceScrapper(marketplace_uid):
     logger.info(f"Beginning scraper for {marketplace_uid}: {host}.")
 
     subcategory = input("Escriba subcategoria que quiere buscar en deportes: ")
+
+    print("\n\nSUBCATEGORIAS:\n")
     categoryPage = pages.CategoryPage(marketplace_uid, host, subcategory=subcategory)
 
     counter = 1
-    for link in categoryPage.subcategories_links:
+    subcategories_links = categoryPage.subcategories_links
+
+    for link in subcategories_links:
         logger.info(f"{counter}. {link}")
         counter += 1
+
+    if marketplace_uid == 'mercadolibre':
+        print(" \n\nPRODUCTOS:\n")
+        productsPage = pages.ProductPage(marketplace_uid, host, subcategory=subcategory)
+        products = productsPage.produtcs
+        counter = 1
+        for product in products:
+            logger.info(f"""
+            ======================================================================
+            {counter}. {product['name']} 
+            ======================================================================
+            Precio: {product['price_simbol']} {product['price']}
+            Descuento: {product['price_discount']}
+            Más Vendido: {product['best_seller']}
+            Promocionado (Ads): {product['promotional']}
+            """)
+            counter += 1
 
 
 if __name__ == '__main__':

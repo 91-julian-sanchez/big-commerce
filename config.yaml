@@ -5,6 +5,13 @@ marketplace:
     url: https://deportes.mercadolibre.com.co
     queries:
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
+      list_products: '.ui-search-layout--stack'
+      product_title: 'ui-search-item__title'
+      product_price_symbol: 'price-tag-symbol'
+      product_price: 'price-tag-fraction'
+      product_price_discount: 'ui-search-price__discount'
+      product_best_seller: 'ui-search-item__highlight-label--best_seller'
+      product_promotional: 'ui-search-item__ad-label--blue'
   linio:
     id: linio
     origin: https://www.linio.com.co
