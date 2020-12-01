@@ -2,9 +2,8 @@ import bs4
 import requests
 from common import config
 import logging
-# logging.basicConfig(level=logging.WARNING)
+# logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
-# logger = logging.getLogger(__name__)
 
 
 class HomePage:
@@ -19,7 +18,7 @@ class HomePage:
             self._visit(f"{url}/{self.subcategory}/")
         else:
             self._visit(url)
- 
+
     def _select(self, query_string):
         return self._html.select(query_string)
 
@@ -46,19 +45,15 @@ class HomePage:
 
 
 class CategoryPage(HomePage):
-    
-    def __init__(self, marketplace_id, url, subcategory=None):
-        # print("CategoryPage.__init__(self)")
-        self._config = config()['marketplace'][marketplace_id]
-        self._queries = self._config['queries']
-        self._html = None
-        self.subcategory = subcategory
 
-        if self.subcategory is not None:
-            self._visit(f"{url}/{self.subcategory}/")
-        else:
-            self._visit(url)
-    
+    _country_id = None
+    _marketplace_id = None
+
+    def __init__(self, marketplace_id, url, subcategory=None, country_id=None):
+        super().__init__(marketplace_id, url, subcategory)
+        self._marketplace_id = marketplace_id
+        self._country_id = country_id
+
     @property
     def subcategory(self):
         return self._subcategory
@@ -79,7 +74,9 @@ class CategoryPage(HomePage):
         # print(link_list)
 
         if self._config['id'] == 'linio':
-            return set(f"{link.span.text} -> {self._config['origin']}{link['href']}" for link in link_list)
+            return set(
+                f"{link.span.text} -> {config()['marketplace'][self._marketplace_id]['country'][self._country_id]['origin']}{link['href']}" for link in link_list
+            )
         elif self._config['id'] == 'mercadolibre':
             return set(f"{link.span.text} -> {link['href']}" for link in link_list)
         else:
@@ -93,16 +90,19 @@ class ProductPage(HomePage):
 
     @property
     def produtcs(self):
+
         layout_products = self._select(self._queries['list_products'])
         products_list = []
 
         if len(layout_products) == 1:
             layout_products = layout_products[0]
-            # print(layout_products)
-            for layout_product in layout_products.find_all(self._queries['product_container_tag'], self._queries['product_container']):
+
+            for layout_product in layout_products.find_all(self._queries['product_container_tag'],
+                                                           self._queries['product_container']):
 
                 # TODO Name
-                name = self._findText(layout_product, self._queries['product_title_tag'], class_=self._queries['product_title'])
+                name = self._findText(layout_product, self._queries['product_title_tag'],
+                                      class_=self._queries['product_title'])
                 # print(name)
 
                 # TODO Precio

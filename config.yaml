@@ -1,8 +1,15 @@
 marketplace:
   mercadolibre:
     id: mercadolibre
-    origin: https://www.mercadolibre.com.co
-    url: https://deportes.mercadolibre.com.co
+    country:
+      co:
+        name: Colombia
+        origin: https://www.mercadolibre.com.co
+        url: https://deportes.mercadolibre.com.co
+      mx:
+        name: Mexico
+        origin: https://www.mercadolibre.com.mx
+        url: https://deportes.mercadolibre.com.mx
     queries:
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
       list_products: '.ui-search-layout'
@@ -17,8 +24,15 @@ marketplace:
       product_promotional: '.ui-search-item__ad-label--blue'
   linio:
     id: linio
-    origin: https://www.linio.com.co
-    url: https://linio.com.co/c/deportes 
+    country:
+      co:
+        name: Colombia
+        origin: https://www.linio.com.co
+        url: https://linio.com.co/c/deportes
+      mx:
+        name: Mexico
+        origin: https://www.linio.com.mx
+        url: https://linio.com.mx/c/deportes
     queries:
       categorypage_subcategories_links: '.catalogue-list > ul > li.active > ul > li > a'
       list_products: '.switchable-product-container'
