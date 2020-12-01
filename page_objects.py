@@ -2,8 +2,9 @@ import bs4
 import requests
 from common import config
 import logging
-# logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.WARNING)
 # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+# logger = logging.getLogger(__name__)
 
 
 class HomePage:
@@ -25,9 +26,12 @@ class HomePage:
     def _find(self, html, tag, class_=None):
         return html.find(tag, class_=class_)
 
-    def _findText(self, html, tag, class_=None):
+    def _findText(self, html, tag, class_=None, trim=None):
         found = self._find(html, tag, class_=class_)
         if found is not None:
+            if trim is None or trim is True:
+                return found.text.strip()
+
             return found.text
         else:
             return None
@@ -89,28 +93,28 @@ class ProductPage(HomePage):
 
     @property
     def produtcs(self):
-
         layout_products = self._select(self._queries['list_products'])
         products_list = []
 
         if len(layout_products) == 1:
             layout_products = layout_products[0]
+            # print(layout_products)
+            for layout_product in layout_products.find_all(self._queries['product_container_tag'], self._queries['product_container']):
 
-            for layout_product in layout_products.select(".ui-search-layout__item"):
-                # producto
-                name = self._findText(layout_product, "h2", class_=self._queries['product_title'])
+                # TODO Name
+                name = self._findText(layout_product, self._queries['product_title_tag'], class_=self._queries['product_title'])
                 # print(name)
 
-                # Precio
+                # TODO Precio
                 price_symbol = self._findText(layout_product, "span", class_=self._queries['product_price_symbol'])
                 price = self._findText(layout_product, "span", class_=self._queries['product_price'])
                 # print(f"Precio: {price_symbol} {price}")
 
-                # Descuento
+                # TODO Descuento
                 price_discount = self._findText(layout_product, "span", class_=self._queries['product_price_discount'])
                 # print(f"Descuento: {price_discount}")
 
-                # Best seller
+                # TODO Best seller
                 best_seller = self._findText(layout_product, "div", class_=self._queries['product_best_seller'])
                 # logging.warning(best_seller)
 
@@ -120,8 +124,8 @@ class ProductPage(HomePage):
                     best_seller = False
                 # print(f"Más Vendido: {best_seller}")
 
-                promotional = layout_product.select(".ui-search-item__ad-label--blue")
-                # logging.warning(best_seller)
+                # TODO Promotional (Ads)
+                promotional = layout_product.select(self._queries['product_promotional'])
 
                 if len(promotional) == 1:
                     promotional = True
@@ -130,7 +134,7 @@ class ProductPage(HomePage):
 
                 # print(f"Promotional: {promotional}")
 
-                # print("\n")
+                # TODO append Dic products
                 products_list.append({
                     'name': name,
                     'price_simbol': price_symbol,
