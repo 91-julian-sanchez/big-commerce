@@ -27,7 +27,7 @@ def marketplaceScrapper(marketplace_uid,country_uid):
         logger.info(f"{counter}. {link}")
         counter += 1
 
-    productsPage = pages.ProductPage(marketplace_uid, host, subcategory=subcategory)
+    productsPage = pages.ProductPage(marketplace_uid, host, subcategory=subcategory, country_id=country_uid)
     products = productsPage.produtcs
 
     print(f" \n\nPRODUCTOS({len(products)}):\n")
@@ -41,6 +41,7 @@ def marketplaceScrapper(marketplace_uid,country_uid):
         Descuento: {product['price_discount']}
         Más Vendido: {product['best_seller']}
         Promocionado (Ads): {product['promotional']}
+        link: {product['link']}
         """)
         counter += 1
 
@@ -66,7 +67,7 @@ if __name__ == '__main__':
     
     country = int(input("Ingrese opcion: ")) - 1
     
-    if country > -1 and country < len(config()['marketplace'][args.marketplace]['country'].keys()):
+    if -1 < country < len(config()['marketplace'][args.marketplace]['country'].keys()):
         country_selected = list(config()['marketplace'][args.marketplace]['country'].keys())[country]
         marketplaceScrapper(args.marketplace, country_selected)
     else:

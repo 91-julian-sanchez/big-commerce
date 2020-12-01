@@ -48,11 +48,13 @@ class CategoryPage(HomePage):
 
     _country_id = None
     _marketplace_id = None
+    _origin = None
 
     def __init__(self, marketplace_id, url, subcategory=None, country_id=None):
         super().__init__(marketplace_id, url, subcategory)
         self._marketplace_id = marketplace_id
         self._country_id = country_id
+        self._origin = config()['marketplace'][self._marketplace_id]['country'][self._country_id]['origin']
 
     @property
     def subcategory(self):
@@ -75,7 +77,7 @@ class CategoryPage(HomePage):
 
         if self._config['id'] == 'linio':
             return set(
-                f"{link.span.text} -> {config()['marketplace'][self._marketplace_id]['country'][self._country_id]['origin']}{link['href']}" for link in link_list
+                f"{link.span.text} -> {self._origin}{link['href']}" for link in link_list
             )
         elif self._config['id'] == 'mercadolibre':
             return set(f"{link.span.text} -> {link['href']}" for link in link_list)
@@ -85,8 +87,15 @@ class CategoryPage(HomePage):
 
 class ProductPage(HomePage):
 
-    def __init__(self, marketplace_id, url, subcategory=None):
+    _country_id = None
+    _marketplace_id = None
+    _origin = None
+
+    def __init__(self, marketplace_id, url, subcategory=None, country_id=None):
         super().__init__(marketplace_id, url, subcategory)
+        self._marketplace_id = marketplace_id
+        self._country_id = country_id
+        self._origin = config()['marketplace'][self._marketplace_id]['country'][self._country_id]['origin']
 
     @property
     def produtcs(self):
@@ -104,6 +113,18 @@ class ProductPage(HomePage):
                 name = self._findText(layout_product, self._queries['product_title_tag'],
                                       class_=self._queries['product_title'])
                 # print(name)
+
+                # TODO url
+                link = layout_product.select(self._queries['product_url'])
+
+                if link is not None:
+                    if self._marketplace_id == 'linio':
+                        link = self._origin+link[0]['href']
+                    else:
+                        link = link[0]['href']
+                else:
+                    link = None
+                # print(url)
 
                 # TODO Precio
                 price_symbol = self._findText(layout_product, "span", class_=self._queries['product_price_symbol'])
@@ -137,6 +158,7 @@ class ProductPage(HomePage):
                 # TODO append Dic products
                 products_list.append({
                     'name': name,
+                    'link': link,
                     'price_simbol': price_symbol,
                     'price': price,
                     'price_discount': price_discount,
