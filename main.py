@@ -3,6 +3,7 @@ import logging
 import page_objects as pages
 from common import config
 logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 host = None
 
@@ -28,22 +29,21 @@ def marketplaceScrapper(marketplace_uid):
         logger.info(f"{counter}. {link}")
         counter += 1
 
-    if marketplace_uid == 'mercadolibre':
-        print(" \n\nPRODUCTOS:\n")
-        productsPage = pages.ProductPage(marketplace_uid, host, subcategory=subcategory)
-        products = productsPage.produtcs
-        counter = 1
-        for product in products:
-            logger.info(f"""
-            ======================================================================
-            {counter}. {product['name']} 
-            ======================================================================
-            Precio: {product['price_simbol']} {product['price']}
-            Descuento: {product['price_discount']}
-            Más Vendido: {product['best_seller']}
-            Promocionado (Ads): {product['promotional']}
-            """)
-            counter += 1
+    print(" \n\nPRODUCTOS:\n")
+    productsPage = pages.ProductPage(marketplace_uid, host, subcategory=subcategory)
+    products = productsPage.produtcs
+    counter = 1
+    for product in products:
+        logger.info(f"""
+        ======================================================================
+        {counter}. {product['name']} 
+        ======================================================================
+        Precio: {product['price_simbol'] if product['price_simbol'] else ''} {product['price']} 
+        Descuento: {product['price_discount']}
+        Más Vendido: {product['best_seller']}
+        Promocionado (Ads): {product['promotional']}
+        """)
+        counter += 1
 
 
 if __name__ == '__main__':
