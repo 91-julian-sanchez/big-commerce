@@ -98,8 +98,7 @@ class ProductPage(HomePage):
 
         if len(layout_products) == 1:
             layout_products = layout_products[0]
-
-            # for layout_product in layout_products.select(".ui-search-layout__item"):
+            # print(layout_products)
             for layout_product in layout_products.find_all(self._queries['product_container_tag'], self._queries['product_container']):
 
                 # TODO Name
@@ -135,6 +134,7 @@ class ProductPage(HomePage):
 
                 # print(f"Promotional: {promotional}")
 
+                # TODO append Dic products
                 products_list.append({
                     'name': name,
                     'price_simbol': price_symbol,

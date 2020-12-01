@@ -19,19 +19,20 @@ def marketplaceScrapper(marketplace_uid):
 
     subcategory = input("Escriba subcategoria que quiere buscar en deportes: ")
 
-    print("\n\nSUBCATEGORIAS:\n")
     categoryPage = pages.CategoryPage(marketplace_uid, host, subcategory=subcategory)
 
     counter = 1
     subcategories_links = categoryPage.subcategories_links
+    print(f"\n\nSUBCATEGORIAS({len(subcategories_links)}):\n")
 
     for link in subcategories_links:
         logger.info(f"{counter}. {link}")
         counter += 1
 
-    print(" \n\nPRODUCTOS:\n")
     productsPage = pages.ProductPage(marketplace_uid, host, subcategory=subcategory)
     products = productsPage.produtcs
+
+    print(f" \n\nPRODUCTOS({len(products)}):\n")
     counter = 1
     for product in products:
         logger.info(f"""

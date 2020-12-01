@@ -5,9 +5,9 @@ marketplace:
     url: https://deportes.mercadolibre.com.co
     queries:
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
-      list_products: '.ui-search-layout--stack'
+      list_products: '.ui-search-layout'
       product_container: 'ui-search-layout__item'
-      product_container_tag: 'div'
+      product_container_tag: 'li'
       product_title: 'ui-search-item__title'
       product_title_tag: 'h2'
       product_price_symbol: 'price-tag-symbol'
