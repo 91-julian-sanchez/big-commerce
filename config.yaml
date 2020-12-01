@@ -1,20 +1,49 @@
 marketplace:
   mercadolibre:
     id: mercadolibre
-    origin: https://www.mercadolibre.com.co
-    url: https://deportes.mercadolibre.com.co
+    country:
+      co:
+        name: Colombia
+        origin: https://www.mercadolibre.com.co
+        url: https://deportes.mercadolibre.com.co
+      mx:
+        name: Mexico
+        origin: https://www.mercadolibre.com.mx
+        url: https://deportes.mercadolibre.com.mx
     queries:
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
-      list_products: '.ui-search-layout--stack'
+      list_products: '.ui-search-layout'
+      product_container: 'ui-search-layout__item'
+      product_container_tag: 'li'
       product_title: 'ui-search-item__title'
+      product_title_tag: 'h2'
+      product_url: '.ui-search-item__group__element'
       product_price_symbol: 'price-tag-symbol'
       product_price: 'price-tag-fraction'
       product_price_discount: 'ui-search-price__discount'
       product_best_seller: 'ui-search-item__highlight-label--best_seller'
-      product_promotional: 'ui-search-item__ad-label--blue'
+      product_promotional: '.ui-search-item__ad-label--blue'
   linio:
     id: linio
-    origin: https://www.linio.com.co
-    url: https://linio.com.co/c/deportes 
+    country:
+      co:
+        name: Colombia
+        origin: https://www.linio.com.co
+        url: https://linio.com.co/c/deportes
+      mx:
+        name: Mexico
+        origin: https://www.linio.com.mx
+        url: https://linio.com.mx/c/deportes
     queries:
       categorypage_subcategories_links: '.catalogue-list > ul > li.active > ul > li > a'
+      list_products: '.switchable-product-container'
+      product_container: 'catalogue-product'
+      product_container_tag: 'div'
+      product_title: 'title-section'
+      product_title_tag: 'span'
+      product_url: '.catalogue-product > a'
+      product_price_symbol: ''
+      product_price: 'price-main-md'
+      product_price_discount: 'discount'
+      product_best_seller: 'ui-search-item__highlight-label--best_seller'
+      product_promotional: '.catalogue-sponsored-product'

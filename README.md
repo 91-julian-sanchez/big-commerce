@@ -1,6 +1,12 @@
 # Big Commerce
 Big commerce is a scraping tool for ecommerce in latam
 
+**install Python packages with pip and requirements.txt:**
+
+```sh
+$ pip install -r requirements.txt
+```
+
 **Scrappy subcategories of a category in mercadolibre:**
 
 ```sh
