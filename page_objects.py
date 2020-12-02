@@ -44,7 +44,7 @@ class HomePage:
         self._html = bs4.BeautifulSoup(response.text, 'html.parser')
 
 
-class CategoryPage(HomePage):
+class CategorySectionPage(HomePage):
 
     _country_id = None
     _marketplace_id = None
@@ -85,7 +85,7 @@ class CategoryPage(HomePage):
             return []
 
 
-class ProductPage(HomePage):
+class ProductSectionPage(HomePage):
 
     _country_id = None
     _marketplace_id = None
