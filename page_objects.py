@@ -169,3 +169,35 @@ class ProductSectionPage(HomePage):
             raise Exception("Multiple products layout")
 
         return products_list
+
+
+class CategoryPage(HomePage):
+
+    def __init__(self, marketplace_id, url):
+        super().__init__(marketplace_id, url)
+        pass
+
+    def getCategories(self):
+        categories_container = self._select(".categories__container > .categories__title")
+        categories = []
+        for category_container in categories_container:
+
+            if category_container.a.has_attr('href'):
+
+                link_split = (category_container.a['href'].split("/"))
+
+                if len(link_split) >= 5:
+
+                    link_split = link_split[4].split("#")
+
+                    if len(link_split) >= 2:
+                        category_id = link_split[0]
+                        category = {
+                            'name': category_container.text,
+                            'link': category_container.a['href'],
+                            'id': category_id
+                        }
+
+            categories.append(category)
+
+        return categories

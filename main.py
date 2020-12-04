@@ -55,16 +55,20 @@ def _save_products(marketplace_uid, country_uid, products):
     pass
 
 
-def marketplaceScrapper(marketplace_uid, country_uid):
+def marketplaceScrapper(marketplace_uid, country_uid, category_id=None):
     """
     Scraper start function
     :param marketplace_uid: marketplace id for marketplace scraper
     :param country_uid: country id for marketplace scraper
     """
-    host = config()['marketplace'][marketplace_uid]['country'][country_uid]['url']
+    if marketplace_uid == 'mercadolibre':
+        host = (config()['marketplace'][marketplace_uid]['country'][country_uid]['url']).replace("{CATEGORY_ID}", category_id)
+    else:
+        host = (config()['marketplace'][marketplace_uid]['country'][country_uid]['url'])
+
     logger.info(f"Beginning scraper for {marketplace_uid} in {country_uid}: {host}.")
 
-    subcategory = input("Escriba subcategoría que quiere buscar en deportes: ")
+    subcategory = input(f"Escriba subcategoría que quiere buscar en '{category_id}': ")
 
     try:
         categoryPage = pages.CategorySectionPage(marketplace_uid, host, subcategory=subcategory, country_id=country_uid)
@@ -113,6 +117,35 @@ def marketplaceScrapper(marketplace_uid, country_uid):
         pass
 
 
+def run(marketplace_uid, country_uid):
+    # print(f"run {marketplace_uid} {country_uid}")
+
+    if marketplace_uid == 'mercadolibre':
+        url_categories = config()['marketplace'][marketplace_uid]['country'][country_uid]['url_categories']
+        categoryPage = pages.CategoryPage(marketplace_uid, url_categories)
+        categories = categoryPage.getCategories()
+        print("* Seleccione Categoria:")
+
+        for counter, category in enumerate(categories):
+            print(f"""  {counter + 1}. {category['name']}""")
+            pass
+
+        category_selected = None
+
+        while category_selected is None:
+            category = int(input("Ingrese opción: ")) - 1
+
+            if -1 < category < len(categories):
+                category_selected = categories[category]
+
+                # TODO Iniciar scrapper
+                marketplaceScrapper(args.marketplace, country_selected, category_id=category_selected['id'])
+                print(f"selecciono: {category_selected['id']}")
+            else:
+                print("Error: Seleccione una opción valida.")
+    else:
+      marketplaceScrapper(args.marketplace, country_selected)
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
@@ -127,8 +160,8 @@ if __name__ == '__main__':
     country_choices = list(config()['marketplace'][args.marketplace]['country'].items())
     print("Seleccione país:")
 
-    for index, (key, value) in enumerate(country_choices):
-        print(f"{index+1}. {value['name']}")
+    for counter, (key, value) in enumerate(country_choices):
+        print(f"{counter+1}. {value['name']}")
         pass
 
     country_selected = None
@@ -140,7 +173,8 @@ if __name__ == '__main__':
             country_selected = list(config()['marketplace'][args.marketplace]['country'].keys())[country]
 
             # TODO Iniciar scrapper
-            marketplaceScrapper(args.marketplace, country_selected)
+            # marketplaceScrapper(args.marketplace, country_selected)
+            run(args.marketplace, country_selected)
         else:
             print("Error: Seleccione una opción valida.")
 

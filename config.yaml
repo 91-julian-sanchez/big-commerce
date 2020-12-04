@@ -5,11 +5,13 @@ marketplace:
       co:
         name: Colombia
         origin: https://www.mercadolibre.com.co
-        url: https://deportes.mercadolibre.com.co
+        url: https://www.mercadolibre.com.co/c/{CATEGORY_ID}
+        url_categories: https://www.mercadolibre.com.co/categorias#menu=categories
       mx:
         name: Mexico
         origin: https://www.mercadolibre.com.mx
-        url: https://deportes.mercadolibre.com.mx
+        url: https://www.mercadolibre.com.mx/c/{CATEGORY_ID}
+        url_categories: https://www.mercadolibre.com.mx/categorias#menu=categories
     queries:
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
       list_products: '.ui-search-layout'
