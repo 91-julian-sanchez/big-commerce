@@ -161,7 +161,13 @@ def marketplaceScrapper(marketplace_uid, country_uid, category_id=None, link=Non
 
     elif "mercadolibre":
         productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)
+        print(bcolors.OKCYAN,f"""
+              Inicia scrapper...
+              """, bcolors.ENDC)
         scrapperProducts(productsPage.produtcs, marketplace_uid, host, country_uid )
+        print(bcolors.OKCYAN,f"""
+              total productos: {len(productsPage.produtcs)} 
+              Pagina 1 de X""", bcolors.ENDC)
 
 
 def run(marketplace_uid, country_uid):
@@ -174,7 +180,10 @@ def run(marketplace_uid, country_uid):
         categories = categoryPage.getCategories()
         print("* Seleccione Categoria:")
         category_selected = categories[menu([category['name'] for category in categories], "Categorias")]
-        print(bcolors.OKCYAN,f"Selecciono: {category_selected['name']}", bcolors.ENDC)
+        print(bcolors.OKCYAN,f"""
+              Selecciono: {category_selected['name']}
+              link: {category_selected['link']}
+              """, bcolors.ENDC)
         # print(f"selecciono: ", category_selected)
 
         # TODO Scrapper Subcategorias
@@ -182,7 +191,10 @@ def run(marketplace_uid, country_uid):
         subcategories = subcategoryPage.getSubcategories()
         print("* Seleccione Subcategoria:")
         subcategory_selected = subcategories[menu([subcategory['name'] for subcategory in subcategories], "Subcategorias")]
-        print(bcolors.OKCYAN,f"Selecciono: {subcategory_selected['name']}", bcolors.ENDC)
+        print(bcolors.OKCYAN,f"""
+              Selecciono: {subcategory_selected['name']}
+              link: {subcategory_selected['link']}
+              """, bcolors.ENDC)
         # print(f"selecciono: ", subcategory_selected)
 
         # TODO Iniciar scrapper
