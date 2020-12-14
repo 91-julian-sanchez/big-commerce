@@ -169,3 +169,57 @@ class ProductSectionPage(HomePage):
             raise Exception("Multiple products layout")
 
         return products_list
+
+
+class CategoryPage(HomePage):
+
+    def __init__(self, marketplace_id, url):
+        # print("CategoryPage(HomePage)::__init__", url)
+        super().__init__(marketplace_id, url)
+        pass
+
+    def getCategories(self):
+        categories_container = self._select(self._queries['page_categories'])
+        # print(categories_container)
+        categories = []
+        for category_container in categories_container:
+            # print("category_container:", category_container)
+            # self._find('a')
+            if category_container.a.has_attr('href'):
+
+                link_split = (category_container.a['href'].split("/"))
+
+                if len(link_split) >= 5:
+
+                    link_split = link_split[4].split("#")
+
+                    if len(link_split) >= 2:
+                        category_id = link_split[0]
+                        category = {
+                            'name': category_container.text,
+                            'link': category_container.a['href'],
+                            'id': category_id
+                        }
+
+            categories.append(category)
+
+        return categories
+
+    def getSubcategories(self):
+        # print("getSubcategories(self): ", self._html)
+        subcategories_container = self._select(self._queries['page_subcategories'])
+        subcategories = []
+        for index, subcategory in enumerate(subcategories_container):
+
+            try:
+                subcategory_link = subcategory['href']
+                subcategory = {
+                    'name': subcategory.find("h3", "category-list__permanlink-custom").text,
+                    'link': subcategory_link,
+                    'id': (subcategory_link.split("/"))[3]
+                }
+                subcategories.append(subcategory)
+            except Exception as e:
+                print("No se pudo...")
+
+        return subcategories
