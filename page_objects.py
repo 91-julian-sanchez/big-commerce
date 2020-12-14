@@ -174,7 +174,7 @@ class ProductSectionPage(HomePage):
 class CategoryPage(HomePage):
 
     def __init__(self, marketplace_id, url):
-        print("CategoryPage(HomePage)::__init__", url)
+        # print("CategoryPage(HomePage)::__init__", url)
         super().__init__(marketplace_id, url)
         pass
 
