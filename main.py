@@ -15,6 +15,10 @@ is_well_formed_link = re.compile(r'^https?://.+/.+$')
 is_root_path = re.compile(r'^/.+$')
 
 
+def menu(options):
+    for index, option in enumerate(options):
+        print(f"""  {index + 1}. {option}""")
+
 def _build_link(host, link):
     if is_well_formed_link.match(link):
         return link
@@ -119,16 +123,14 @@ def marketplaceScrapper(marketplace_uid, country_uid, category_id=None):
 
 def run(marketplace_uid, country_uid):
     # print(f"run {marketplace_uid} {country_uid}")
-
     if marketplace_uid == 'mercadolibre':
         url_categories = config()['marketplace'][marketplace_uid]['country'][country_uid]['url_categories']
         categoryPage = pages.CategoryPage(marketplace_uid, url_categories)
+        # print(categoryPage._html)
         categories = categoryPage.getCategories()
         print("* Seleccione Categoria:")
 
-        for counter, category in enumerate(categories):
-            print(f"""  {counter + 1}. {category['name']}""")
-            pass
+        menu([category['name'] for category in categories])
 
         category_selected = None
 
@@ -139,12 +141,19 @@ def run(marketplace_uid, country_uid):
                 category_selected = categories[category]
 
                 # TODO Iniciar scrapper
-                marketplaceScrapper(args.marketplace, country_selected, category_id=category_selected['id'])
-                print(f"selecciono: {category_selected['id']}")
+                # marketplaceScrapper(args.marketplace, country_selected, category_id=category_selected['id'])
+                print(f"selecciono: ", category_selected)
+                url_subcategories = category_selected['link']
+                subcategoryPage = pages.CategoryPage(marketplace_uid, url_subcategories)
+                subcategories = subcategoryPage.getSubcategories()
+
+                menu([subcategory['name'] for subcategory in subcategories])
+
             else:
                 print("Error: Seleccione una opción valida.")
     else:
       marketplaceScrapper(args.marketplace, country_selected)
+
 
 if __name__ == '__main__':
 

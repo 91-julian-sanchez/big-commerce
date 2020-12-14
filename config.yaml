@@ -25,6 +25,8 @@ marketplace:
       product_price_discount: 'ui-search-price__discount'
       product_best_seller: 'ui-search-item__highlight-label--best_seller'
       product_promotional: '.ui-search-item__ad-label--blue'
+      page_categories: '.categories__container > .categories__title'
+      page_subcategories: '.desktop__view-child > a'
   linio:
     id: linio
     country:
