@@ -19,6 +19,18 @@ def menu(options):
     for index, option in enumerate(options):
         print(f"""  {index + 1}. {option}""")
 
+    selected = None
+
+    while selected is None:
+        option = int(input("Ingrese opción: ")) - 1
+
+        if -1 < option < len(options):
+            selected = option
+        else:
+            print("Error: Seleccione una opción valida.")
+
+    return selected
+
 def _build_link(host, link):
     if is_well_formed_link.match(link):
         return link
@@ -59,9 +71,11 @@ def _save_products(marketplace_uid, country_uid, products):
     pass
 
 
-def marketplaceScrapper(marketplace_uid, country_uid, category_id=None):
+def marketplaceScrapper(marketplace_uid, country_uid, category_id=None, link=None):
     """
     Scraper start function
+    :param link:
+    :param category_id:
     :param marketplace_uid: marketplace id for marketplace scraper
     :param country_uid: country id for marketplace scraper
     """
@@ -124,35 +138,28 @@ def marketplaceScrapper(marketplace_uid, country_uid, category_id=None):
 def run(marketplace_uid, country_uid):
     # print(f"run {marketplace_uid} {country_uid}")
     if marketplace_uid == 'mercadolibre':
+
+        # TODO Scrapper Categorias
         url_categories = config()['marketplace'][marketplace_uid]['country'][country_uid]['url_categories']
         categoryPage = pages.CategoryPage(marketplace_uid, url_categories)
-        # print(categoryPage._html)
         categories = categoryPage.getCategories()
         print("* Seleccione Categoria:")
+        category_selected = categories[menu([category['name'] for category in categories])]
+        print(f"selecciono: ", category_selected)
 
-        menu([category['name'] for category in categories])
+        # TODO Scrapper Subcategorias
+        subcategoryPage = pages.CategoryPage(marketplace_uid, category_selected['link'])
+        subcategories = subcategoryPage.getSubcategories()
+        print("* Seleccione Subcategoria:")
+        subcategory_selected = subcategories[menu([subcategory['name'] for subcategory in subcategories])]
+        print(f"selecciono: ", subcategory_selected)
 
-        category_selected = None
+        # TODO Iniciar scrapper
+        marketplaceScrapper(args.marketplace, country_selected, category_id=subcategory_selected['id'])
 
-        while category_selected is None:
-            category = int(input("Ingrese opción: ")) - 1
-
-            if -1 < category < len(categories):
-                category_selected = categories[category]
-
-                # TODO Iniciar scrapper
-                # marketplaceScrapper(args.marketplace, country_selected, category_id=category_selected['id'])
-                print(f"selecciono: ", category_selected)
-                url_subcategories = category_selected['link']
-                subcategoryPage = pages.CategoryPage(marketplace_uid, url_subcategories)
-                subcategories = subcategoryPage.getSubcategories()
-
-                menu([subcategory['name'] for subcategory in subcategories])
-
-            else:
-                print("Error: Seleccione una opción valida.")
     else:
-      marketplaceScrapper(args.marketplace, country_selected)
+        # TODO Iniciar scrapper
+        marketplaceScrapper(args.marketplace, country_selected)
 
 
 if __name__ == '__main__':
