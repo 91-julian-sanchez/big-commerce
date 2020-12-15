@@ -34,10 +34,12 @@ marketplace:
         name: Colombia
         origin: https://www.linio.com.co
         url: https://linio.com.co/c/deportes
+        url_categories: https://www.linio.com.co
       mx:
         name: Mexico
         origin: https://www.linio.com.mx
         url: https://linio.com.mx/c/deportes
+        url_categories: https://www.linio.com.mx
     queries:
       categorypage_subcategories_links: '.catalogue-list > ul > li.active > ul > li > a'
       list_products: '.switchable-product-container'
@@ -51,3 +53,4 @@ marketplace:
       product_price_discount: 'discount'
       product_best_seller: 'ui-search-item__highlight-label--best_seller'
       product_promotional: '.catalogue-sponsored-product'
+      page_categories: '.main-menu .nav > li'

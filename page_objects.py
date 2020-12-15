@@ -8,7 +8,7 @@ import logging
 
 class HomePage:
 
-    def __init__(self, marketplace_id, url, subcategory=None):
+    def __init__(self, marketplace_id, url, subcategory=None, origin=None):
         self._config = config()['marketplace'][marketplace_id]
         self._queries = self._config['queries']
         self._html = None
@@ -173,14 +173,20 @@ class ProductSectionPage(HomePage):
 
 class CategoryPage(HomePage):
 
-    def __init__(self, marketplace_id, url):
+    _marketplace_id = None
+    _origin = None
+
+    def __init__(self, marketplace_id, url, origin=None):
         # print("CategoryPage(HomePage)::__init__", url)
         super().__init__(marketplace_id, url)
+        self._marketplace_id = marketplace_id
+        self._origin = origin
         pass
 
     def getCategories(self):
         categories_container = self._select(self._queries['page_categories'])
         # print(categories_container)
+  
         categories = []
         for category_container in categories_container:
             # print("category_container:", category_container)
@@ -188,19 +194,24 @@ class CategoryPage(HomePage):
             if category_container.a.has_attr('href'):
 
                 link_split = (category_container.a['href'].split("/"))
-
-                if len(link_split) >= 5:
+                category = dict()
+                
+                if self._marketplace_id == 'mercadolibre' and len(link_split) >= 5:
 
                     link_split = link_split[4].split("#")
 
                     if len(link_split) >= 2:
-                        category_id = link_split[0]
-                        category = {
-                            'name': category_container.text,
-                            'link': category_container.a['href'],
-                            'id': category_id
-                        }
+                        category['id'] = link_split[0]
+                        category['name'] = category_container.text
+                        category['link'] = category_container.a['href']
+                        
+                elif self._marketplace_id == 'linio' and len(link_split) >= 3:
+                    
+                        category['id'] = link_split[2]
+                        category['name'] = category_container.a.find("span", "label-text").text
+                        category['link'] = f"{self._origin}{category_container.a['href']}"
 
+            # print(category)
             categories.append(category)
 
         return categories
