@@ -17,7 +17,7 @@ $ pip install -r requirements.txt
 ```sh
 $ python main.py mercadolibre
 ```
-![alt text](https://github.com/91-julian-sanchez/big-commerce/tree/master/_assetes/mercadolibre.gif "Mercadolibre scraper")
+![alt text](https://github.com/91-julian-sanchez/big-commerce/blob/master/_assetes/mercadolibre.gif "Mercadolibre scraper")
 
 **Scrappy subcategories of a category in linio:**
 
