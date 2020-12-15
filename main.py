@@ -175,6 +175,7 @@ def run(marketplace_uid, country_uid):
         # TODO Scrapper Categorias
         categoryPage = pages.CategoryPage(marketplace_uid, url_categories, origin=config()['marketplace'][marketplace_uid]['country'][country_uid]['origin'])
         categories = categoryPage.getCategories()
+        print("* Seleccione Categoria:")
         category_selected = categories[menu([category['name'] for category in categories], "Categorias")]
         print(bcolors.OKCYAN,f"""
               Selecciono: {category_selected['name']}
