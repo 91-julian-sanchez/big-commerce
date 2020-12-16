@@ -5,12 +5,10 @@ marketplace:
       co:
         name: Colombia
         origin: https://www.mercadolibre.com.co
-        url: https://www.mercadolibre.com.co/c/{CATEGORY_ID}
         url_categories: https://www.mercadolibre.com.co/categorias#menu=categories
       mx:
         name: Mexico
         origin: https://www.mercadolibre.com.mx
-        url: https://www.mercadolibre.com.mx/c/{CATEGORY_ID}
         url_categories: https://www.mercadolibre.com.mx/categorias#menu=categories
     queries:
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
@@ -27,6 +25,7 @@ marketplace:
       product_promotional: '.ui-search-item__ad-label--blue'
       page_categories: '.categories__container > .categories__title'
       page_subcategories: '.desktop__view-child > a'
+      section_pagination: 'ul.ui-search-pagination > li'
   linio:
     id: linio
     country:
