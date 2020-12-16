@@ -49,8 +49,21 @@ def menu(options: list, label=None) -> int:
 
     return selected
 
+def _save_products(marketplace_uid, country_uid, products):
+    # print("_save_products", products)
+    now = datetime.datetime.now().strftime('%Y_%m_%d')
+    out_file_name = f'./output/{marketplace_uid}_{country_uid}_{now}_products.csv'
+    csv_headers = list(products[0].keys())
 
-def scrapperProducts(products, marketplace_uid, host, country_uid):
+    with open(out_file_name, mode='w+') as f:
+        writer = csv.writer(f)
+        writer.writerow(csv_headers)
+
+        for product in products:
+            writer.writerow(list(product.values()))
+    pass
+
+def scrapperProducts(products, marketplace_uid, country_uid):
     logger.info(f" \n\nPRODUCTOS({len(products)}):\n")
 
     for counter, product in enumerate(products, 1):
@@ -66,7 +79,7 @@ def scrapperProducts(products, marketplace_uid, host, country_uid):
                     """)
 
         # TODO Scrapper product
-        # product_page = _fetchProduct(marketplace_uid, host, product['link'])
+        # product_page = _fetchProduct(marketplace_uid,  product['link'])
         #
         # if product_page:
         #     logger.info("product detail scraper!")
@@ -103,21 +116,6 @@ def _fetchProduct(marketplace, host, link):
     return product._html
 
 
-def _save_products(marketplace_uid, country_uid, products):
-    # print("_save_products", products)
-    now = datetime.datetime.now().strftime('%Y_%m_%d')
-    out_file_name = f'./output/{marketplace_uid}_{country_uid}_{now}_products.csv'
-    csv_headers = list(products[0].keys())
-
-    with open(out_file_name, mode='w+') as f:
-        writer = csv.writer(f)
-        writer.writerow(csv_headers)
-
-        for product in products:
-            writer.writerow(list(product.values()))
-    pass
-
-
 def marketplaceScrapper(marketplace_uid, country_uid,  link=None):
     """
     Scraper start function
@@ -126,22 +124,44 @@ def marketplaceScrapper(marketplace_uid, country_uid,  link=None):
     :param marketplace_uid: marketplace id for marketplace scraper
     :param country_uid: country id for marketplace scraper
     """
-    host = None
 
-    productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)
+    # TODO INIT PRODUCTS SCRAPER
     print(bcolors.OKCYAN,f"""
             Inicia scrapper...
             """, bcolors.ENDC)
-    scrapperProducts(productsPage.produtcs, marketplace_uid, host, country_uid )
+    productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)
+    
+    scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid )
     print(bcolors.OKCYAN,f"""
-            total productos: {len(productsPage.produtcs)} 
-            Pagina 1 de X""", bcolors.ENDC)
+        total productos: {len(productsPage.produtcs)}
+    """, bcolors.ENDC)
+    
+    # TODO BROWSE PAGES
+    if marketplace_uid == 'mercadolibre':
+        paginationSectionPage = pages.PaginationSectionPage(marketplace_uid, link, country_id=country_uid)
+        paginator = paginationSectionPage.getPaginator()
+        print(bcolors.OKCYAN,f"""
+            Pagina {paginator['current_page']} de {'primeras' if paginator['has_more_pages'] else ''} {paginator['count']}
+        """, bcolors.ENDC)
+            
+        # * NEXT PAGE
+        if paginator['current_page'] is not None:
+            print("* Siguiente pagina?")
+            if menu(['Si','No']) == 0:
+                marketplaceScrapper(marketplace_uid, country_uid,  link=paginator['next_page_url'])
+    else:
+        print(bcolors.OKCYAN,f"""
+            Pagina 1 de (?)
+        """, bcolors.ENDC)
+        
+    
+def scraperSubcategories(marketplace_uid, url_categories, origin=None):
+    return pages.CategoryPage(marketplace_uid, url_categories, origin=origin).getSubcategories()
 
-def scraperSubcategories(marketplace_uid, url_categories):
-    return pages.CategoryPage(marketplace_uid, url_categories).getSubcategories()
 
-def scrapperCategories(marketplace_uid, url_categories, origin):
+def scrapperCategories(marketplace_uid, url_categories, origin=None):
     return pages.CategoryPage(marketplace_uid, url_categories, origin=origin).getCategories()
+
 
 def run(marketplace_uid, country_uid):
     # print(f"run {marketplace_uid} {country_uid}")
@@ -149,14 +169,14 @@ def run(marketplace_uid, country_uid):
     url_categories = config()['marketplace'][marketplace_uid]['country'][country_uid]['url_categories']
     
     # TODO Scrapper Categorias
-    categories = scrapperCategories(marketplace_uid, url_categories, config()['marketplace'][marketplace_uid]['country'][country_uid]['origin'])
+    categories = scrapperCategories(marketplace_uid, url_categories, origin=config()['marketplace'][marketplace_uid]['country'][country_uid]['origin'])
     # * Menu categories
     print("* Seleccione Categoria:")
     category_selected = categories[menu([category['name'] for category in categories], "Categorias")]
     print(bcolors.OKCYAN,f"""
-            Selecciono: {category_selected['name']}
-            link: {category_selected['link']}
-            """, bcolors.ENDC)
+        Selecciono: {category_selected['name']}
+        link: {category_selected['link']}
+    """, bcolors.ENDC)
     # print(f"selecciono: ", category_selected)
     
     if marketplace_uid == 'mercadolibre':
@@ -167,9 +187,9 @@ def run(marketplace_uid, country_uid):
         print("* Seleccione Subcategoria:")
         subcategory_selected = subcategories[menu([subcategory['name'] for subcategory in subcategories], "Subcategorias")]
         print(bcolors.OKCYAN,f"""
-              Selecciono: {subcategory_selected['name']}
-              link: {subcategory_selected['link']}
-              """, bcolors.ENDC)
+            Selecciono: {subcategory_selected['name']}
+            link: {subcategory_selected['link']}
+        """, bcolors.ENDC)
         # print(f"selecciono: ", subcategory_selected)
         scraper_link = subcategory_selected['link']
 
@@ -188,15 +208,25 @@ if __name__ == '__main__':
     # TODO Select marketplace
     marketplace_choices = list(config()['marketplace'].keys())
     parser.add_argument('marketplace', help='The marketplace that you want to scraper', type=str, choices=marketplace_choices)
+    parser.add_argument("--country", required=False, help=f"Country where the scrapper will run")
     args = parser.parse_args()
     # print("args: ", args)
 
     # TODO Select country
+    country_selected = None
     country_config = config()['marketplace'][args.marketplace]['country']
-    country_choices = list(country_config.items())
-    print("* Seleccione País:")
-    country_selected = list(country_config.keys())[menu([value['name'] for key, value in country_choices])]
+    
+    if args.country is None: 
+        # * Select country by menu in console
+        country_choices = list(country_config.items())
+        print("* Seleccione País:")
+        country_selected = list(country_config.keys())[menu([value['name'] for key, value in country_choices])]  
+    else:
+        # * Select country args --country {ISO_3166_COUNTRY_CODE}
+        country_selected = args.country
+        
     print(bcolors.OKCYAN,f"Selecciono: {country_config[country_selected]['name']}", bcolors.ENDC)
     run(args.marketplace, country_selected)
+        
 
     pass

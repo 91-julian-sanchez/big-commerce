@@ -25,6 +25,7 @@ marketplace:
       product_promotional: '.ui-search-item__ad-label--blue'
       page_categories: '.categories__container > .categories__title'
       page_subcategories: '.desktop__view-child > a'
+      section_pagination: 'ul.ui-search-pagination > li'
   linio:
     id: linio
     country:
