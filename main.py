@@ -137,6 +137,9 @@ def marketplaceScrapper(marketplace_uid, country_uid,  link=None):
             total productos: {len(productsPage.produtcs)} 
             Pagina 1 de X""", bcolors.ENDC)
 
+def scrapperCategories(marketplace_uid, url_categories, origin):
+    categoryPage = pages.CategoryPage(marketplace_uid, url_categories, origin=origin)
+    return categoryPage.getCategories()
 
 def run(marketplace_uid, country_uid):
     # print(f"run {marketplace_uid} {country_uid}")
@@ -144,8 +147,8 @@ def run(marketplace_uid, country_uid):
     url_categories = config()['marketplace'][marketplace_uid]['country'][country_uid]['url_categories']
     
     # TODO Scrapper Categorias
-    categoryPage = pages.CategoryPage(marketplace_uid, url_categories, origin=config()['marketplace'][marketplace_uid]['country'][country_uid]['origin'])
-    categories = categoryPage.getCategories()
+    categories = scrapperCategories(marketplace_uid, url_categories, config()['marketplace'][marketplace_uid]['country'][country_uid]['origin'])
+    # TODO Menu categories
     print("* Seleccione Categoria:")
     category_selected = categories[menu([category['name'] for category in categories], "Categorias")]
     print(bcolors.OKCYAN,f"""
@@ -191,7 +194,7 @@ if __name__ == '__main__':
     country_choices = list(country_config.items())
     print("* Seleccione País:")
     country_selected = list(country_config.keys())[menu([value['name'] for key, value in country_choices])]
-    print(bcolors.OKCYAN,f"Selecciono: {country_selected}", bcolors.ENDC)
+    print(bcolors.OKCYAN,f"Selecciono: {country_config[country_selected]['name']}", bcolors.ENDC)
     run(args.marketplace, country_selected)
 
     pass
