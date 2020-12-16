@@ -8,16 +8,11 @@ import logging
 
 class HomePage:
 
-    def __init__(self, marketplace_id, url, subcategory=None, origin=None):
+    def __init__(self, marketplace_id, url, origin=None):
         self._config = config()['marketplace'][marketplace_id]
         self._queries = self._config['queries']
         self._html = None
-        self.subcategory = subcategory
-
-        if self.subcategory is not None:
-            self._visit(f"{url}/{self.subcategory}/")
-        else:
-            self._visit(url)
+        self._visit(url)
 
     def _select(self, query_string):
         return self._html.select(query_string)
@@ -42,6 +37,7 @@ class HomePage:
 
         # print("\n\n","=="*40,f"_visit(self, {url})", response.text)
         self._html = bs4.BeautifulSoup(response.text, 'html.parser')
+        self._html.encode("utf-8")
 
 
 class CategorySectionPage(HomePage):
@@ -50,8 +46,8 @@ class CategorySectionPage(HomePage):
     _marketplace_id = None
     _origin = None
 
-    def __init__(self, marketplace_id, url, subcategory=None, country_id=None):
-        super().__init__(marketplace_id, url, subcategory)
+    def __init__(self, marketplace_id, url, country_id=None):
+        super().__init__(marketplace_id, url)
         self._marketplace_id = marketplace_id
         self._country_id = country_id
         self._origin = config()['marketplace'][self._marketplace_id]['country'][self._country_id]['origin']
@@ -91,8 +87,8 @@ class ProductSectionPage(HomePage):
     _marketplace_id = None
     _origin = None
 
-    def __init__(self, marketplace_id, url, subcategory=None, country_id=None):
-        super().__init__(marketplace_id, url, subcategory)
+    def __init__(self, marketplace_id, url, country_id=None):
+        super().__init__(marketplace_id, url)
         self._marketplace_id = marketplace_id
         self._country_id = country_id
         self._origin = config()['marketplace'][self._marketplace_id]['country'][self._country_id]['origin']
@@ -170,7 +166,41 @@ class ProductSectionPage(HomePage):
 
         return products_list
 
-
+class PaginationSectionPage(HomePage):
+    
+    def __init__(self, marketplace_id, url, country_id=None):
+        # print("PaginationSectionPage(HomePage)::__init__", url)
+        super().__init__(marketplace_id, url)
+        
+    def getPaginator(self):
+        pagination_container = self._select(self._queries['section_pagination'])
+        current_page = 0
+        next_page = None
+        has_more_pages = False
+        zero_is_first_page = False
+        
+        for index, page in enumerate(pagination_container):
+            
+            if  'andes-pagination__button--current' in page['class']:
+                current_page = index
+                if index + 1 < len(pagination_container):
+                    next_page = pagination_container[index + 1]
+                
+            if  'andes-pagination__button--next' in page['class']:
+                has_more_pages = True
+            
+        if current_page == 0 :
+            current_page = 0 if zero_is_first_page is True else 1
+            
+        paginator = {
+            'count': len(pagination_container)-1,
+            'current_page': current_page,
+            'next_page_url': next_page.a['href'],
+            'has_more_pages': has_more_pages
+        }
+        # print(paginator)
+        return paginator
+        
 class CategoryPage(HomePage):
 
     _marketplace_id = None
