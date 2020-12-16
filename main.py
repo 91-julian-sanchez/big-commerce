@@ -137,9 +137,11 @@ def marketplaceScrapper(marketplace_uid, country_uid,  link=None):
             total productos: {len(productsPage.produtcs)} 
             Pagina 1 de X""", bcolors.ENDC)
 
+def scraperSubcategories(marketplace_uid, url_categories):
+    return pages.CategoryPage(marketplace_uid, url_categories).getSubcategories()
+
 def scrapperCategories(marketplace_uid, url_categories, origin):
-    categoryPage = pages.CategoryPage(marketplace_uid, url_categories, origin=origin)
-    return categoryPage.getCategories()
+    return pages.CategoryPage(marketplace_uid, url_categories, origin=origin).getCategories()
 
 def run(marketplace_uid, country_uid):
     # print(f"run {marketplace_uid} {country_uid}")
@@ -148,7 +150,7 @@ def run(marketplace_uid, country_uid):
     
     # TODO Scrapper Categorias
     categories = scrapperCategories(marketplace_uid, url_categories, config()['marketplace'][marketplace_uid]['country'][country_uid]['origin'])
-    # TODO Menu categories
+    # * Menu categories
     print("* Seleccione Categoria:")
     category_selected = categories[menu([category['name'] for category in categories], "Categorias")]
     print(bcolors.OKCYAN,f"""
@@ -160,8 +162,8 @@ def run(marketplace_uid, country_uid):
     if marketplace_uid == 'mercadolibre':
 
         # TODO Scrapper Subcategorias
-        subcategoryPage = pages.CategoryPage(marketplace_uid, category_selected['link'])
-        subcategories = subcategoryPage.getSubcategories()
+        subcategories = scraperSubcategories(marketplace_uid, category_selected['link'])
+        # * Menu Subcategories
         print("* Seleccione Subcategoria:")
         subcategory_selected = subcategories[menu([subcategory['name'] for subcategory in subcategories], "Subcategorias")]
         print(bcolors.OKCYAN,f"""
