@@ -15,6 +15,30 @@ logger = logging.getLogger(__name__)
 is_well_formed_link = re.compile(r'^https?://.+/.+$')
 is_root_path = re.compile(r'^/.+$')
 
+def _build_link(host, link):
+    if is_well_formed_link.match(link):
+        return link
+    else:
+        return f"{host}/{link}"
+
+
+def _fetchProduct(marketplace, host, link):
+    # logger.info(f'Start fetching product at {link}')
+
+    product = None
+    try:
+        product = pages.HomePage(marketplace, _build_link(host, link))
+        # print(product._html)
+    except (HTTPError, MaxRetryError) as e:
+        logger.warning('Error while fetching article!', exc_info=False)
+        pass
+
+    if product and not product._html.body:
+        logger.warning('Invalid product. There is not body')
+        return None
+
+    return product._html
+
 
 def menu(options: list, label=None) -> int:
     """
@@ -49,21 +73,31 @@ def menu(options: list, label=None) -> int:
 
     return selected
 
-def _save_products(marketplace_uid, country_uid, products):
+
+def _save_products(marketplace_uid, country_uid, products, overwrite=True):
     # print("_save_products", products)
     now = datetime.datetime.now().strftime('%Y_%m_%d')
     out_file_name = f'./output/{marketplace_uid}_{country_uid}_{now}_products.csv'
     csv_headers = list(products[0].keys())
 
-    with open(out_file_name, mode='w+') as f:
-        writer = csv.writer(f)
-        writer.writerow(csv_headers)
+    if overwrite is True:
+        with open(out_file_name, mode='w+') as f:
+            writer = csv.writer(f)
+            writer.writerow(csv_headers)
 
-        for product in products:
-            writer.writerow(list(product.values()))
+            for product in products:
+                writer.writerow(list(product.values()))
+    else:      
+        from csv import writer
+        with open(out_file_name, 'a+', newline='') as f:
+            csv_writer = writer(f)
+            for product in products:
+                csv_writer.writerow(list(product.values()))
+        
     pass
 
-def scrapperProducts(products, marketplace_uid, country_uid):
+
+def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True):
     logger.info(f" \n\nPRODUCTOS({len(products)}):\n")
 
     for counter, product in enumerate(products, 1):
@@ -88,35 +122,10 @@ def scrapperProducts(products, marketplace_uid, country_uid):
         #     break;
         counter += 1
 
-    _save_products(marketplace_uid, country_uid, products)
+    _save_products(marketplace_uid, country_uid, products, overwrite=overwrite)
 
 
-def _build_link(host, link):
-    if is_well_formed_link.match(link):
-        return link
-    else:
-        return f"{host}/{link}"
-
-
-def _fetchProduct(marketplace, host, link):
-    # logger.info(f'Start fetching product at {link}')
-
-    product = None
-    try:
-        product = pages.HomePage(marketplace, _build_link(host, link))
-        # print(product._html)
-    except (HTTPError, MaxRetryError) as e:
-        logger.warning('Error while fetching article!', exc_info=False)
-        pass
-
-    if product and not product._html.body:
-        logger.warning('Invalid product. There is not body')
-        return None
-
-    return product._html
-
-
-def marketplaceScrapper(marketplace_uid, country_uid,  link=None):
+def marketplaceScrapper(marketplace_uid, country_uid,  link=None, overwrite=True):
     """
     Scraper start function
     :param link:
@@ -129,18 +138,15 @@ def marketplaceScrapper(marketplace_uid, country_uid,  link=None):
     print(bcolors.OKCYAN,f"""
             Inicia scrapper...
             """, bcolors.ENDC)
-    productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)
-    
-    scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid )
-    print(bcolors.OKCYAN,f"""
-        total productos: {len(productsPage.produtcs)}
-    """, bcolors.ENDC)
-    
+    productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)    
+    scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid, overwrite=overwrite)
+
     # TODO BROWSE PAGES
     if marketplace_uid == 'mercadolibre':
         paginationSectionPage = pages.PaginationSectionPage(marketplace_uid, link, country_id=country_uid)
         paginator = paginationSectionPage.getPaginator()
         print(bcolors.OKCYAN,f"""
+            Total productos: {len(productsPage.produtcs)}
             Pagina {paginator['current_page']} de {'primeras' if paginator['has_more_pages'] else ''} {paginator['count']}
         """, bcolors.ENDC)
             
@@ -148,9 +154,10 @@ def marketplaceScrapper(marketplace_uid, country_uid,  link=None):
         if paginator['current_page'] is not None:
             print("* Siguiente pagina?")
             if menu(['Si','No']) == 0:
-                marketplaceScrapper(marketplace_uid, country_uid,  link=paginator['next_page_url'])
+                marketplaceScrapper(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False)
     else:
         print(bcolors.OKCYAN,f"""
+            Total productos: {len(productsPage.produtcs)}
             Pagina 1 de (?)
         """, bcolors.ENDC)
         
