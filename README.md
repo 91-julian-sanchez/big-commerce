@@ -29,7 +29,7 @@ $ python main.py linio
 Optional argument | Description
 --- | --- 
 `--country` | Country code where you want to scrape marketplace, available: co, mx 
-`--recursive` | Browse product pages recursively
+`--recursive` | Browse product pages recursively, available: True or False
 
 **Marketplace and available commands:**
 
