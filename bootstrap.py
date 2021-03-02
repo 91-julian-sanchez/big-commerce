@@ -2,10 +2,39 @@ from common import config
 
 class Bootstrap:
     
-    countries_config = None
-    country_config = None
-    _countries_codes = None
+    MARKETPLACE_AVALIBLE = list(config()['marketplace'].keys())
+    @classmethod
+    def get_marketplace_avalible(cls):
+        return cls.MARKETPLACE_AVALIBLE
     
+    countries_config = None
+    _countries_codes = None
+    _marketplace = None
+    country_config = None
+    
+    @property
+    def marketplace(self):
+        return self._marketplace
+    
+    @marketplace.setter
+    def marketplace(self, marketplace):
+        if marketplace in Bootstrap.get_marketplace_avalible():
+            self._marketplace = marketplace
+        else:
+            raise Exception(f"Marketplace invalido: {marketplace}")
+        
+    @property 
+    def country(self):
+        return self._country
+    
+    @country.setter
+    def country(self, country: str):
+        if country in self._countries_codes:
+            self._country = country
+            self.country_config = self.countries_config.get(country)
+        else:
+            raise Exception(f"Codigo de pais invalido: {country}")
+        
     @property
     def recursive(self):
         return self._recursive
@@ -19,18 +48,6 @@ class Bootstrap:
         else:
             raise Exception("Recursion no valida.")
         
-    @property 
-    def country(self):
-        return self._country
-    
-    @country.setter
-    def country(self, country: str):
-        if country in self._countries_codes:
-            self._country = country
-            self.country_config = self.countries_config.get(country)
-        else:
-            raise Exception("Codigo de pais invalido.", country)
-      
     def __init__(self, marketplace):
         self.marketplace = marketplace
         self.countries_config: dict = config()['marketplace'][self.marketplace]['country']
@@ -39,6 +56,7 @@ class Bootstrap:
         self._recursive = None
         
 if __name__ == '__main__':
+    print(Bootstrap.get_marketplace_avalible())
     bootstrap = Bootstrap("mercadolibre")
     print(bootstrap.marketplace)
     bootstrap.country = 'co'

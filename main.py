@@ -263,12 +263,11 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
     # TODO Select marketplace
-    marketplace_choices = list(config()['marketplace'].keys())
-    parser.add_argument('marketplace', help='The marketplace that you want to scraper', type=str, choices=marketplace_choices)
+    parser.add_argument('marketplace', help='The marketplace that you want to scraper', type=str, choices=Bootstrap.get_marketplace_avalible())
     # * Select country args --country {ISO_3166_COUNTRY_CODE} 
-    parser.add_argument("--country", required=False, help=f"Country where the scrapper will run")
+    parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx")
     # * Recursive scrapper pages
-    parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages")
+    parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages: True or False")
     args = parser.parse_args()
     # print("args: ", args)
     main(args.marketplace, args.country, bool(args.recursive))
