@@ -41,7 +41,7 @@ class Bootstrap:
     
     @recursive.setter
     def recursive(self, recursive: str):
-        if recursive is True or recursive == 'True' or recursive is False or recursive is 'False':
+        if recursive is True or recursive == 'True' or recursive is False or recursive == 'False':
             self._recursive = bool(recursive)
         elif recursive is None:
             self.recursive = False      
@@ -54,6 +54,12 @@ class Bootstrap:
         self._countries_codes = list(self.countries_config.keys())
         self._country = None
         self._recursive = None
+        
+    def __str__(self):
+        return f"marketplace is {marketplace}"
+        
+    def __repr__(self):
+        return f"marketplace={marketplace}"
         
 if __name__ == '__main__':
     print(Bootstrap.get_marketplace_avalible())
