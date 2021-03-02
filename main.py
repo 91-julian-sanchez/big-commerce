@@ -126,6 +126,7 @@ def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True):
         counter += 1
 
     _save_products(marketplace_uid, country_uid, products, overwrite=overwrite)
+    return counter
 
     
 def scraper_subcategories(marketplace_uid, url_categories, origin=None) -> object:
@@ -165,10 +166,10 @@ def print_subcategory_selected(subcategory_selected):
             link: {subcategory_selected['link']}
     """, bcolors.ENDC)
     # print(f"selecciono: ", subcategory_selected)
-    
 
 
-def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=True, recursive=False):
+
+def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=True, recursive=False, products_counter=0):
     """
     Scraper start function
     :param link:
@@ -189,21 +190,25 @@ def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=Tru
     if marketplace_uid == 'mercadolibre':
         paginationSectionPage = pages.PaginationSectionPage(marketplace_uid, link, country_id=country_uid)
         paginator = paginationSectionPage.getPaginator()
+        products_counter += len(productsPage.produtcs)
         print(bcolors.OKCYAN,f"""
-            Total productos: {len(productsPage.produtcs)}
+            productos: {len(productsPage.produtcs)}
             Pagina {paginator['current_page']} de {'primeras' if paginator['has_more_pages'] else ''} {paginator['count']}
+            {"...."*30}
+            Total productos: {products_counter}
         """, bcolors.ENDC)
             
         # * NEXT PAGE
         if paginator['current_page'] is not None:
             print("* Siguiente pagina?")
+            
             if recursive is True:
                 scraper_sleep = random.randint(1,10)
-                print(f"Si, scraper siguiente pagina en {scraper_sleep}(s)")
+                print(f"Si, siguiente pagina en {scraper_sleep}(s)")
                 time.sleep(scraper_sleep)
-                marketplace_scrapper(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, recursive=recursive)
+                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, recursive=recursive, products_counter=products_counter)
             elif menu(['Si','No']) == 0:
-                marketplace_scrapper(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False)
+                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, products_counter=products_counter)
     else:
         print(bcolors.OKCYAN,f"""
             Total productos: {len(productsPage.produtcs)}
@@ -211,7 +216,7 @@ def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=Tru
         """, bcolors.ENDC)
         
             
-def run_scrapper(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False):
+def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False):
     print(f"run scraper {marketplace_uid} {country_uid}")
     scraper_link = None
     
@@ -224,12 +229,11 @@ def run_scrapper(marketplace_uid: str, country_uid: str, origin: str, url_catego
         subcategories = scraper_subcategories(marketplace_uid, category_selected['link'])
         subcategory_selected = select_subcategory_menu(subcategories)
         scraper_link = subcategory_selected['link']
-
     elif marketplace_uid == 'linio':    
         scraper_link = category_selected['link']
         
     # TODO Iniciar scrapper
-    marketplace_scrapper(args.marketplace, country_uid, link=scraper_link, recursive=recursive)
+    scrapper_marketplace(args.marketplace, country_uid, link=scraper_link, recursive=recursive)
 
 
 def main(marketplace: str, country: str, recursive: bool):
@@ -247,7 +251,7 @@ def main(marketplace: str, country: str, recursive: bool):
     # * Recursive scraper mode
     bootstrap.recursive = recursive
     # * Run scraper
-    run_scrapper(
+    run(
         marketplace, 
         bootstrap.country, 
         origin = bootstrap.country_config['origin'], # * Url marketplace Website

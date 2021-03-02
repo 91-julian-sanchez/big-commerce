@@ -25,13 +25,14 @@ $ python main.py mercadolibre
 $ python main.py linio
 ```
 
+**Options**
+Optional argument | Description
+--- | --- 
+`--country` | Country code where you want to scrape marketplace, available: co, mx 
+`--recursive` | Browse product pages recursively
+
 **Marketplace and available commands:**
 
 ```sh
 $ python main.py --help
-```
-
-**Scraper recursivo**
-```sh
-$ python main.py mercadolibre --country co --recursive True
 ```
