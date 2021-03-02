@@ -8,6 +8,7 @@ import random
 import page_objects as pages
 from requests.exceptions import HTTPError
 from urllib3.exceptions import MaxRetryError
+from bootstrap import Bootstrap
 from common import config
 from bcolors import bcolors
 
@@ -238,18 +239,20 @@ def main(marketplace: str, country: str, recursive: bool):
     """
     # TODO Init scraper
     # * Select country
-    country_config = config()['marketplace'][marketplace]['country']
+    bootstrap = Bootstrap(marketplace)
     if country is None: 
         # * Select country by menu console
-        country = select_country_menu(country_config)
-
-    print(bcolors.OKCYAN,f"Selecciono: {country_config[country]['name']}", bcolors.ENDC)
-    # * Url marketplace Website
-    origin = config()['marketplace'][marketplace]['country'][country]['origin']
-    # * Url categories page
-    url_categories = config()['marketplace'][marketplace]['country'][country]['url_categories']
+        bootstrap.country = select_country_menu(bootstrap.countries_config)
+    print(bcolors.OKCYAN,f"Selecciono: {bootstrap.country_config['name']}", bcolors.ENDC)
+    # * Recursive scraper mode
+    bootstrap.recursive = recursive
     # * Run scraper
-    run_scrapper(marketplace, country, origin, url_categories, recursive=recursive)
+    run_scrapper(
+        marketplace, 
+        bootstrap.country, 
+        origin = bootstrap.country_config['origin'], # * Url marketplace Website
+        url_categories = bootstrap.country_config['url_categories'], # * Url categories page
+        recursive=recursive)
 
 
 if __name__ == '__main__':
