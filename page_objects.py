@@ -195,7 +195,7 @@ class PaginationSectionPage(HomePage):
         paginator = {
             'count': len(pagination_container)-1,
             'current_page': current_page,
-            'next_page_url': next_page.a['href'],
+            'next_page_url': next_page.a['href'] if next_page is not None else None,
             'has_more_pages': has_more_pages
         }
         # print(paginator)
