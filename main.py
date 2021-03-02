@@ -199,7 +199,7 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=Tru
         """, bcolors.ENDC)
             
         # * NEXT PAGE
-        if paginator['current_page'] is not None:
+        if paginator['current_page'] is not None and paginator['next_page_url'] is not None:
             print("* Siguiente pagina?")
             
             if recursive is True:
@@ -209,6 +209,8 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=Tru
                 scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, recursive=recursive, products_counter=products_counter)
             elif menu(['Si','No']) == 0:
                 scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, products_counter=products_counter)
+        elif paginator['next_page_url'] is None:
+            print("Termina scrapper")
     else:
         print(bcolors.OKCYAN,f"""
             Total productos: {len(productsPage.produtcs)}
@@ -221,19 +223,19 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
     scraper_link = None
     
     # TODO Scrapper Categorias
-    categories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
-    category_selected = select_category_menu(categories)
+    macrocategories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
+    macrocategory_selected = select_category_menu(macrocategories)
     
     # TODO Scrapper Subcategorias
     if marketplace_uid == 'mercadolibre':
-        subcategories = scraper_subcategories(marketplace_uid, category_selected['link'])
-        subcategory_selected = select_subcategory_menu(subcategories)
-        scraper_link = subcategory_selected['link']
-    elif marketplace_uid == 'linio':    
+        categories = scraper_subcategories(marketplace_uid, macrocategory_selected['link'])
+        category_selected = select_subcategory_menu(categories)
         scraper_link = category_selected['link']
+    elif marketplace_uid == 'linio':    
+        scraper_link = macrocategory_selected['link']
         
     # TODO Iniciar scrapper
-    scrapper_marketplace(args.marketplace, country_uid, link=scraper_link, recursive=recursive)
+    scrapper_marketplace(marketplace_uid, country_uid, link=scraper_link, recursive=recursive)
 
 
 def main(marketplace: str, country: str, recursive: bool):
