@@ -3,6 +3,8 @@ import logging
 import datetime
 import csv
 import re
+import time
+import random
 import page_objects as pages
 from requests.exceptions import HTTPError
 from urllib3.exceptions import MaxRetryError
@@ -165,7 +167,7 @@ def print_subcategory_selected(subcategory_selected):
     
 
 
-def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=True):
+def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=True, recursive=False):
     """
     Scraper start function
     :param link:
@@ -180,7 +182,8 @@ def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=Tru
             """, bcolors.ENDC)
     productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)    
     scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid, overwrite=overwrite)
-
+    # print(recursive, type(recursive))
+    # raise Exception("kill")
     # TODO BROWSE PAGES
     if marketplace_uid == 'mercadolibre':
         paginationSectionPage = pages.PaginationSectionPage(marketplace_uid, link, country_id=country_uid)
@@ -193,7 +196,12 @@ def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=Tru
         # * NEXT PAGE
         if paginator['current_page'] is not None:
             print("* Siguiente pagina?")
-            if menu(['Si','No']) == 0:
+            if recursive is True:
+                scraper_sleep = random.randint(1,10)
+                print(f"Si, scraper siguiente pagina en {scraper_sleep}(s)")
+                time.sleep(scraper_sleep)
+                marketplace_scrapper(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, recursive=recursive)
+            elif menu(['Si','No']) == 0:
                 marketplace_scrapper(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False)
     else:
         print(bcolors.OKCYAN,f"""
@@ -202,7 +210,7 @@ def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=Tru
         """, bcolors.ENDC)
         
             
-def run_scrapper(marketplace_uid: str, country_uid: str, origin: str, url_categories: str):
+def run_scrapper(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False):
     print(f"run scraper {marketplace_uid} {country_uid}")
     scraper_link = None
     
@@ -220,10 +228,10 @@ def run_scrapper(marketplace_uid: str, country_uid: str, origin: str, url_catego
         scraper_link = category_selected['link']
         
     # TODO Iniciar scrapper
-    marketplace_scrapper(args.marketplace, country_uid, link=scraper_link)
+    marketplace_scrapper(args.marketplace, country_uid, link=scraper_link, recursive=recursive)
 
 
-def main(marketplace: str, country: str):
+def main(marketplace: str, country: str, recursive: bool):
     """
     :param marketplace: name of marketplace
     :param country: code country in standard ISO_3166_COUNTRY_CODE
@@ -241,7 +249,7 @@ def main(marketplace: str, country: str):
     # * Url categories page
     url_categories = config()['marketplace'][marketplace]['country'][country]['url_categories']
     # * Run scraper
-    run_scrapper(marketplace, country, origin, url_categories)
+    run_scrapper(marketplace, country, origin, url_categories, recursive=recursive)
 
 
 if __name__ == '__main__':
@@ -252,7 +260,9 @@ if __name__ == '__main__':
     parser.add_argument('marketplace', help='The marketplace that you want to scraper', type=str, choices=marketplace_choices)
     # * Select country args --country {ISO_3166_COUNTRY_CODE} 
     parser.add_argument("--country", required=False, help=f"Country where the scrapper will run")
+    # * Recursive scrapper pages
+    parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages")
     args = parser.parse_args()
     # print("args: ", args)
-    main(args.marketplace, args.country)
+    main(args.marketplace, args.country, bool(args.recursive))
     pass

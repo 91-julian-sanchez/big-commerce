@@ -30,3 +30,8 @@ $ python main.py linio
 ```sh
 $ python main.py --help
 ```
+
+**Scraper recursivo**
+```sh
+$ python main.py mercadolibre --country co --recursive True
+```
