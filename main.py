@@ -3,9 +3,12 @@ import logging
 import datetime
 import csv
 import re
+import time
+import random
 import page_objects as pages
 from requests.exceptions import HTTPError
 from urllib3.exceptions import MaxRetryError
+from bootstrap import Bootstrap
 from common import config
 from bcolors import bcolors
 
@@ -123,6 +126,7 @@ def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True):
         counter += 1
 
     _save_products(marketplace_uid, country_uid, products, overwrite=overwrite)
+    return counter
 
     
 def scraper_subcategories(marketplace_uid, url_categories, origin=None) -> object:
@@ -162,10 +166,10 @@ def print_subcategory_selected(subcategory_selected):
             link: {subcategory_selected['link']}
     """, bcolors.ENDC)
     # print(f"selecciono: ", subcategory_selected)
-    
 
 
-def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=True):
+
+def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=True, recursive=False, products_counter=0):
     """
     Scraper start function
     :param link:
@@ -180,21 +184,31 @@ def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=Tru
             """, bcolors.ENDC)
     productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)    
     scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid, overwrite=overwrite)
-
+    # print(recursive, type(recursive))
+    # raise Exception("kill")
     # TODO BROWSE PAGES
     if marketplace_uid == 'mercadolibre':
         paginationSectionPage = pages.PaginationSectionPage(marketplace_uid, link, country_id=country_uid)
         paginator = paginationSectionPage.getPaginator()
+        products_counter += len(productsPage.produtcs)
         print(bcolors.OKCYAN,f"""
-            Total productos: {len(productsPage.produtcs)}
+            productos: {len(productsPage.produtcs)}
             Pagina {paginator['current_page']} de {'primeras' if paginator['has_more_pages'] else ''} {paginator['count']}
+            {"...."*30}
+            Total productos: {products_counter}
         """, bcolors.ENDC)
             
         # * NEXT PAGE
         if paginator['current_page'] is not None:
             print("* Siguiente pagina?")
-            if menu(['Si','No']) == 0:
-                marketplace_scrapper(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False)
+            
+            if recursive is True:
+                scraper_sleep = random.randint(1,10)
+                print(f"Si, siguiente pagina en {scraper_sleep}(s)")
+                time.sleep(scraper_sleep)
+                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, recursive=recursive, products_counter=products_counter)
+            elif menu(['Si','No']) == 0:
+                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, products_counter=products_counter)
     else:
         print(bcolors.OKCYAN,f"""
             Total productos: {len(productsPage.produtcs)}
@@ -202,7 +216,7 @@ def marketplace_scrapper(marketplace_uid, country_uid,  link=None, overwrite=Tru
         """, bcolors.ENDC)
         
             
-def run_scrapper(marketplace_uid: str, country_uid: str, origin: str, url_categories: str):
+def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False):
     print(f"run scraper {marketplace_uid} {country_uid}")
     scraper_link = None
     
@@ -215,33 +229,34 @@ def run_scrapper(marketplace_uid: str, country_uid: str, origin: str, url_catego
         subcategories = scraper_subcategories(marketplace_uid, category_selected['link'])
         subcategory_selected = select_subcategory_menu(subcategories)
         scraper_link = subcategory_selected['link']
-
     elif marketplace_uid == 'linio':    
         scraper_link = category_selected['link']
         
     # TODO Iniciar scrapper
-    marketplace_scrapper(args.marketplace, country_uid, link=scraper_link)
+    scrapper_marketplace(args.marketplace, country_uid, link=scraper_link, recursive=recursive)
 
 
-def main(marketplace: str, country: str):
+def main(marketplace: str, country: str, recursive: bool):
     """
     :param marketplace: name of marketplace
     :param country: code country in standard ISO_3166_COUNTRY_CODE
     """
     # TODO Init scraper
     # * Select country
-    country_config = config()['marketplace'][marketplace]['country']
+    bootstrap = Bootstrap(marketplace)
     if country is None: 
         # * Select country by menu console
-        country = select_country_menu(country_config)
-
-    print(bcolors.OKCYAN,f"Selecciono: {country_config[country]['name']}", bcolors.ENDC)
-    # * Url marketplace Website
-    origin = config()['marketplace'][marketplace]['country'][country]['origin']
-    # * Url categories page
-    url_categories = config()['marketplace'][marketplace]['country'][country]['url_categories']
+        bootstrap.country = select_country_menu(bootstrap.countries_config)
+    print(bcolors.OKCYAN,f"Selecciono: {bootstrap.country_config['name']}", bcolors.ENDC)
+    # * Recursive scraper mode
+    bootstrap.recursive = recursive
     # * Run scraper
-    run_scrapper(marketplace, country, origin, url_categories)
+    run(
+        marketplace, 
+        bootstrap.country, 
+        origin = bootstrap.country_config['origin'], # * Url marketplace Website
+        url_categories = bootstrap.country_config['url_categories'], # * Url categories page
+        recursive=recursive)
 
 
 if __name__ == '__main__':
@@ -252,7 +267,9 @@ if __name__ == '__main__':
     parser.add_argument('marketplace', help='The marketplace that you want to scraper', type=str, choices=marketplace_choices)
     # * Select country args --country {ISO_3166_COUNTRY_CODE} 
     parser.add_argument("--country", required=False, help=f"Country where the scrapper will run")
+    # * Recursive scrapper pages
+    parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages")
     args = parser.parse_args()
     # print("args: ", args)
-    main(args.marketplace, args.country)
+    main(args.marketplace, args.country, bool(args.recursive))
     pass
