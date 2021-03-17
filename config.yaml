@@ -1,6 +1,9 @@
 marketplace:
   mercadolibre:
     id: mercadolibre
+    engine:
+      catalog: scrapy
+      products: beautifulsoup4
     country:
       co:
         name: Colombia

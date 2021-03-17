@@ -5,6 +5,7 @@ import csv
 import re
 import time
 import random
+import pandas as pd
 import page_objects as pages
 from requests.exceptions import HTTPError
 from urllib3.exceptions import MaxRetryError
@@ -218,17 +219,53 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=Tru
         """, bcolors.ENDC)
         
             
-def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False):
+def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False, categories_path=None):
     print(f"run scraper {marketplace_uid} {country_uid}")
     scraper_link = None
-    
+
     # TODO Scrapper Categorias
-    macrocategories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
+    macrocategories = list()
+    if categories_path is not None:
+        df= pd.read_csv(categories_path)
+        df= df[['id', 'name', 'href', 'hierarchy']]
+        # print("categories_path: ", categories_path)
+        # print(df[df['hierarchy']==1])
+
+        for index, row  in (df[df['hierarchy']==1]).iterrows():
+            macrocategories.append({
+                'id': row['id'],
+                'name': row['name'],
+                'link': row['href']
+            })
+    else:
+        macrocategories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
+
     macrocategory_selected = select_category_menu(macrocategories)
     
     # TODO Scrapper Subcategorias
     if marketplace_uid == 'mercadolibre':
-        categories = scraper_subcategories(marketplace_uid, macrocategory_selected['link'])
+        if categories_path is not None:
+            df = pd.read_csv(categories_path)
+            df = df[['id', 'name', 'href', 'parent']]
+            df2 = df[['id', 'name', 'href', 'parent']]
+            categories= []
+            categories2= []
+            for index, row in df[df['parent']==macrocategory_selected['id']].iterrows():
+                categories.append({
+                    'id': row['id'],
+                    'name': row['name'],
+                    'link': row['href']
+                })
+                for index1, row2 in df2[df2['parent'] == row['id']].iterrows():
+                    categories2.append({
+                        'id': row2['id'],
+                        'name': row2['name'],
+                        'link': row2['href']
+                    })
+            print(categories2)
+        else:
+            categories = scraper_subcategories(marketplace_uid, macrocategory_selected['link'])
+
         category_selected = select_subcategory_menu(categories)
         scraper_link = category_selected['link']
     elif marketplace_uid == 'linio':    
@@ -238,10 +275,11 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
     scrapper_marketplace(marketplace_uid, country_uid, link=scraper_link, recursive=recursive)
 
 
-def main(marketplace: str, country: str, recursive: bool):
+def main(marketplace: str, country: str, recursive: bool, categories_path: str):
     """
     :param marketplace: name of marketplace
     :param country: code country in standard ISO_3166_COUNTRY_CODE
+    :param categories_path: path categories tree
     """
     # TODO Init scraper
     # * Select country
@@ -258,6 +296,7 @@ def main(marketplace: str, country: str, recursive: bool):
         bootstrap.country, 
         origin = bootstrap.country_config['origin'], # * Url marketplace Website
         url_categories = bootstrap.country_config['url_categories'], # * Url categories page
+        categories_path= categories_path,
         recursive=recursive)
 
 
@@ -270,7 +309,9 @@ if __name__ == '__main__':
     parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx")
     # * Recursive scrapper pages
     parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages: True or False")
+    # * Categories tree path
+    parser.add_argument("--categories_path", required=False, help=f"Categories path")
     args = parser.parse_args()
     # print("args: ", args)
-    main(args.marketplace, args.country, bool(args.recursive))
+    main(args.marketplace, args.country, bool(args.recursive), args.categories_path)
     pass
