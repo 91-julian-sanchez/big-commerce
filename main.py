@@ -18,6 +18,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 is_well_formed_link = re.compile(r'^https?://.+/.+$')
 is_root_path = re.compile(r'^/.+$')
+total_products_scraped = 0
 
 def _build_link(host, link):
     if is_well_formed_link.match(link):
@@ -103,19 +104,19 @@ def _save_products(marketplace_uid, country_uid, products, overwrite=True):
 
 def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True):
     logger.info(f" \n\nPRODUCTOS({len(products)}):\n")
-
+    global total_products_scraped
     for counter, product in enumerate(products, 1):
-        logger.info(f"""
-                    ======================================================================
-                    {counter}. {product['name']}
-                    ======================================================================
-                    Precio: {product['price_simbol'] if product['price_simbol'] else ''} {product['price']}
-                    Descuento: {product['price_discount']}
-                    Más Vendido: {product['best_seller']}
-                    Promocionado (Ads): {product['promotional']}
-                    link: {product['link']}
-                    """)
-
+        # logger.info(f"""
+        #             ======================================================================
+        #             {counter}. {product['name']}
+        #             ======================================================================
+        #             Precio: {product['price_simbol'] if product['price_simbol'] else ''} {product['price']}
+        #             Descuento: {product['price_discount']}
+        #             Más Vendido: {product['best_seller']}
+        #             Promocionado (Ads): {product['promotional']}
+        #             link: {product['link']}
+        #             """)
+        print(f"{counter}. {product['name']}")
         # TODO Scrapper product
         # product_page = _fetchProduct(marketplace_uid,  product['link'])
         #
@@ -125,7 +126,9 @@ def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True):
         #
         #     break;
         counter += 1
-
+    print(f"products scraped: {len(products)}")
+    total_products_scraped += len(products)
+    print(f"products total: {total_products_scraped}")
     _save_products(marketplace_uid, country_uid, products, overwrite=overwrite)
     return counter
 
@@ -228,8 +231,6 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
     if categories_path is not None:
         df= pd.read_csv(categories_path)
         df= df[['id', 'name', 'href', 'hierarchy']]
-        # print("categories_path: ", categories_path)
-        # print(df[df['hierarchy']==1])
 
         for index, row  in (df[df['hierarchy']==1]).iterrows():
             macrocategories.append({
@@ -247,39 +248,46 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
         if categories_path is not None:
             df = pd.read_csv(categories_path)
             df = df[['id', 'name', 'href', 'parent']]
-            df2 = df[['id', 'name', 'href', 'parent']]
             categories= []
-            categories2= []
             for index, row in df[df['parent']==macrocategory_selected['id']].iterrows():
-                categories.append({
-                    'id': row['id'],
-                    'name': row['name'],
-                    'link': row['href']
-                })
-                for index1, row2 in df2[df2['parent'] == row['id']].iterrows():
-                    categories2.append({
+                name_category = row['name']
+                subcategories = list()
+                for index1, row2 in df[df['parent'] == row['id']].iterrows():
+                    name_category += f"\n       * {row2['name']}"
+                    subcategories.append({
                         'id': row2['id'],
                         'name': row2['name'],
-                        'link': row2['href']
+                        'link': row2['href'],
+                        'parent': row2['parent']
                     })
-            print(categories2)
+                categories.append({
+                    'id': row['id'],
+                    'name': name_category,
+                    'link': row['href'],
+                    'parent': row['parent'],
+                    'subcategories': subcategories
+                })
         else:
             categories = scraper_subcategories(marketplace_uid, macrocategory_selected['link'])
 
         category_selected = select_subcategory_menu(categories)
-        scraper_link = category_selected['link']
+        categories_to_scraper = [category_selected['link']]
+        for category in category_selected['subcategories']:
+            categories_to_scraper.append(category['link'])
+
     elif marketplace_uid == 'linio':    
-        scraper_link = macrocategory_selected['link']
+        categories_to_scraper = [macrocategory_selected['link']]
         
     # TODO Iniciar scrapper
-    scrapper_marketplace(marketplace_uid, country_uid, link=scraper_link, recursive=recursive)
+    for link in categories_to_scraper:
+        scrapper_marketplace(marketplace_uid, country_uid, link=link, recursive=recursive, overwrite=False)
 
 
 def main(marketplace: str, country: str, recursive: bool, categories_path: str):
     """
     :param marketplace: name of marketplace
     :param country: code country in standard ISO_3166_COUNTRY_CODE
-    :param categories_path: path categories tree
+    :param categories_path: path categories generated with scrapy
     """
     # TODO Init scraper
     # * Select country
@@ -311,7 +319,7 @@ if __name__ == '__main__':
     parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages: True or False")
     # * Categories tree path
     parser.add_argument("--categories_path", required=False, help=f"Categories path")
+    # * Init scraper
     args = parser.parse_args()
-    # print("args: ", args)
     main(args.marketplace, args.country, bool(args.recursive), args.categories_path)
     pass
