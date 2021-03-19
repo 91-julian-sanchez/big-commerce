@@ -9,10 +9,15 @@ country:
     origin: https://www.mercadolibre.com.mx
     url_categories: https://www.mercadolibre.com.mx/categorias
 queries:
-  categories_container: 'div.categories__container'
-  category_href: 'h2.categories__title > a'
-  category_name: 'h2.categories__title > a::text'
-  category_subcategories: 'ul.categories__list li'
-  categories_container_category_page: 'div.desktop__view-child'
-  category_name_category_page: 'div.category-list__permanlink > h3::text'
-  category_subcategories_category_page: 'ul.desktop__view-ul > li'
+  categories_container_level_1: 'div.categories__container'
+  category_href_level_1: 'h2.categories__title > a'
+  category_name_level_1: 'h2.categories__title > a::text'
+  category_subcategories_level_1: 'ul.categories__list li'
+  categories_container_level_2: 'div.desktop__view-child'
+  category_href_level_2: 'a'
+  category_name_level_2: 'div.category-list__permanlink > h3::text'
+  category_subcategories_level_2: 'ul.desktop__view-ul > li'
+  categories_container_level_3: 'ul.desktop__view-ul > li'
+  category_href_level_3: 'a'
+  category_name_level_3: 'h4::text'
+  category_subcategories_level_3: ''
