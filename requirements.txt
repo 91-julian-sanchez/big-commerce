@@ -1,4 +1,6 @@
-PyYAML~=5.3.1
-beautifulsoup4~=4.9.3
 requests~=2.21.0
 urllib3~=1.25.11
+PyYAML~=5.3.1
+Scrapy~=2.4.1
+itemadapter~=0.2.0
+beautifulsoup4~=4.9.3

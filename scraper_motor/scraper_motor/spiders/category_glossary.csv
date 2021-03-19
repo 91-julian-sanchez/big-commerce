@@ -1,0 +1,411 @@
+id,uid,parent,name,href,index,hierarchy,subcategories
+MCO1747,0e994b81-87e5-11eb-9ac3-2322637be42f,,Accesorios para Vehículos,https://www.mercadolibre.com.co/c/accesorios-para-vehiculos#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1747&c_uid=0e994b81-87e5-11eb-9ac3-2322637be42f,0,1,19
+MCO441917,0e95f020-87e5-11eb-9ac3-2322637be42f,,Agro,https://www.mercadolibre.com.co/c/agro#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO441917&c_uid=0e95f020-87e5-11eb-9ac3-2322637be42f,1,1,8
+MCO1403,0e961730-87e5-11eb-9ac3-2322637be42f,,Alimentos y Bebidas,https://www.mercadolibre.com.co/c/alimentos-y-bebidas#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1403&c_uid=0e961730-87e5-11eb-9ac3-2322637be42f,2,1,7
+MCO1071,0e994b80-87e5-11eb-9ac3-2322637be42f,,Animales y Mascotas,https://www.mercadolibre.com.co/c/animales-y-mascotas#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1071&c_uid=0e994b80-87e5-11eb-9ac3-2322637be42f,3,1,10
+MCO1367,0e99e7c0-87e5-11eb-9ac3-2322637be42f,,Antigüedades y Colecciones,https://www.mercadolibre.com.co/c/antiguedades-y-colecciones#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1367&c_uid=0e99e7c0-87e5-11eb-9ac3-2322637be42f,4,1,8
+MCO1368,0ea44800-87e5-11eb-9ac3-2322637be42f,,"Arte, Papelería y Mercería",https://www.mercadolibre.com.co/c/arte-papeleria-y-merceria#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1368&c_uid=0ea44800-87e5-11eb-9ac3-2322637be42f,5,1,8
+MCO1384,0e85c380-87e5-11eb-9ac3-2322637be42f,,Bebés,https://www.mercadolibre.com.co/c/bebes#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1384&c_uid=0e85c380-87e5-11eb-9ac3-2322637be42f,6,1,15
+MCO1246,0e85c381-87e5-11eb-9ac3-2322637be42f,,Belleza y Cuidado Personal,https://www.mercadolibre.com.co/c/belleza-y-cuidado-personal#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1246&c_uid=0e85c381-87e5-11eb-9ac3-2322637be42f,7,1,13
+MCO40433,0e9c31b0-87e5-11eb-9ac3-2322637be42f,,Boletas para Espectáculos,https://www.mercadolibre.com.co/c/boletas-para-espectaculos#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO40433&c_uid=0e9c31b0-87e5-11eb-9ac3-2322637be42f,8,1,7
+MCO1039,0ea5cea0-87e5-11eb-9ac3-2322637be42f,,Cámaras y Accesorios,https://www.mercadolibre.com.co/c/camaras-y-accesorios#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1039&c_uid=0ea5cea0-87e5-11eb-9ac3-2322637be42f,9,1,11
+MCO1743,0ea4e440-87e5-11eb-9ac3-2322637be42f,,"Carros, Motos y Otros",https://www.mercadolibre.com.co/vehiculos/#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1743&c_uid=0ea4e440-87e5-11eb-9ac3-2322637be42f,10,1,7
+MCO1051,0e85ea90-87e5-11eb-9ac3-2322637be42f,,Celulares y Teléfonos,https://www.mercadolibre.com.co/c/celulares-y-telefonos#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1051&c_uid=0e85ea90-87e5-11eb-9ac3-2322637be42f,11,1,10
+MCO1648,0e85ea91-87e5-11eb-9ac3-2322637be42f,,Computación,https://www.mercadolibre.com.co/c/computacion#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1648&c_uid=0e85ea91-87e5-11eb-9ac3-2322637be42f,12,1,20
+MCO1144,0e85ea92-87e5-11eb-9ac3-2322637be42f,,Consolas y Videojuegos,https://www.mercadolibre.com.co/c/consolas-y-videojuegos#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1144&c_uid=0e85ea92-87e5-11eb-9ac3-2322637be42f,13,1,7
+MCO172890,0ea866b0-87e5-11eb-9ac3-2322637be42f,,Construcción,https://www.mercadolibre.com.co/c/construccion#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO172890&c_uid=0ea866b0-87e5-11eb-9ac3-2322637be42f,14,1,11
+MCO1276,0ea83fa0-87e5-11eb-9ac3-2322637be42f,,Deportes y Fitness,https://www.mercadolibre.com.co/c/deportes-y-fitness#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1276&c_uid=0ea83fa0-87e5-11eb-9ac3-2322637be42f,15,1,40
+MCO5726,0e8611a0-87e5-11eb-9ac3-2322637be42f,,Electrodomésticos,https://www.mercadolibre.com.co/c/electrodomesticos#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO5726&c_uid=0e8611a0-87e5-11eb-9ac3-2322637be42f,16,1,8
+MCO1000,0e8611a1-87e5-11eb-9ac3-2322637be42f,,"Electrónica, Audio y Video",https://www.mercadolibre.com.co/c/electronica-audio-y-video#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1000&c_uid=0e8611a1-87e5-11eb-9ac3-2322637be42f,17,1,15
+MCO175794,0e8611a2-87e5-11eb-9ac3-2322637be42f,,Herramientas,https://www.mercadolibre.com.co/c/herramientas#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO175794&c_uid=0e8611a2-87e5-11eb-9ac3-2322637be42f,18,1,9
+MCO1574,0e8611a3-87e5-11eb-9ac3-2322637be42f,,Hogar y Muebles,https://www.mercadolibre.com.co/c/hogar-y-muebles#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1574&c_uid=0e8611a3-87e5-11eb-9ac3-2322637be42f,19,1,12
+MCO1499,0ea5a791-87e5-11eb-9ac3-2322637be42f,,Industrias y Oficinas,https://www.mercadolibre.com.co/c/industrias-y-oficinas#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1499&c_uid=0ea5a791-87e5-11eb-9ac3-2322637be42f,20,1,13
+MCO1459,0ea5cea1-87e5-11eb-9ac3-2322637be42f,,Inmuebles,http://www.mercadolibre.com.co/inmuebles/#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1459&c_uid=0ea5cea1-87e5-11eb-9ac3-2322637be42f,21,1,15
+MCO1182,0ea5a790-87e5-11eb-9ac3-2322637be42f,,Instrumentos Musicales,https://www.mercadolibre.com.co/c/instrumentos-musicales#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1182&c_uid=0ea5a790-87e5-11eb-9ac3-2322637be42f,22,1,12
+MCO1132,0ea61cc0-87e5-11eb-9ac3-2322637be42f,,Juegos y Juguetes,https://www.mercadolibre.com.co/c/juegos-y-juguetes#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1132&c_uid=0ea61cc0-87e5-11eb-9ac3-2322637be42f,23,1,25
+MCO3025,0ea55970-87e5-11eb-9ac3-2322637be42f,,"Libros, Revistas y Comics",https://www.mercadolibre.com.co/c/libros-revistas-y-comics#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO3025&c_uid=0ea55970-87e5-11eb-9ac3-2322637be42f,24,1,6
+MCO1168,0ea50b50-87e5-11eb-9ac3-2322637be42f,,"Música, Películas y Series",https://www.mercadolibre.com.co/c/musica-peliculas-y-series#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1168&c_uid=0ea50b50-87e5-11eb-9ac3-2322637be42f,25,1,5
+MCO118204,0ea188e0-87e5-11eb-9ac3-2322637be42f,,"Recuerdos, Piñatería y Fiestas",https://www.mercadolibre.com.co/c/recuerdos-pinateria-y-fiestas#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO118204&c_uid=0ea188e0-87e5-11eb-9ac3-2322637be42f,26,1,10
+MCO3937,0ea88dc1-87e5-11eb-9ac3-2322637be42f,,Relojes y Joyas,https://www.mercadolibre.com.co/c/relojes-y-joyas#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO3937&c_uid=0ea88dc1-87e5-11eb-9ac3-2322637be42f,27,1,11
+MCO1430,0e8686d0-87e5-11eb-9ac3-2322637be42f,,Ropa y Accesorios,https://www.mercadolibre.com.co/c/ropa-y-accesorios#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1430&c_uid=0e8686d0-87e5-11eb-9ac3-2322637be42f,28,1,24
+MCO180800,0ea88dc0-87e5-11eb-9ac3-2322637be42f,,Salud y Equipamiento Médico,https://www.mercadolibre.com.co/c/salud-y-equipamiento-medico#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO180800&c_uid=0ea88dc0-87e5-11eb-9ac3-2322637be42f,29,1,8
+MCO1540,0ea7ca70-87e5-11eb-9ac3-2322637be42f,,Servicios,https://www.mercadolibre.com.co/c/servicios#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1540&c_uid=0ea7ca70-87e5-11eb-9ac3-2322637be42f,30,1,13
+MCO1953,0e86ade0-87e5-11eb-9ac3-2322637be42f,,Otras categorías,https://www.mercadolibre.com.co/c/otras-categorias#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1953&c_uid=0e86ade0-87e5-11eb-9ac3-2322637be42f,31,1,13
+MCO41010,,MCO1403,Bebidas,https://listado.mercadolibre.com.co/otras-categorias/alimentos-bebidas/bebidas/#CATEGORY_ID=MCO41010&S=hc_alimentos-y-bebidas,0,2,11
+MCO441115,,MCO1403,Comestibles,https://listado.mercadolibre.com.co/comestibles/#CATEGORY_ID=MCO441115&S=hc_alimentos-y-bebidas,1,2,22
+MCO410883,,MCO1403,Comida Preparada,https://listado.mercadolibre.com.co/comida-preparada/#CATEGORY_ID=MCO410883&S=hc_alimentos-y-bebidas,2,2,9
+MCO455469,,MCO1403,Comidas Calientes,https://listado.mercadolibre.com.co/comidas-calientes/#CATEGORY_ID=MCO455469&S=hc_alimentos-y-bebidas,3,2,3
+MCO455292,,MCO1403,Congelados,https://listado.mercadolibre.com.co/congelados/#CATEGORY_ID=MCO455292&S=hc_alimentos-y-bebidas,4,2,5
+MCO194324,,MCO1403,Frescos,https://listado.mercadolibre.com.co/frescos/#CATEGORY_ID=MCO194324&S=hc_alimentos-y-bebidas,5,2,8
+MCO8383,,MCO1403,Otros,https://listado.mercadolibre.com.co/otras-categorias/alimentos-bebidas/otros/#CATEGORY_ID=MCO8383&S=hc_alimentos-y-bebidas,6,2,0
+MCO1100,,MCO1071,Aves,https://listado.mercadolibre.com.co/animales-mascotas/aves/#CATEGORY_ID=MCO1100&S=hc_animales-y-mascotas,0,2,11
+MCO6142,,MCO1071,Caballos,https://listado.mercadolibre.com.co/animales-mascotas/caballos/#CATEGORY_ID=MCO6142&S=hc_animales-y-mascotas,1,2,7
+MCO436892,,MCO1071,Conejos,https://listado.mercadolibre.com.co/conejos/#CATEGORY_ID=MCO436892&S=hc_animales-y-mascotas,2,2,3
+MCO1081,,MCO1071,Gatos,https://listado.mercadolibre.com.co/animales-mascotas/gatos/#CATEGORY_ID=MCO1081&S=hc_animales-y-mascotas,3,2,10
+MCO429311,,MCO1071,Insectos,https://listado.mercadolibre.com.co/insectos/#CATEGORY_ID=MCO429311&S=hc_animales-y-mascotas,4,2,4
+MCO1091,,MCO1071,Peces,https://listado.mercadolibre.com.co/animales-mascotas/peces/#CATEGORY_ID=MCO1091&S=hc_animales-y-mascotas,5,2,4
+MCO1072,,MCO1071,Perros,https://listado.mercadolibre.com.co/animales-mascotas/perros/#CATEGORY_ID=MCO1072&S=hc_animales-y-mascotas,6,2,14
+MCO270897,,MCO1071,Reptiles y Anfibios,https://listado.mercadolibre.com.co/reptiles-anfibios/#CATEGORY_ID=MCO270897&S=hc_animales-y-mascotas,7,2,3
+MCO1105,,MCO1071,Roedores,https://listado.mercadolibre.com.co/animales-mascotas/roedores/#CATEGORY_ID=MCO1105&S=hc_animales-y-mascotas,8,2,9
+MCO6152,,MCO1071,Otros,https://listado.mercadolibre.com.co/animales-mascotas/otros/#CATEGORY_ID=MCO6152&S=hc_animales-y-mascotas,9,2,0
+MCO441864,,MCO1368,Arte,https://listado.mercadolibre.com.co/arte/#CATEGORY_ID=MCO441864&S=hc_arte-papeleria-y-merceria,0,2,4
+MCO381266,,MCO1368,Espejos Mosaicos,https://listado.mercadolibre.com.co/espejos-mosaicos/#CATEGORY_ID=MCO381266&S=hc_arte-papeleria-y-merceria,1,2,0
+MCO436793,,MCO1368,Insumos para Hacer Velas,https://listado.mercadolibre.com.co/insumos-hacer-velas/#CATEGORY_ID=MCO436793&S=hc_arte-papeleria-y-merceria,2,2,4
+MCO441117,,MCO1368,Mercería,https://listado.mercadolibre.com.co/merceria/#CATEGORY_ID=MCO441117&S=hc_arte-papeleria-y-merceria,3,2,33
+MCO432923,,MCO1368,Moldes para Jabones,https://listado.mercadolibre.com.co/moldes-jabones/#CATEGORY_ID=MCO432923&S=hc_arte-papeleria-y-merceria,4,2,0
+MCO113518,,MCO1368,Papelería,https://listado.mercadolibre.com.co/papeleria/#CATEGORY_ID=MCO113518&S=hc_arte-papeleria-y-merceria,5,2,30
+MCO441910,,MCO1368,Piezas para Llaveros,https://listado.mercadolibre.com.co/piezas-llaveros/#CATEGORY_ID=MCO441910&S=hc_arte-papeleria-y-merceria,6,2,0
+MCO1371,,MCO1368,Otros,https://listado.mercadolibre.com.co/otras-categorias/arte-antiguedades/arte/otros/#CATEGORY_ID=MCO1371&S=hc_arte-papeleria-y-merceria,7,2,0
+MCO170251,,MCO172890,"Aberturas, Puertas y Ventanas",https://listado.mercadolibre.com.co/construccion-aberturas-puertas-ventanas/#CATEGORY_ID=MCO170251&S=hc_construccion,0,2,8
+MCO455443,,MCO172890,Accesorios de Construcción,https://listado.mercadolibre.com.co/construccion-accesorios/#CATEGORY_ID=MCO455443&S=hc_construccion,1,2,6
+MCO177606,,MCO172890,Baños y Sanitarios,https://listado.mercadolibre.com.co/construccion-banos-sanitarios/#CATEGORY_ID=MCO177606&S=hc_construccion,2,2,12
+MCO441119,,MCO172890,Electricidad,https://listado.mercadolibre.com.co/construccion-electricidad/#CATEGORY_ID=MCO441119&S=hc_construccion,3,2,19
+MCO441184,,MCO172890,Maquinarias para Construcción,https://listado.mercadolibre.com.co/construccion-maquinarias/#CATEGORY_ID=MCO441184&S=hc_construccion,4,2,12
+MCO403697,,MCO172890,Materiales de Obra,https://listado.mercadolibre.com.co/construccion-materiales-obra/#CATEGORY_ID=MCO403697&S=hc_construccion,5,2,14
+MCO177597,,MCO172890,Mobiliario para Cocinas,https://listado.mercadolibre.com.co/construccion-mobiliario-cocinas/#CATEGORY_ID=MCO177597&S=hc_construccion,6,2,3
+MCO171739,,MCO172890,Pinturería,https://listado.mercadolibre.com.co/construccion-pintureria/#CATEGORY_ID=MCO171739&S=hc_construccion,7,2,6
+MCO170232,,MCO172890,Pisos y Recubrimientos,https://listado.mercadolibre.com.co/construccion-pisos-recubrimientos/#CATEGORY_ID=MCO170232&S=hc_construccion,8,2,20
+MCO435273,,MCO172890,Plomería,https://listado.mercadolibre.com.co/construccion-plomeria/#CATEGORY_ID=MCO435273&S=hc_construccion,9,2,7
+MCO172891,,MCO172890,Otros,https://listado.mercadolibre.com.co/herramientas-construccion/construccion/otros/#CATEGORY_ID=MCO172891&S=hc_construccion,10,2,0
+MCO1372,,MCO1367,Antigüedades,https://listado.mercadolibre.com.co/antiguedades/#CATEGORY_ID=MCO1372&S=hc_antiguedades-y-colecciones,0,2,29
+MCO6165,,MCO1367,Billetes y Monedas,https://coleccionables.mercadolibre.com.co/antiguedades-colecciones-billetes-monedas/#CATEGORY_ID=MCO6165&S=hc_antiguedades-y-colecciones,1,2,6
+MCO442200,,MCO1367,Coleccionables de Deportes,https://listado.mercadolibre.com.co/coleccionables-deportes/#CATEGORY_ID=MCO442200&S=hc_antiguedades-y-colecciones,2,2,0
+MCO442201,,MCO1367,Esculturas,https://listado.mercadolibre.com.co/esculturas/#CATEGORY_ID=MCO442201&S=hc_antiguedades-y-colecciones,3,2,0
+MCO1861,,MCO1367,Filatelia,https://coleccionables.mercadolibre.com.co/antiguedades-colecciones-filatelia/#CATEGORY_ID=MCO1861&S=hc_antiguedades-y-colecciones,4,2,6
+MCO442221,,MCO1367,Militaría y Afines,https://listado.mercadolibre.com.co/militaria-afines/#CATEGORY_ID=MCO442221&S=hc_antiguedades-y-colecciones,5,2,9
+MCO168946,,MCO1367,Posters,https://coleccionables.mercadolibre.com.co/antiguedades-colecciones-posters/#CATEGORY_ID=MCO168946&S=hc_antiguedades-y-colecciones,6,2,0
+MCO1885,,MCO1367,Otros,https://listado.mercadolibre.com.co/otras-categorias/arte-antiguedades/otros/#CATEGORY_ID=MCO1885&S=hc_antiguedades-y-colecciones,7,2,0
+MCO180005,,MCO1384,Artículos de Bebés para Baños,https://listado.mercadolibre.com.co/bebes/articulos-banos/#CATEGORY_ID=MCO180005&S=hc_bebes,0,2,13
+MCO181115,,MCO1384,Artículos de Maternidad,https://listado.mercadolibre.com.co/bebes/articulos-maternidad/#CATEGORY_ID=MCO181115&S=hc_bebes,1,2,10
+MCO12160,,MCO1384,Caminadores y Correpasillos,https://listado.mercadolibre.com.co/bebes/caminadores-correpasillos/#CATEGORY_ID=MCO12160&S=hc_bebes,2,2,5
+MCO420303,,MCO1384,Chupetes y Mordedores,https://listado.mercadolibre.com.co/bebes/chupetes-mordedores/#CATEGORY_ID=MCO420303&S=hc_bebes,3,2,7
+MCO420248,,MCO1384,Comida para Bebés,https://listado.mercadolibre.com.co/bebes/comida/#CATEGORY_ID=MCO420248&S=hc_bebes,4,2,6
+MCO420324,,MCO1384,Corrales para Bebé,https://listado.mercadolibre.com.co/bebes/corrales/#CATEGORY_ID=MCO420324&S=hc_bebes,5,2,0
+MCO5362,,MCO1384,Cuarto del Bebé,https://listado.mercadolibre.com.co/bebes/cuarto/#CATEGORY_ID=MCO5362&S=hc_bebes,6,2,12
+MCO5702,,MCO1384,Higiene y Cuidado del Bebé,https://listado.mercadolibre.com.co/bebes/higiene-cuidado/#CATEGORY_ID=MCO5702&S=hc_bebes,7,2,12
+MCO1392,,MCO1384,Juegos y Juguetes para Bebés,https://listado.mercadolibre.com.co/bebes/juegos-juguetes/#CATEGORY_ID=MCO1392&S=hc_bebes,8,2,15
+MCO5360,,MCO1384,Lactancia y Alimentación,https://listado.mercadolibre.com.co/bebes/lactancia-alimentacion/#CATEGORY_ID=MCO5360&S=hc_bebes,9,2,10
+MCO420277,,MCO1384,Paseo del Bebé,https://listado.mercadolibre.com.co/bebes/paseo/#CATEGORY_ID=MCO420277&S=hc_bebes,10,2,10
+MCO1396,,MCO1384,Ropa para Bebés,https://listado.mercadolibre.com.co/bebes/ropa/#CATEGORY_ID=MCO1396&S=hc_bebes,11,2,21
+MCO442346,,MCO441917,Animales,https://listado.mercadolibre.com.co/agro-animales/#CATEGORY_ID=MCO442346&S=hc_agro,0,2,4
+MCO442344,,MCO441917,Generadores de Energía,https://listado.mercadolibre.com.co/agro-generadores-energia/#CATEGORY_ID=MCO442344&S=hc_agro,1,2,4
+MCO454448,,MCO441917,Infraestructura Rural,https://listado.mercadolibre.com.co/infraestructura-rural/#CATEGORY_ID=MCO454448&S=hc_agro,2,2,14
+MCO420355,,MCO1384,Salud del Bebé,https://listado.mercadolibre.com.co/bebes/salud/#CATEGORY_ID=MCO420355&S=hc_bebes,12,2,5
+MCO1889,,MCO1384,Seguridad para Bebés,https://listado.mercadolibre.com.co/bebes/seguridad/#CATEGORY_ID=MCO1889&S=hc_bebes,13,2,13
+MCO15044,,MCO1384,Otros,https://listado.mercadolibre.com.co/bebes/otros/#CATEGORY_ID=MCO15044&S=hc_bebes,14,2,0
+MCO442343,,MCO441917,Insumos Agrícolas,https://listado.mercadolibre.com.co/agro-insumos-agricolas/#CATEGORY_ID=MCO442343&S=hc_agro,3,2,5
+MCO407816,,MCO441917,Insumos Ganaderos,https://listado.mercadolibre.com.co/industria-agropecuaria-insumos-ganaderos/#CATEGORY_ID=MCO407816&S=hc_agro,4,2,4
+MCO417282,,MCO441917,Máquinas y Herramientas,https://listado.mercadolibre.com.co/agro-maquinas-herramientas/#CATEGORY_ID=MCO417282&S=hc_agro,5,2,20
+MCO442351,,MCO441917,Repuestos Maquinaria Agrícola,https://listado.mercadolibre.com.co/repuestos-maquinaria-agricola/#CATEGORY_ID=MCO442351&S=hc_agro,6,2,5
+MCO404085,,MCO441917,Otros,https://listado.mercadolibre.com.co/industria-agropecuaria-otros/#CATEGORY_ID=MCO404085&S=hc_agro,7,2,0
+MCO6934,,MCO1747,Acc. para Carros y Camionetas,https://carros.mercadolibre.com.co/acc-camionetas/#CATEGORY_ID=MCO6934&S=hc_accesorios-para-vehiculos,0,2,3
+MCO8475,,MCO1747,Acc. para Motos y Cuatrimotos,https://motos.mercadolibre.com.co/acc-cuatrimotos/#CATEGORY_ID=MCO8475&S=hc_accesorios-para-vehiculos,1,2,33
+MCO417044,,MCO1747,Acc. y Repuestos Náuticos,https://vehiculos.mercadolibre.com.co/acc-repuestos-nauticos/#CATEGORY_ID=MCO417044&S=hc_accesorios-para-vehiculos,2,2,15
+MCO433113,,MCO1747,Accesorios para Camiones,https://vehiculos.mercadolibre.com.co/accesorios-camiones/#CATEGORY_ID=MCO433113&S=hc_accesorios-para-vehiculos,3,2,3
+MCO3381,,MCO1747,Audio para Vehículos,https://carros.mercadolibre.com.co/audio-vehiculos/#CATEGORY_ID=MCO3381&S=hc_accesorios-para-vehiculos,4,2,18
+MCO436978,,MCO1747,GNV,https://vehiculos.mercadolibre.com.co/gnv/#CATEGORY_ID=MCO436978&S=hc_accesorios-para-vehiculos,5,2,3
+MCO45926,,MCO1747,Herramientas,https://vehiculos.mercadolibre.com.co/herramientas/#CATEGORY_ID=MCO45926&S=hc_accesorios-para-vehiculos,6,2,16
+MCO437028,,MCO1747,Limpieza de Vehículos,https://vehiculos.mercadolibre.com.co/limpieza/#CATEGORY_ID=MCO437028&S=hc_accesorios-para-vehiculos,7,2,16
+MCO8415,,MCO1747,Llantas,https://vehiculos.mercadolibre.com.co/llantas/#CATEGORY_ID=MCO8415&S=hc_accesorios-para-vehiculos,8,2,12
+MCO8662,,MCO1747,Navegadores GPS para Vehículos,https://vehiculos.mercadolibre.com.co/navegadores-gps/#CATEGORY_ID=MCO8662&S=hc_accesorios-para-vehiculos,9,2,4
+MCO402999,,MCO1747,Performance,https://vehiculos.mercadolibre.com.co/performance/#CATEGORY_ID=MCO402999&S=hc_accesorios-para-vehiculos,10,2,7
+MCO438578,,MCO1144,Accesorios para Consolas,https://videojuegos.mercadolibre.com.co/accesorios-consolas/#CATEGORY_ID=MCO438578&S=hc_consolas-y-videojuegos-,0,2,8
+MCO439527,,MCO1144,Accesorios para PC Gaming,https://videojuegos.mercadolibre.com.co/accesorios-pc-gaming/#CATEGORY_ID=MCO439527&S=hc_consolas-y-videojuegos-,1,2,7
+MCO87919,,MCO1747,Repuestos Carros y Camionetas,https://carros.mercadolibre.com.co/repuestos/#CATEGORY_ID=MCO87919&S=hc_accesorios-para-vehiculos,11,2,21
+MCO419936,,MCO1747,Repuestos de Línea Pesada,https://vehiculos.mercadolibre.com.co/repuestos-linea-pesada/#CATEGORY_ID=MCO419936&S=hc_accesorios-para-vehiculos,12,2,7
+MCO74122,,MCO1747,Repuestos Motos y Cuatrimotos,https://motos.mercadolibre.com.co/repuestos-cuatrimotos/#CATEGORY_ID=MCO74122&S=hc_accesorios-para-vehiculos,13,2,10
+MCO174440,,MCO1747,Rines,https://vehiculos.mercadolibre.com.co/rines/#CATEGORY_ID=MCO174440&S=hc_accesorios-para-vehiculos,14,2,5
+MCO180774,,MCO1747,Seguridad Vehicular,https://vehiculos.mercadolibre.com.co/seguridad-vehicular/#CATEGORY_ID=MCO180774&S=hc_accesorios-para-vehiculos,15,2,17
+MCO431243,,MCO1747,Service Programado,https://vehiculos.mercadolibre.com.co/service-programado/#CATEGORY_ID=MCO431243&S=hc_accesorios-para-vehiculos,16,2,6
+MCO5679,,MCO1747,Tuning,https://vehiculos.mercadolibre.com.co/tuning/#CATEGORY_ID=MCO5679&S=hc_accesorios-para-vehiculos,17,2,9
+MCO2232,,MCO1747,Otros,https://carros.mercadolibre.com.co/otros/#CATEGORY_ID=MCO2232&S=hc_accesorios-para-vehiculos,18,2,0
+MCO2931,,MCO1144,Consolas,https://videojuegos.mercadolibre.com.co/consolas/#CATEGORY_ID=MCO2931&S=hc_consolas-y-videojuegos-,2,2,0
+MCO441255,,MCO1144,Pinballs y Máquinas de Juego,https://videojuegos.mercadolibre.com.co/flippers-arcade/#CATEGORY_ID=MCO441255&S=hc_consolas-y-videojuegos-,3,2,3
+MCO438579,,MCO1144,Repuestos para Consolas,https://videojuegos.mercadolibre.com.co/repuestos-consolas/#CATEGORY_ID=MCO438579&S=hc_consolas-y-videojuegos-,4,2,5
+MCO163237,,MCO1144,Videojuegos,https://videojuegos.mercadolibre.com.co/videojuegos/#CATEGORY_ID=MCO163237&S=hc_consolas-y-videojuegos-,5,2,0
+MCO438759,,MCO1144,Otros,https://videojuegos.mercadolibre.com.co/otros/#CATEGORY_ID=MCO438759&S=hc_consolas-y-videojuegos-,6,2,0
+MCO118006,,MCO40433,Conciertos,https://listado.mercadolibre.com.co/boletas-espectaculos/conciertos/#CATEGORY_ID=MCO118006&S=hc_boletas-para-espectaculos,0,2,0
+MCO454714,,MCO40433,Eventos a Beneficio,https://listado.mercadolibre.com.co/eventos-a-beneficio/#CATEGORY_ID=MCO454714&S=hc_boletas-para-espectaculos,1,2,0
+MCO166866,,MCO40433,Eventos Deportivos,https://listado.mercadolibre.com.co/boletas-espectaculos/eventos-deportivos/#CATEGORY_ID=MCO166866&S=hc_boletas-para-espectaculos,2,2,0
+MCO166867,,MCO40433,Eventos Finalizados,https://listado.mercadolibre.com.co/boletas-espectaculos/eventos-finalizados/#CATEGORY_ID=MCO166867&S=hc_boletas-para-espectaculos,3,2,0
+MCO407872,,MCO40433,Exposiciones,https://listado.mercadolibre.com.co/exposiciones/#CATEGORY_ID=MCO407872&S=hc_boletas-para-espectaculos,4,2,0
+MCO442021,,MCO40433,Teatro,https://listado.mercadolibre.com.co/teatro/#CATEGORY_ID=MCO442021&S=hc_boletas-para-espectaculos,5,2,0
+MCO118007,,MCO40433,Otras Boletas,https://listado.mercadolibre.com.co/boletas-espectaculos/otras/#CATEGORY_ID=MCO118007&S=hc_boletas-para-espectaculos,6,2,0
+MCO416199,,MCO1648,Accesorios de Antiestática,https://computacion.mercadolibre.com.co/accesorios-antiestatica/#CATEGORY_ID=MCO416199&S=hc_computacion,0,2,8
+MCO447778,,MCO1648,Accesorios para PC Gaming,https://computacion.mercadolibre.com.co/accesorios-pc-gaming/#CATEGORY_ID=MCO447778&S=hc_computacion,1,2,7
+MCO430598,,MCO1648,Almacenamiento,https://computacion.mercadolibre.com.co/almacenamiento/#CATEGORY_ID=MCO430598&S=hc_computacion,2,2,7
+MCO430918,,MCO1648,Cables y Hubs USB,https://computacion.mercadolibre.com.co/cables-hubs-usb/#CATEGORY_ID=MCO430918&S=hc_computacion,3,2,3
+MCO441358,,MCO1648,Componentes de PC,https://computacion.mercadolibre.com.co/componentes-pc/#CATEGORY_ID=MCO441358&S=hc_computacion,4,2,18
+MCO1700,,MCO1648,Conectividad y Redes,https://computacion.mercadolibre.com.co/conectividad-redes/#CATEGORY_ID=MCO1700&S=hc_computacion,5,2,16
+MCO441535,,MCO1648,Estabilizadores y UPS,https://computacion.mercadolibre.com.co/estabilizadores-ups/#CATEGORY_ID=MCO441535&S=hc_computacion,6,2,4
+MCO420641,,MCO1648,Impresión,https://computacion.mercadolibre.com.co/impresion/#CATEGORY_ID=MCO420641&S=hc_computacion,7,2,8
+MCO441377,,MCO1648,Lectores y Scanners,https://computacion.mercadolibre.com.co/lectores-scanners/#CATEGORY_ID=MCO441377&S=hc_computacion,8,2,9
+MCO441584,,MCO1648,Limpieza y Cuidado de PCs,https://computacion.mercadolibre.com.co/limpieza-cuidado-pcs/#CATEGORY_ID=MCO441584&S=hc_computacion,9,2,15
+MCO441350,,MCO1648,Monitores y Accesorios,https://computacion.mercadolibre.com.co/monitores-accesorios/#CATEGORY_ID=MCO441350&S=hc_computacion,10,2,8
+MCO1651,,MCO1648,"Palms, Agendas y Accesorios",https://computacion.mercadolibre.com.co/palms-agendas-accesorios/#CATEGORY_ID=MCO1651&S=hc_computacion,11,2,3
+MCO430637,,MCO1648,PC de Escritorio,https://computacion.mercadolibre.com.co/pc-escritorio/#CATEGORY_ID=MCO430637&S=hc_computacion,12,2,4
+MCO454379,,MCO1648,Periféricos de PC,https://computacion.mercadolibre.com.co/perifericos-pc/#CATEGORY_ID=MCO454379&S=hc_computacion,13,2,4
+MCO9529,,MCO1648,"Porta CDs, Cajas y Sobres",https://computacion.mercadolibre.com.co/porta-cds-cajas-sobres/#CATEGORY_ID=MCO9529&S=hc_computacion,14,2,5
+MCO430687,,MCO1648,Portátiles y Accesorios,https://computacion.mercadolibre.com.co/portatiles-accesorios/#CATEGORY_ID=MCO430687&S=hc_computacion,15,2,6
+MCO1723,,MCO1648,Software,https://computacion.mercadolibre.com.co/software/#CATEGORY_ID=MCO1723&S=hc_computacion,16,2,9
+MCO432947,,MCO1648,Tablets y Accesorios,https://computacion.mercadolibre.com.co/tablets-accesorios/#CATEGORY_ID=MCO432947&S=hc_computacion,17,2,5
+MCO441791,,MCO1648,Video Beams y Pantallas,https://computacion.mercadolibre.com.co/video-beams-pantallas/#CATEGORY_ID=MCO441791&S=hc_computacion,18,2,7
+MCO1912,,MCO1648,Otros,https://computacion.mercadolibre.com.co/otros/#CATEGORY_ID=MCO1912&S=hc_computacion,19,2,0
+MCO3813,,MCO1051,Accesorios para Celulares,https://celulares.mercadolibre.com.co/accesorios/#CATEGORY_ID=MCO3813&S=hc_celulares-y-telefonos,0,2,28
+MCO1055,,MCO1051,Celulares y Smartphones,https://celulares.mercadolibre.com.co/#CATEGORY_ID=MCO1055&S=hc_celulares-y-telefonos,1,2,0
+MCO401278,,MCO1051,Gafas de Realidad Virtual,https://listado.mercadolibre.com.co/gafas-realidad-virtual/#CATEGORY_ID=MCO401278&S=hc_celulares-y-telefonos,2,2,0
+MCO1058,,MCO1051,Radios y Handies,https://telefonos.mercadolibre.com.co/radios-handies/#CATEGORY_ID=MCO1058&S=hc_celulares-y-telefonos,3,2,5
+MCO442202,,MCO1051,Repuestos de Celulares,https://listado.mercadolibre.com.co/repuestos-celulares/#CATEGORY_ID=MCO442202&S=hc_celulares-y-telefonos,4,2,19
+MCO417704,,MCO1051,Smartwatches y Accesorios,https://listado.mercadolibre.com.co/smartwatches-accesorios/#CATEGORY_ID=MCO417704&S=hc_celulares-y-telefonos,5,2,6
+MCO10616,,MCO1051,Tarificadores y Cabinas,https://telefonos.mercadolibre.com.co/tarificadores-cabinas/#CATEGORY_ID=MCO10616&S=hc_celulares-y-telefonos,6,2,3
+MCO1053,,MCO1051,Telefonía Fija e Inalámbrica,https://telefonos.mercadolibre.com.co/telefonia-fija-e-inalambrica/#CATEGORY_ID=MCO1053&S=hc_celulares-y-telefonos,7,2,9
+MCO5237,,MCO1051,Telefonía IP,https://telefonos.mercadolibre.com.co/telefonia-ip/#CATEGORY_ID=MCO5237&S=hc_celulares-y-telefonos,8,2,5
+MCO1915,,MCO1051,Otros,https://celulares.mercadolibre.com.co/otros/#CATEGORY_ID=MCO1915&S=hc_celulares-y-telefonos,9,2,0
+MCO455033,,MCO1953,Ácido Clorhídrico,https://listado.mercadolibre.com.co/acido-clorhidrico/#CATEGORY_ID=MCO455033&S=hc_otras-categorias,0,2,0
+MCO2818,,MCO1953,Adultos,https://listado.mercadolibre.com.co/otras-categorias/adultos/#CATEGORY_ID=MCO2818&S=hc_otras-categorias,1,2,11
+MCO442265,,MCO1953,Artículos para Fumadores,https://listado.mercadolibre.com.co/articulos-fumadores/#CATEGORY_ID=MCO442265&S=hc_otras-categorias,2,2,11
+MCO406028,,MCO1953,Coberturas Extendidas,https://listado.mercadolibre.com.co/coberturas-extendidas/#CATEGORY_ID=MCO406028&S=hc_otras-categorias,3,2,0
+MCO417785,,MCO1953,Criptomonedas,https://listado.mercadolibre.com.co/criptomonedas/#CATEGORY_ID=MCO417785&S=hc_otras-categorias,4,2,3
+MCO116771,,MCO1953,Esoterismo,https://listado.mercadolibre.com.co/otras-categorias/esoterismo/#CATEGORY_ID=MCO116771&S=hc_otras-categorias,5,2,12
+MCO425038,,MCO1953,Giftcards,https://listado.mercadolibre.com.co/giftcards/#CATEGORY_ID=MCO425038&S=hc_otras-categorias,6,2,0
+MCO432903,,MCO1953,Hornos Crematorios,https://listado.mercadolibre.com.co/hornos-crematorios/#CATEGORY_ID=MCO432903&S=hc_otras-categorias,7,2,0
+MCO164673,,MCO1953,Insumos para Tatuajes,https://listado.mercadolibre.com.co/insumos-tatuajes/#CATEGORY_ID=MCO164673&S=hc_otras-categorias,8,2,17
+MCO433536,,MCO1953,Kits de Criminalística,https://listado.mercadolibre.com.co/kits-criminalistica/#CATEGORY_ID=MCO433536&S=hc_otras-categorias,9,2,0
+MCO433022,,MCO1953,Licencias para Taxis,https://listado.mercadolibre.com.co/licencias-taxis/#CATEGORY_ID=MCO433022&S=hc_otras-categorias,10,2,0
+MCO413190,,MCO1953,Mangas de Viento,https://listado.mercadolibre.com.co/mangas-viento/#CATEGORY_ID=MCO413190&S=hc_otras-categorias,11,2,0
+MCO3530,,MCO1953,Otros,https://listado.mercadolibre.com.co/otras-categorias/otros/#CATEGORY_ID=MCO3530&S=hc_otras-categorias,12,2,0
+MCO4998,,MCO1039,Accesorios para Cámaras,https://listado.mercadolibre.com.co/camaras-accesorios/accesorios/#CATEGORY_ID=MCO4998&S=hc_camaras-y-accesorios,0,2,16
+MCO441250,,MCO1039,Álbumes y Portarretratos,https://listado.mercadolibre.com.co/albumes-portarretratos/#CATEGORY_ID=MCO441250&S=hc_camaras-y-accesorios,1,2,4
+MCO12790,,MCO1039,Cables,https://listado.mercadolibre.com.co/cables/#CATEGORY_ID=MCO12790&S=hc_camaras-y-accesorios,2,2,3
+MCO167004,,MCO1039,Cámaras,https://listado.mercadolibre.com.co/camaras-accesorios/camaras/#CATEGORY_ID=MCO167004&S=hc_camaras-y-accesorios,3,2,2
+MCO8876,,MCO1039,Cámaras de Video y Deportivas,https://listado.mercadolibre.com.co/camaras-video-deportivas/#CATEGORY_ID=MCO8876&S=hc_camaras-y-accesorios,4,2,0
+MCO430403,,MCO1039,Drones y Accesorios,https://listado.mercadolibre.com.co/drones-accesorios/#CATEGORY_ID=MCO430403&S=hc_camaras-y-accesorios,5,2,4
+MCO4708,,MCO1039,Instrumentos Ópticos,https://listado.mercadolibre.com.co/instrumentos-opticos/#CATEGORY_ID=MCO4708&S=hc_camaras-y-accesorios,6,2,6
+MCO441361,,MCO1039,Lentes y Filtros,https://listado.mercadolibre.com.co/lentes-filtros/#CATEGORY_ID=MCO441361&S=hc_camaras-y-accesorios,7,2,7
+MCO430989,,MCO1039,Repuestos para Cámaras,https://listado.mercadolibre.com.co/repuestos-camaras/#CATEGORY_ID=MCO430989&S=hc_camaras-y-accesorios,8,2,3
+MCO441384,,MCO1039,Revelado y Laboratorio,https://listado.mercadolibre.com.co/revelado-laboratorio/#CATEGORY_ID=MCO441384&S=hc_camaras-y-accesorios,9,2,6
+MCO1914,,MCO1039,Otros,https://listado.mercadolibre.com.co/camaras-accesorios/otros/#CATEGORY_ID=MCO1914&S=hc_camaras-y-accesorios,10,2,0
+MCO180893,,MCO1246,Artículos de Peluquería,https://listado.mercadolibre.com.co/salud-belleza/articulos-peluqueria/#CATEGORY_ID=MCO180893&S=hc_belleza-y-cuidado-personal,0,2,4
+MCO180894,,MCO1246,Barbería,https://listado.mercadolibre.com.co/salud-belleza/barberia/#CATEGORY_ID=MCO180894&S=hc_belleza-y-cuidado-personal,1,2,14
+MCO1253,,MCO1246,Cuidado de la Piel,https://listado.mercadolibre.com.co/salud-belleza/cuidado-piel/#CATEGORY_ID=MCO1253&S=hc_belleza-y-cuidado-personal,2,2,10
+MCO1263,,MCO1246,Cuidado del Cabello,https://listado.mercadolibre.com.co/salud-belleza/cuidado-cabello/#CATEGORY_ID=MCO1263&S=hc_belleza-y-cuidado-personal,3,2,3
+MCO43673,,MCO1246,Depilación,https://listado.mercadolibre.com.co/salud-belleza/depilacion/#CATEGORY_ID=MCO43673&S=hc_belleza-y-cuidado-personal,4,2,11
+MCO180958,,MCO1246,Electrodomésticos de Belleza,https://listado.mercadolibre.com.co/salud-belleza/electrodomesticos-belleza/#CATEGORY_ID=MCO180958&S=hc_belleza-y-cuidado-personal,5,2,4
+MCO431646,,MCO1246,Farmacia,https://listado.mercadolibre.com.co/farmacia/#CATEGORY_ID=MCO431646&S=hc_belleza-y-cuidado-personal,6,2,12
+MCO180986,,MCO1246,Higiene Personal,https://listado.mercadolibre.com.co/salud-belleza/higiene-personal/#CATEGORY_ID=MCO180986&S=hc_belleza-y-cuidado-personal,7,2,19
+MCO181058,,MCO1246,Manicure y Pedicure,https://listado.mercadolibre.com.co/manicure-pedicure/#CATEGORY_ID=MCO181058&S=hc_belleza-y-cuidado-personal,8,2,16
+MCO118183,,MCO1246,Maquillaje,https://listado.mercadolibre.com.co/maquillaje/#CATEGORY_ID=MCO118183&S=hc_belleza-y-cuidado-personal,9,2,9
+MCO454712,,MCO1246,Perfumes y Fragancias,https://listado.mercadolibre.com.co/perfumes-fragancias/#CATEGORY_ID=MCO454712&S=hc_belleza-y-cuidado-personal,10,2,4
+MCO417770,,MCO1246,Tratamientos de Belleza,https://listado.mercadolibre.com.co/tratamientos-belleza/#CATEGORY_ID=MCO417770&S=hc_belleza-y-cuidado-personal,11,2,16
+MCO1275,,MCO1246,Otros,https://listado.mercadolibre.com.co/salud-belleza/otros/#CATEGORY_ID=MCO1275&S=hc_belleza-y-cuidado-personal,12,2,0
+MCO9028,,MCO1540,Belleza e Higiene Personal,https://servicios.mercadolibre.com.co/belleza-higiene-personal/#CATEGORY_ID=MCO9028&S=hc_servicios,0,2,6
+MCO1563,,MCO1540,Cursos y Clases,https://servicios.mercadolibre.com.co/cursos-clases/#CATEGORY_ID=MCO1563&S=hc_servicios,1,2,9
+MCO9135,,MCO1540,Fiestas y Eventos,https://servicios.mercadolibre.com.co/fiestas-eventos/#CATEGORY_ID=MCO9135&S=hc_servicios,2,2,9
+MCO9080,,MCO1540,Hogar,https://servicios.mercadolibre.com.co/hogar/#CATEGORY_ID=MCO9080&S=hc_servicios,3,2,3
+MCO9007,,MCO1540,Mantenimiento de Vehículos,https://servicios.mercadolibre.com.co/mantenimiento-vehiculos/#CATEGORY_ID=MCO9007&S=hc_servicios,4,2,5
+MCO1542,,MCO1540,Medicina y Salud,https://servicios.mercadolibre.com.co/medicina-salud/#CATEGORY_ID=MCO1542&S=hc_servicios,5,2,3
+MCO1541,,MCO1540,Profesionales,https://servicios.mercadolibre.com.co/profesionales/#CATEGORY_ID=MCO1541&S=hc_servicios,6,2,8
+MCO9004,,MCO1540,Reparaciones e Instalaciones,https://servicios.mercadolibre.com.co/reparaciones-instalaciones/#CATEGORY_ID=MCO9004&S=hc_servicios,7,2,3
+MCO155478,,MCO1540,Ropa e Indumentaria,https://servicios.mercadolibre.com.co/ropa-indumentaria/#CATEGORY_ID=MCO155478&S=hc_servicios,8,2,6
+MCO155438,,MCO1540,Servicios para Mascotas,https://servicios.mercadolibre.com.co/mascotas/#CATEGORY_ID=MCO155438&S=hc_servicios,9,2,4
+MCO155426,,MCO1540,Transporte,https://servicios.mercadolibre.com.co/transporte/#CATEGORY_ID=MCO155426&S=hc_servicios,10,2,4
+MCO1229,,MCO1540,Viajes y Turismo,https://servicios.mercadolibre.com.co/viajes-turismo/#CATEGORY_ID=MCO1229&S=hc_servicios,11,2,4
+MCO1898,,MCO1540,Otros,https://servicios.mercadolibre.com.co/otros/otros/#CATEGORY_ID=MCO1898&S=hc_servicios,12,2,8
+MCO118376,,MCO1430,Accesorios de Moda,https://listado.mercadolibre.com.co/ropa/accesorios-moda/#CATEGORY_ID=MCO118376&S=hc_ropa-y-accesorios,0,2,23
+MCO157296,,MCO1430,Bermudas y Pantalonetas,https://listado.mercadolibre.com.co/ropa/bermudas-pantalonetas/#CATEGORY_ID=MCO157296&S=hc_ropa-y-accesorios,1,2,0
+MCO157280,,MCO1430,Blusas,https://listado.mercadolibre.com.co/ropa/blusas/#CATEGORY_ID=MCO157280&S=hc_ropa-y-accesorios,2,2,0
+MCO157281,,MCO1430,Buzos,https://listado.mercadolibre.com.co/ropa/buzos/#CATEGORY_ID=MCO157281&S=hc_ropa-y-accesorios,3,2,0
+MCO5208,,MCO1430,Calzado,https://listado.mercadolibre.com.co/calzado/#CATEGORY_ID=MCO5208&S=hc_ropa-y-accesorios,4,2,10
+MCO157282,,MCO1430,Camisas,https://listado.mercadolibre.com.co/ropa/camisas/#CATEGORY_ID=MCO157282&S=hc_ropa-y-accesorios,5,2,0
+MCO157283,,MCO1430,Camisetas,https://listado.mercadolibre.com.co/ropa/camisetas/#CATEGORY_ID=MCO157283&S=hc_ropa-y-accesorios,6,2,0
+MCO157285,,MCO1430,Chaquetas y Abrigos,https://listado.mercadolibre.com.co/ropa/chaquetas-abrigos/#CATEGORY_ID=MCO157285&S=hc_ropa-y-accesorios,7,2,0
+MCO441905,,MCO1430,Enterizos,https://listado.mercadolibre.com.co/enterizos/#CATEGORY_ID=MCO441905&S=hc_ropa-y-accesorios,8,2,0
+MCO3109,,MCO1430,"Equipaje, Bolsos y Carteras",https://listado.mercadolibre.com.co/equipaje-bolsos-carteras/#CATEGORY_ID=MCO3109&S=hc_ropa-y-accesorios,9,2,11
+MCO157286,,MCO1430,Faldas,https://listado.mercadolibre.com.co/ropa/faldas/#CATEGORY_ID=MCO157286&S=hc_ropa-y-accesorios,10,2,0
+MCO441906,,MCO1430,Leggings,https://listado.mercadolibre.com.co/leggings/#CATEGORY_ID=MCO441906&S=hc_ropa-y-accesorios,11,2,0
+MCO157289,,MCO1430,Pantalones y Jeans,https://listado.mercadolibre.com.co/ropa/pantalones-jeans/#CATEGORY_ID=MCO157289&S=hc_ropa-y-accesorios,12,2,0
+MCO441730,,MCO1430,Ropa de Danza y Patinaje,https://listado.mercadolibre.com.co/ropa-danza-patinaje/#CATEGORY_ID=MCO441730&S=hc_ropa-y-accesorios,13,2,9
+MCO118153,,MCO1430,Ropa Deportiva,https://listado.mercadolibre.com.co/ropa/deportiva/#CATEGORY_ID=MCO118153&S=hc_ropa-y-accesorios,14,2,16
+MCO441828,,MCO1430,Ropa Interior y de Dormir,https://listado.mercadolibre.com.co/ropa-interior-dormir/#CATEGORY_ID=MCO441828&S=hc_ropa-y-accesorios,15,2,2
+MCO1455,,MCO1430,Ropa para Bebés,https://listado.mercadolibre.com.co/ropa/bebes/#CATEGORY_ID=MCO1455&S=hc_ropa-y-accesorios,16,2,21
+MCO413460,,MCO1430,Ropa por Mayor,https://listado.mercadolibre.com.co/ropa-mayor/#CATEGORY_ID=MCO413460&S=hc_ropa-y-accesorios,17,2,0
+MCO441827,,MCO1430,"Sacos, Suéteres y Chalecos",https://listado.mercadolibre.com.co/sacos-sueteres-chalecos/#CATEGORY_ID=MCO441827&S=hc_ropa-y-accesorios,18,2,5
+MCO157293,,MCO1430,Trajes,https://listado.mercadolibre.com.co/ropa/trajes/#CATEGORY_ID=MCO157293&S=hc_ropa-y-accesorios,19,2,0
+MCO441881,,MCO1430,Uniformes y Ropa de Trabajo,https://listado.mercadolibre.com.co/uniformes-ropa-trabajo/#CATEGORY_ID=MCO441881&S=hc_ropa-y-accesorios,20,2,9
+MCO157294,,MCO1430,Vestidos,https://listado.mercadolibre.com.co/ropa/vestidos/#CATEGORY_ID=MCO157294&S=hc_ropa-y-accesorios,21,2,0
+MCO430281,,MCO1430,Vestidos de Baño,https://listado.mercadolibre.com.co/vestidos-bano/#CATEGORY_ID=MCO430281&S=hc_ropa-y-accesorios,22,2,0
+MCO1911,,MCO1430,Otros,https://listado.mercadolibre.com.co/ropa/otros/#CATEGORY_ID=MCO1911&S=hc_ropa-y-accesorios,23,2,0
+MCO441201,,MCO118204,Artículos para Fiestas,https://listado.mercadolibre.com.co/articulos-fiestas/#CATEGORY_ID=MCO441201&S=hc_recuerdos-pinateria-y-fiestas,0,2,12
+MCO118210,,MCO118204,Decoración para Fiestas,https://listado.mercadolibre.com.co/decoracion-fiestas/#CATEGORY_ID=MCO118210&S=hc_recuerdos-pinateria-y-fiestas,1,2,14
+MCO413646,,MCO118204,Desechables para Fiestas,https://listado.mercadolibre.com.co/desechables-fiestas/#CATEGORY_ID=MCO413646&S=hc_recuerdos-pinateria-y-fiestas,2,2,8
+MCO118203,,MCO118204,Disfraces,https://listado.mercadolibre.com.co/juegos-juguetes/disfraces/#CATEGORY_ID=MCO118203&S=hc_recuerdos-pinateria-y-fiestas,3,2,0
+MCO435284,,MCO118204,"Espuma, Serpentina y Confeti",https://listado.mercadolibre.com.co/espuma-serpentina-confeti/#CATEGORY_ID=MCO435284&S=hc_recuerdos-pinateria-y-fiestas,4,2,6
+MCO441233,,MCO118204,Kits Imprimibles para Fiestas,https://listado.mercadolibre.com.co/kits-imprimibles-fiestas/#CATEGORY_ID=MCO441233&S=hc_recuerdos-pinateria-y-fiestas,5,2,0
+MCO412009,,MCO118204,Props para Photo Booths,https://listado.mercadolibre.com.co/props-photo-booths/#CATEGORY_ID=MCO412009&S=hc_recuerdos-pinateria-y-fiestas,6,2,0
+MCO8591,,MCO118204,Recuerdos,https://listado.mercadolibre.com.co/recuerdos/#CATEGORY_ID=MCO8591&S=hc_recuerdos-pinateria-y-fiestas,7,2,0
+MCO181207,,MCO118204,Tarjetas de Invitación,https://listado.mercadolibre.com.co/pinateria-tarjetas-invitacion/#CATEGORY_ID=MCO181207&S=hc_recuerdos-pinateria-y-fiestas,8,2,0
+MCO118209,,MCO118204,Otros,https://listado.mercadolibre.com.co/juegos-juguetes/pinateria/otros/#CATEGORY_ID=MCO118209&S=hc_recuerdos-pinateria-y-fiestas,9,2,0
+MCO431676,,MCO3937,Exhibidores y Joyeros,https://listado.mercadolibre.com.co/exhibidores-joyeros/#CATEGORY_ID=MCO431676&S=hc_relojes-y-joyas,0,2,4
+MCO116347,,MCO3937,Insumos para Joyeria,https://listado.mercadolibre.com.co/insumos-joyeria/#CATEGORY_ID=MCO116347&S=hc_relojes-y-joyas,1,2,3
+MCO1431,,MCO3937,Joyería,https://listado.mercadolibre.com.co/relojes-joyas/joyeria/#CATEGORY_ID=MCO1431&S=hc_relojes-y-joyas,2,2,11
+MCO172799,,MCO3937,Piedras Preciosas,https://listado.mercadolibre.com.co/piedras-preciosas/#CATEGORY_ID=MCO172799&S=hc_relojes-y-joyas,3,2,0
+MCO437168,,MCO3937,Piercings,https://listado.mercadolibre.com.co/piercings/#CATEGORY_ID=MCO437168&S=hc_relojes-y-joyas,4,2,0
+MCO431891,,MCO3937,Plumas de Lujo,https://listado.mercadolibre.com.co/plumas-lujo/#CATEGORY_ID=MCO431891&S=hc_relojes-y-joyas,5,2,0
+MCO441746,,MCO3937,Pulsómetros y Cronómetros,https://listado.mercadolibre.com.co/pulsometros-cronometros/#CATEGORY_ID=MCO441746&S=hc_relojes-y-joyas,6,2,5
+MCO431677,,MCO3937,Relojes,https://listado.mercadolibre.com.co/relojes/#CATEGORY_ID=MCO431677&S=hc_relojes-y-joyas,7,2,7
+MCO417301,,MCO3937,Repuestos para Relojes,https://listado.mercadolibre.com.co/repuestos-relojes/#CATEGORY_ID=MCO417301&S=hc_relojes-y-joyas,8,2,8
+MCO399230,,MCO3937,Smartwatches,https://listado.mercadolibre.com.co/smartwatches/#CATEGORY_ID=MCO399230&S=hc_relojes-y-joyas,9,2,0
+MCO3938,,MCO3937,Otros,https://listado.mercadolibre.com.co/relojes-joyas/otros/#CATEGORY_ID=MCO3938&S=hc_relojes-y-joyas,10,2,0
+MCO433385,,MCO3025,Catálogos,https://listado.mercadolibre.com.co/catalogos/#CATEGORY_ID=MCO433385&S=hc_libros-revistas-y-comics,0,2,0
+MCO3043,,MCO3025,Comics,https://listado.mercadolibre.com.co/libros-revistas-comics/comics/#CATEGORY_ID=MCO3043&S=hc_libros-revistas-y-comics,1,2,0
+MCO1196,,MCO3025,Libros,https://listado.mercadolibre.com.co/libros-revistas-comics/libros/#CATEGORY_ID=MCO1196&S=hc_libros-revistas-y-comics,2,2,0
+MCO435619,,MCO3025,Manga,https://listado.mercadolibre.com.co/manga/#CATEGORY_ID=MCO435619&S=hc_libros-revistas-y-comics,3,2,0
+MCO1955,,MCO3025,Revistas,https://listado.mercadolibre.com.co/libros-revistas-comics/revistas/#CATEGORY_ID=MCO1955&S=hc_libros-revistas-y-comics,4,2,0
+MCO1227,,MCO3025,Otros,https://listado.mercadolibre.com.co/libros-revistas-comics/otros/#CATEGORY_ID=MCO1227&S=hc_libros-revistas-y-comics,5,2,0
+MCO445795,,MCO1168,Cursos,https://listado.mercadolibre.com.co/cursos/#CATEGORY_ID=MCO445795&S=hc_musica-peliculas-y-series,0,2,0
+MCO1176,,MCO1168,Música,https://listado.mercadolibre.com.co/musica-peliculas-series/musica/#CATEGORY_ID=MCO1176&S=hc_musica-peliculas-y-series,1,2,0
+MCO1169,,MCO1168,Películas,https://listado.mercadolibre.com.co/musica-peliculas-series/peliculas/#CATEGORY_ID=MCO1169&S=hc_musica-peliculas-y-series,2,2,0
+MCO5633,,MCO1168,Series de TV,https://listado.mercadolibre.com.co/series-tv/#CATEGORY_ID=MCO5633&S=hc_musica-peliculas-y-series,3,2,0
+MCO1228,,MCO1168,Otros,https://listado.mercadolibre.com.co/musica-peliculas-series/otros/#CATEGORY_ID=MCO1228&S=hc_musica-peliculas-y-series,4,2,0
+MCO180801,,MCO180800,Cuidado de la Salud,https://listado.mercadolibre.com.co/salud-equipamiento-medico-cuidado/#CATEGORY_ID=MCO180801&S=hc_salud-y-equipamiento-medico,0,2,19
+MCO180802,,MCO180800,Equipamiento Médico,https://listado.mercadolibre.com.co/salud-equipamiento-medic/#CATEGORY_ID=MCO180802&S=hc_salud-y-equipamiento-medico,1,2,13
+MCO180808,,MCO180800,Masajes,https://listado.mercadolibre.com.co/salud-equipamiento-medico-masajes/#CATEGORY_ID=MCO180808&S=hc_salud-y-equipamiento-medico,2,2,4
+MCO180807,,MCO180800,Movilidad,https://listado.mercadolibre.com.co/movilidad/#CATEGORY_ID=MCO180807&S=hc_salud-y-equipamiento-medico,3,2,7
+MCO180809,,MCO180800,Ortopedia,https://listado.mercadolibre.com.co/salud-equipamiento-medico-ortopedia/#CATEGORY_ID=MCO180809&S=hc_salud-y-equipamiento-medico,4,2,16
+MCO8830,,MCO180800,Suplementos Alimenticios,https://listado.mercadolibre.com.co/salud-equipamiento-medico-suplementos-alimenticios/#CATEGORY_ID=MCO8830&S=hc_salud-y-equipamiento-medico,5,2,0
+MCO180810,,MCO180800,Terapias Alternativas,https://listado.mercadolibre.com.co/salud-equipamiento-medico-terapias-alternativas/#CATEGORY_ID=MCO180810&S=hc_salud-y-equipamiento-medico,6,2,4
+MCO180811,,MCO180800,Otros,https://listado.mercadolibre.com.co/salud-equipamiento-medico-otros/#CATEGORY_ID=MCO180811&S=hc_salud-y-equipamiento-medico,7,2,0
+MCO3004,,MCO1182,Baterías y Percusión,https://listado.mercadolibre.com.co/instrumentos-musicales/baterias-percusion/#CATEGORY_ID=MCO3004&S=hc_instrumentos-musicales,0,2,29
+MCO435173,,MCO1182,Equipos de DJ y Accesorios,https://listado.mercadolibre.com.co/equipos-dj-accesorios/#CATEGORY_ID=MCO435173&S=hc_instrumentos-musicales,1,2,12
+MCO434917,,MCO1182,Estudio de Grabación,https://listado.mercadolibre.com.co/estudio-grabacion/#CATEGORY_ID=MCO434917&S=hc_instrumentos-musicales,2,2,6
+MCO442089,,MCO1182,Instrumentos de Cuerdas,https://listado.mercadolibre.com.co/instrumentos-cuerdas/#CATEGORY_ID=MCO442089&S=hc_instrumentos-musicales,3,2,14
+MCO3005,,MCO1182,Instrumentos de Viento,https://listado.mercadolibre.com.co/instrumentos-musicales/instrumentos-viento/#CATEGORY_ID=MCO3005&S=hc_instrumentos-musicales,4,2,20
+MCO434818,,MCO1182,Metrónomos,https://listado.mercadolibre.com.co/metronomos/#CATEGORY_ID=MCO434818&S=hc_instrumentos-musicales,5,2,0
+MCO434816,,MCO1182,Micrófonos y Amplificadores,https://listado.mercadolibre.com.co/microfonos-amplificadores/#CATEGORY_ID=MCO434816&S=hc_instrumentos-musicales,6,2,5
+MCO434927,,MCO1182,Parlantes,https://listado.mercadolibre.com.co/parlantes/#CATEGORY_ID=MCO434927&S=hc_instrumentos-musicales,7,2,0
+MCO442131,,MCO1182,Partituras y Letras,https://listado.mercadolibre.com.co/partituras-letras/#CATEGORY_ID=MCO442131&S=hc_instrumentos-musicales,8,2,5
+MCO434786,,MCO1182,Pedales y Accesorios,https://listado.mercadolibre.com.co/pedales-accesorios/#CATEGORY_ID=MCO434786&S=hc_instrumentos-musicales,9,2,5
+MCO180018,,MCO1182,Teclados y Pianos,https://listado.mercadolibre.com.co/teclados-pianos/#CATEGORY_ID=MCO180018&S=hc_instrumentos-musicales,10,2,8
+MCO3014,,MCO1182,Otros,https://listado.mercadolibre.com.co/instrumentos-musicales/otros/#CATEGORY_ID=MCO3014&S=hc_instrumentos-musicales,11,2,0
+MCO169036,,MCO175794,Accesorios para Herramientas,https://listado.mercadolibre.com.co/accesorios-herramientas/#CATEGORY_ID=MCO169036&S=hc_herramientas,0,2,21
+MCO372059,,MCO175794,Cajas y Organizadores,https://listado.mercadolibre.com.co/cajas-organizadores/#CATEGORY_ID=MCO372059&S=hc_herramientas,1,2,12
+MCO5228,,MCO175794,Herramientas Eléctricas,https://listado.mercadolibre.com.co/herramientas-electricas/#CATEGORY_ID=MCO5228&S=hc_herramientas,2,2,19
+MCO166619,,MCO175794,Herramientas Industriales,https://listado.mercadolibre.com.co/herramientas-industriales/#CATEGORY_ID=MCO166619&S=hc_herramientas,3,2,21
+MCO5235,,MCO175794,Herramientas Manuales,https://listado.mercadolibre.com.co/herramientas-manuales/#CATEGORY_ID=MCO5235&S=hc_herramientas,4,2,20
+MCO437789,,MCO175794,Herramientas Neumáticas,https://listado.mercadolibre.com.co/herramientas-neumaticas/#CATEGORY_ID=MCO437789&S=hc_herramientas,5,2,7
+MCO165948,,MCO175794,Herramientas para Jardín,https://listado.mercadolibre.com.co/herramientas-jardin/#CATEGORY_ID=MCO165948&S=hc_herramientas,6,2,15
+MCO166624,,MCO175794,Instrumentos de Medición,https://listado.mercadolibre.com.co/instrumentos-medicion/#CATEGORY_ID=MCO166624&S=hc_herramientas,7,2,19
+MCO5236,,MCO175794,Otros,https://listado.mercadolibre.com.co/otros/#CATEGORY_ID=MCO5236&S=hc_herramientas,8,2,0
+MCO1631,,MCO1574,Adornos y Decoración del Hogar,https://listado.mercadolibre.com.co/adornos-decoracion-del-hogar/#CATEGORY_ID=MCO1631&S=hc_hogar-y-muebles,0,2,28
+MCO166256,,MCO1574,Baños,https://listado.mercadolibre.com.co/banos/#CATEGORY_ID=MCO166256&S=hc_hogar-y-muebles,1,2,14
+MCO441249,,MCO1574,"Camas, Colchones y Accesorios",https://listado.mercadolibre.com.co/camas-colchones-accesorios/#CATEGORY_ID=MCO441249&S=hc_hogar-y-muebles,2,2,9
+MCO1592,,MCO1574,Cocina,https://listado.mercadolibre.com.co/hogar-muebles/cocina/#CATEGORY_ID=MCO1592&S=hc_hogar-y-muebles,3,2,13
+MCO181171,,MCO1574,Cuidado del Hogar y Lavandería,https://listado.mercadolibre.com.co/cuidado-del-hogar-lavanderia/#CATEGORY_ID=MCO181171&S=hc_hogar-y-muebles,4,2,8
+MCO7155,,MCO1574,Iluminación para el Hogar,https://listado.mercadolibre.com.co/hogar-muebles/iluminacion-hogar/#CATEGORY_ID=MCO7155&S=hc_hogar-y-muebles,5,2,7
+MCO165940,,MCO1574,Jardin y Aire Libre,https://listado.mercadolibre.com.co/jardin-aire-libre/#CATEGORY_ID=MCO165940&S=hc_hogar-y-muebles,6,2,16
+MCO436380,,MCO1574,Muebles para el Hogar,https://listado.mercadolibre.com.co/muebles-hogar/#CATEGORY_ID=MCO436380&S=hc_hogar-y-muebles,7,2,21
+MCO436414,,MCO1574,Organización para el Hogar,https://listado.mercadolibre.com.co/organizacion-hogar/#CATEGORY_ID=MCO436414&S=hc_hogar-y-muebles,8,2,14
+MCO177804,,MCO1574,Seguridad para el Hogar,https://listado.mercadolibre.com.co/seguridad-hogar/#CATEGORY_ID=MCO177804&S=hc_hogar-y-muebles,9,2,13
+MCO436246,,MCO1574,Textiles de Hogar y Decoración,https://listado.mercadolibre.com.co/textiles-hogar-decoracion/#CATEGORY_ID=MCO436246&S=hc_hogar-y-muebles,10,2,13
+MCO1902,,MCO1574,Otros,https://listado.mercadolibre.com.co/hogar-muebles/otros/#CATEGORY_ID=MCO1902&S=hc_hogar-y-muebles,11,2,0
+MCO176674,,MCO1132,Armas y Lanzadores de Juguetes,https://listado.mercadolibre.com.co/armas-lanzadores-juguetes/#CATEGORY_ID=MCO176674&S=hc_juegos-y-juguetes,0,2,6
+MCO433060,,MCO1132,Casas y Carpas para Niños,https://listado.mercadolibre.com.co/casas-carpas-ninos/#CATEGORY_ID=MCO433060&S=hc_juegos-y-juguetes,1,2,3
+MCO176742,,MCO1132,"Dibujo, Pintura y Manualidades",https://listado.mercadolibre.com.co/dibujo-pintura-manualidades/#CATEGORY_ID=MCO176742&S=hc_juegos-y-juguetes,2,2,7
+MCO157245,,MCO1132,Electrónicos para Niños,https://listado.mercadolibre.com.co/electronicos-ninos/#CATEGORY_ID=MCO157245&S=hc_juegos-y-juguetes,3,2,7
+MCO437699,,MCO1132,"Figuritas, Álbumes y Cromos",https://listado.mercadolibre.com.co/figuritas-albumes-cromos/#CATEGORY_ID=MCO437699&S=hc_juegos-y-juguetes,4,2,3
+MCO432873,,MCO1132,Hobbies,https://listado.mercadolibre.com.co/hobbies/#CATEGORY_ID=MCO432873&S=hc_juegos-y-juguetes,5,2,4
+MCO435641,,MCO1132,Instrumentos Musicales,https://listado.mercadolibre.com.co/instrumentos-musicale/#CATEGORY_ID=MCO435641&S=hc_juegos-y-juguetes,6,2,6
+MCO433069,,MCO1132,Juegos de Agua y Playa,https://listado.mercadolibre.com.co/juegos-agua-playa/#CATEGORY_ID=MCO433069&S=hc_juegos-y-juguetes,7,2,9
+MCO455425,,MCO1132,Juegos de Construcción,https://listado.mercadolibre.com.co/juegos-construccion/#CATEGORY_ID=MCO455425&S=hc_juegos-y-juguetes,8,2,3
+MCO432988,,MCO1132,Juegos de Mesa y Cartas,https://listado.mercadolibre.com.co/juegos-mesa-cartas/#CATEGORY_ID=MCO432988&S=hc_juegos-y-juguetes,9,2,10
+MCO1167,,MCO1132,Juegos de Parque y Aire Libre,https://listado.mercadolibre.com.co/juegos-parque-aire-libre/#CATEGORY_ID=MCO1167&S=hc_juegos-y-juguetes,10,2,8
+MCO4696,,MCO1132,Juegos de Salón,https://listado.mercadolibre.com.co/juegos-salon/#CATEGORY_ID=MCO4696&S=hc_juegos-y-juguetes,11,2,14
+MCO432991,,MCO1132,Juguetes Antiestrés e Ingenio,https://listado.mercadolibre.com.co/juguetes-antiestres-e-ingenio/#CATEGORY_ID=MCO432991&S=hc_juegos-y-juguetes,12,2,7
+MCO416865,,MCO1132,Juguetes de Bromas,https://listado.mercadolibre.com.co/juguetes-bromas/#CATEGORY_ID=MCO416865&S=hc_juegos-y-juguetes,13,2,0
+MCO432818,,MCO1132,Juguetes de Oficios,https://listado.mercadolibre.com.co/juguetes-oficios/#CATEGORY_ID=MCO432818&S=hc_juegos-y-juguetes,14,2,10
+MCO435648,,MCO1132,Juguetes para Bebés,https://listado.mercadolibre.com.co/juguetes-bebes/#CATEGORY_ID=MCO435648&S=hc_juegos-y-juguetes,15,2,15
+MCO189320,,MCO1132,Mesas y Sillas para Niños,https://listado.mercadolibre.com.co/mesas-sillas-ninos/#CATEGORY_ID=MCO189320&S=hc_juegos-y-juguetes,16,2,0
+MCO176628,,MCO1132,Muñecos y Muñecas,https://listado.mercadolibre.com.co/munecos-munecas/#CATEGORY_ID=MCO176628&S=hc_juegos-y-juguetes,17,2,7
+MCO189879,,MCO1132,Patines y Patinetas,https://listado.mercadolibre.com.co/patines-patinetas/#CATEGORY_ID=MCO189879&S=hc_juegos-y-juguetes,18,2,3
+MCO176652,,MCO1132,Peluches,https://listado.mercadolibre.com.co/peluches/#CATEGORY_ID=MCO176652&S=hc_juegos-y-juguetes,19,2,0
+MCO435728,,MCO1132,Piscinas y Castillos,https://listado.mercadolibre.com.co/piscinas-castillos/#CATEGORY_ID=MCO435728&S=hc_juegos-y-juguetes,20,2,5
+MCO433047,,MCO1132,Títeres y Marionetas,https://listado.mercadolibre.com.co/titeres-marionetas/#CATEGORY_ID=MCO433047&S=hc_juegos-y-juguetes,21,2,4
+MCO432871,,MCO1132,Vehículos de Juguete,https://listado.mercadolibre.com.co/vehiculos-juguete/#CATEGORY_ID=MCO432871&S=hc_juegos-y-juguetes,22,2,8
+MCO176683,,MCO1132,Vehículos Montables para Niños,https://listado.mercadolibre.com.co/vehiculos-montables-ninos/#CATEGORY_ID=MCO176683&S=hc_juegos-y-juguetes,23,2,11
+MCO1910,,MCO1132,Otros,https://listado.mercadolibre.com.co/juegos-juguetes/otros/#CATEGORY_ID=MCO1910&S=hc_juegos-y-juguetes,24,2,0
+MCO441221,,MCO5726,Artefactos de Cuidado Personal,https://listado.mercadolibre.com.co/artefactos-cuidado-personal/#CATEGORY_ID=MCO441221&S=hc_electrodomesticos,0,2,5
+MCO115343,,MCO5726,Climatización,https://listado.mercadolibre.com.co/electrodomesticos/climatizacion/#CATEGORY_ID=MCO115343&S=hc_electrodomesticos,1,2,11
+MCO1618,,MCO5726,Cocción,https://listado.mercadolibre.com.co/electrodomesticos/coccion/#CATEGORY_ID=MCO1618&S=hc_electrodomesticos,2,2,8
+MCO117972,,MCO5726,Dispensadores y Purificadores,https://listado.mercadolibre.com.co/electrodomesticos/dispensadores-purificadores/#CATEGORY_ID=MCO117972&S=hc_electrodomesticos,3,2,6
+MCO18353,,MCO5726,Lavado,https://listado.mercadolibre.com.co/lavado/#CATEGORY_ID=MCO18353&S=hc_electrodomesticos,4,2,6
+MCO438284,,MCO5726,Pequeños Electrodomésticos,https://listado.mercadolibre.com.co/pequenos-electrodomesticos/#CATEGORY_ID=MCO438284&S=hc_electrodomesticos,5,2,3
+MCO30112,,MCO5726,Refrigeración,https://listado.mercadolibre.com.co/electrodomesticos/refrigeracion/#CATEGORY_ID=MCO30112&S=hc_electrodomesticos,6,2,8
+MCO1899,,MCO5726,Otros,https://listado.mercadolibre.com.co/electrodomesticos/otros/#CATEGORY_ID=MCO1899&S=hc_electrodomesticos,7,2,0
+MCO3690,,MCO1000,Accesorios Audio y Video,https://electronica.mercadolibre.com.co/accesorios-audio-video/#CATEGORY_ID=MCO3690&S=hc_electronica-audio-y-video,0,2,7
+MCO431414,,MCO1000,Accesorios para TV,https://electronica.mercadolibre.com.co/accesorios-tv/#CATEGORY_ID=MCO431414&S=hc_electronica-audio-y-video,1,2,8
+MCO3835,,MCO1000,Audio,https://electronica.mercadolibre.com.co/audio/#CATEGORY_ID=MCO3835&S=hc_electronica-audio-y-video,2,2,25
+MCO5054,,MCO1000,Cables,https://electronica.mercadolibre.com.co/cables/#CATEGORY_ID=MCO5054&S=hc_electronica-audio-y-video,3,2,6
+MCO11830,,MCO1000,Componentes Electrónicos,https://electronica.mercadolibre.com.co/componentes-electronicos/#CATEGORY_ID=MCO11830&S=hc_electronica-audio-y-video,4,2,34
+MCO4632,,MCO1000,Controles Remotos,https://electronica.mercadolibre.com.co/controles-remotos/#CATEGORY_ID=MCO4632&S=hc_electronica-audio-y-video,5,2,5
+MCO176837,,MCO1000,Convertidores a Smart TV,https://electronica.mercadolibre.com.co/convertidores-a-smart-tv/#CATEGORY_ID=MCO176837&S=hc_electronica-audio-y-video,6,2,0
+MCO173235,,MCO1000,Drones y Accesorios,https://electronica.mercadolibre.com.co/drones-accesorios/#CATEGORY_ID=MCO173235&S=hc_electronica-audio-y-video,7,2,4
+MCO442042,,MCO1000,Fundas y Bolsos,https://electronica.mercadolibre.com.co/fundas-bolsos/#CATEGORY_ID=MCO442042&S=hc_electronica-audio-y-video,8,2,4
+MCO4102,,MCO1000,Pilas y Cargadores,https://electronica.mercadolibre.com.co/pilas-cargadores-baterias/#CATEGORY_ID=MCO4102&S=hc_electronica-audio-y-video,9,2,5
+MCO419930,,MCO1000,Repuestos TV,https://electronica.mercadolibre.com.co/repuestos-tv/#CATEGORY_ID=MCO419930&S=hc_electronica-audio-y-video,10,2,8
+MCO14903,,MCO1000,Televisores,https://electronica.mercadolibre.com.co/televisores/#CATEGORY_ID=MCO14903&S=hc_electronica-audio-y-video,11,2,0
+MCO442056,,MCO1000,Video,https://electronica.mercadolibre.com.co/video/#CATEGORY_ID=MCO442056&S=hc_electronica-audio-y-video,12,2,8
+MCO4800,,MCO1000,Video Beams y Pantallas,https://electronica.mercadolibre.com.co/proyectores-pantallas/#CATEGORY_ID=MCO4800&S=hc_electronica-audio-y-video,13,2,7
+MCO1070,,MCO1000,Otros,https://electronica.mercadolibre.com.co/otros/#CATEGORY_ID=MCO1070&S=hc_electronica-audio-y-video,14,2,0
+MCO416831,,MCO1276,Bádminton,https://deportes.mercadolibre.com.co/badminton/#CATEGORY_ID=MCO416831&S=hc_deportes-y-fitness,0,2,5
+MCO177948,,MCO1276,Baloncesto,https://deportes.mercadolibre.com.co/baloncesto/#CATEGORY_ID=MCO177948&S=hc_deportes-y-fitness,1,2,5
+MCO441598,,MCO1276,Balonmano,https://deportes.mercadolibre.com.co/balonmano/#CATEGORY_ID=MCO441598&S=hc_deportes-y-fitness,2,2,3
+MCO1277,,MCO1276,Boxeo y Artes Marciales,https://deportes.mercadolibre.com.co/boxeo-artes-marciales/#CATEGORY_ID=MCO1277&S=hc_deportes-y-fitness,3,2,5
+MCO8969,,MCO1276,Buceo,https://deportes.mercadolibre.com.co/buceo/#CATEGORY_ID=MCO8969&S=hc_deportes-y-fitness,4,2,11
+MCO1362,,MCO1276,"Camping, Caza y Pesca",https://deportes.mercadolibre.com.co/camping-caza-pesca/#CATEGORY_ID=MCO1362&S=hc_deportes-y-fitness,5,2,6
+MCO438233,,MCO1276,"Canoas, Kayaks e Inflables",https://deportes.mercadolibre.com.co/canoas-kayaks-e-inflables/#CATEGORY_ID=MCO438233&S=hc_deportes-y-fitness,6,2,8
+MCO1292,,MCO1276,Ciclismo,https://deportes.mercadolibre.com.co/ciclismo/#CATEGORY_ID=MCO1292&S=hc_deportes-y-fitness,7,2,7
+MCO441545,,MCO1276,Equitación y Polo,https://deportes.mercadolibre.com.co/equitacion-polo/#CATEGORY_ID=MCO441545&S=hc_deportes-y-fitness,8,2,4
+MCO417504,,MCO1276,Esgrima,https://deportes.mercadolibre.com.co/esgrima/#CATEGORY_ID=MCO417504&S=hc_deportes-y-fitness,9,2,5
+MCO441546,,MCO1276,Esqui y Snowboard,https://deportes.mercadolibre.com.co/esqui-snowboard/#CATEGORY_ID=MCO441546&S=hc_deportes-y-fitness,10,2,5
+MCO1338,,MCO1276,Fitness y Musculación,https://deportes.mercadolibre.com.co/fitness-musculacion/#CATEGORY_ID=MCO1338&S=hc_deportes-y-fitness,11,2,6
+MCO1285,,MCO1276,Fútbol,https://deportes.mercadolibre.com.co/futbol/#CATEGORY_ID=MCO1285&S=hc_deportes-y-fitness,12,2,5
+MCO441580,,MCO1276,Fútbol Americano,https://deportes.mercadolibre.com.co/futbol-americano/#CATEGORY_ID=MCO441580&S=hc_deportes-y-fitness,13,2,4
+MCO1342,,MCO1276,Golf,https://deportes.mercadolibre.com.co/golf/#CATEGORY_ID=MCO1342&S=hc_deportes-y-fitness,14,2,8
+MCO441605,,MCO1276,Hockey,https://deportes.mercadolibre.com.co/hockey/#CATEGORY_ID=MCO441605&S=hc_deportes-y-fitness,15,2,3
+MCO441421,,MCO1276,Juegos de Salón,https://deportes.mercadolibre.com.co/juegos-salon/#CATEGORY_ID=MCO441421&S=hc_deportes-y-fitness,16,2,7
+MCO441627,,MCO1276,Kitesurf,https://deportes.mercadolibre.com.co/kitesurf/#CATEGORY_ID=MCO441627&S=hc_deportes-y-fitness,17,2,5
+MCO17772,,MCO1276,Monopatines y Scooters,https://deportes.mercadolibre.com.co/monopatines-scooters/#CATEGORY_ID=MCO17772&S=hc_deportes-y-fitness,18,2,6
+MCO115184,,MCO1276,Montañismo y Trekking,https://deportes.mercadolibre.com.co/montanismo-trekking/#CATEGORY_ID=MCO115184&S=hc_deportes-y-fitness,19,2,8
+MCO430999,,MCO1276,Natación,https://deportes.mercadolibre.com.co/natacion/#CATEGORY_ID=MCO430999&S=hc_deportes-y-fitness,20,2,6
+MCO4218,,MCO1276,Paintball,https://deportes.mercadolibre.com.co/paintball/#CATEGORY_ID=MCO4218&S=hc_deportes-y-fitness,21,2,10
+MCO432691,,MCO1276,Parapente,https://deportes.mercadolibre.com.co/parapente/#CATEGORY_ID=MCO432691&S=hc_deportes-y-fitness,22,2,4
+MCO441437,,MCO1276,"Patín, Gimnasia y Danza",https://deportes.mercadolibre.com.co/patin-gimnasia-danza/#CATEGORY_ID=MCO441437&S=hc_deportes-y-fitness,23,2,5
+MCO441392,,MCO1276,Pulsómetros y Cronómetros,https://deportes.mercadolibre.com.co/pulsometros-cronometros/#CATEGORY_ID=MCO441392&S=hc_deportes-y-fitness,24,2,5
+MCO6415,,MCO1276,Ropa Deportiva,https://deportes.mercadolibre.com.co/ropa-deportiva/#CATEGORY_ID=MCO6415&S=hc_deportes-y-fitness,25,2,16
+MCO441656,,MCO1276,Rugby,https://deportes.mercadolibre.com.co/rugby/#CATEGORY_ID=MCO441656&S=hc_deportes-y-fitness,26,2,5
+MCO1295,,MCO1276,Skateboard y Sandboard,https://deportes.mercadolibre.com.co/skateboard-sandboard/#CATEGORY_ID=MCO1295&S=hc_deportes-y-fitness,27,2,8
+MCO417742,,MCO1276,Slackline,https://deportes.mercadolibre.com.co/slackline/#CATEGORY_ID=MCO417742&S=hc_deportes-y-fitness,28,2,0
+MCO441668,,MCO1276,Softball y Beisbol,https://deportes.mercadolibre.com.co/softball-beisbol/#CATEGORY_ID=MCO441668&S=hc_deportes-y-fitness,29,2,9
+MCO438178,,MCO1276,Suplementos y Shakers,https://deportes.mercadolibre.com.co/suplementos-shakers/#CATEGORY_ID=MCO438178&S=hc_deportes-y-fitness,30,2,5
+MCO441669,,MCO1276,Surf y Bodyboard,https://deportes.mercadolibre.com.co/surf-bodyboard/#CATEGORY_ID=MCO441669&S=hc_deportes-y-fitness,31,2,12
+MCO441597,,MCO1276,Tenis,https://deportes.mercadolibre.com.co/tenis/#CATEGORY_ID=MCO441597&S=hc_deportes-y-fitness,32,2,0
+MCO8540,,MCO1276,"Tenis, Padel y Squash",https://deportes.mercadolibre.com.co/tenis-padel-squash/#CATEGORY_ID=MCO8540&S=hc_deportes-y-fitness,33,2,7
+MCO440904,,MCO1276,Tiro Deportivo,https://deportes.mercadolibre.com.co/tiro-deportivo/#CATEGORY_ID=MCO440904&S=hc_deportes-y-fitness,34,2,5
+MCO441685,,MCO1276,Voleibol,https://deportes.mercadolibre.com.co/voleibol/#CATEGORY_ID=MCO441685&S=hc_deportes-y-fitness,35,2,5
+MCO441686,,MCO1276,Wakeboard y Esqui Acuático,https://deportes.mercadolibre.com.co/wakeboard-esqui-acuatico/#CATEGORY_ID=MCO441686&S=hc_deportes-y-fitness,36,2,5
+MCO441534,,MCO1276,Windsurf,https://deportes.mercadolibre.com.co/windsurf/#CATEGORY_ID=MCO441534&S=hc_deportes-y-fitness,37,2,5
+MCO70070,,MCO1276,Yoga y Pilates,https://listado.mercadolibre.com.co/yoga-pilates/#CATEGORY_ID=MCO70070&S=hc_deportes-y-fitness,38,2,6
+MCO1358,,MCO1276,Otros,https://deportes.mercadolibre.com.co/otros/#CATEGORY_ID=MCO1358&S=hc_deportes-y-fitness,39,2,0
+MCO441919,,MCO1499,Arquitectura y Diseño,https://listado.mercadolibre.com.co/arquitectura-diseno/#CATEGORY_ID=MCO441919&S=hc_industrias-y-oficinas,0,2,4
+MCO432770,,MCO1499,Embalaje y Logística,https://listado.mercadolibre.com.co/embalaje-logistica/#CATEGORY_ID=MCO432770&S=hc_industrias-y-oficinas,1,2,8
+MCO454798,,MCO1499,Equipamiento Médico,https://listado.mercadolibre.com.co/equipamiento-medico/#CATEGORY_ID=MCO454798&S=hc_industrias-y-oficinas,2,2,13
+MCO439804,,MCO1499,Equipamiento para Comercios,https://listado.mercadolibre.com.co/equipamiento-comercios/#CATEGORY_ID=MCO439804&S=hc_industrias-y-oficinas,3,2,13
+MCO2102,,MCO1499,Equipamiento para Oficinas,https://listado.mercadolibre.com.co/industrias-y-oficinas/equipamiento/#CATEGORY_ID=MCO2102&S=hc_industrias-y-oficinas,4,2,11
+MCO5182,,MCO1499,Gastronomía y Hotelería,https://listado.mercadolibre.com.co/gastronomia-hoteleria/#CATEGORY_ID=MCO5182&S=hc_industrias-y-oficinas,5,2,19
+MCO412676,,MCO1499,Gráfica e Impresión,https://listado.mercadolibre.com.co/grafica-e-impresion/#CATEGORY_ID=MCO412676&S=hc_industrias-y-oficinas,6,2,9
+MCO454785,,MCO1499,Herramientas Industriales,https://listado.mercadolibre.com.co/herramientas-industriale/#CATEGORY_ID=MCO454785&S=hc_industrias-y-oficinas,7,2,21
+MCO441909,,MCO1499,Publicidad y Promoción,https://listado.mercadolibre.com.co/publicidad-promocion/#CATEGORY_ID=MCO441909&S=hc_industrias-y-oficinas,8,2,11
+MCO8952,,MCO1499,Seguridad Laboral,https://listado.mercadolibre.com.co/seguridad-laboral/#CATEGORY_ID=MCO8952&S=hc_industrias-y-oficinas,9,2,9
+MCO5160,,MCO1499,Textil y Calzado,https://listado.mercadolibre.com.co/textil-calzado/#CATEGORY_ID=MCO5160&S=hc_industrias-y-oficinas,10,2,4
+MCO441927,,MCO1499,Uniformes,https://listado.mercadolibre.com.co/uniformes/#CATEGORY_ID=MCO441927&S=hc_industrias-y-oficinas,11,2,7
+MCO8544,,MCO1499,Otros,https://listado.mercadolibre.com.co/industrias-y-oficinas/otros/#CATEGORY_ID=MCO8544&S=hc_industrias-y-oficinas,12,2,0

@@ -1,5 +1,18 @@
 import scrapy
 import copy
+import yaml
+
+__config = None
+
+
+def config():
+    global __config
+    if not __config:
+        with open('config.yaml', mode='r') as f:
+            __config = yaml.load(f, Loader=yaml.FullLoader)
+
+    return __config
+
 
 class CategoryGlossarySpider(scrapy.Spider):
     name = 'category_glossary'
@@ -16,34 +29,6 @@ class CategoryGlossarySpider(scrapy.Spider):
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse(self, response):
-        # TODO recorrer categorias de primer nivel
-        # self._create_web_page_file("mercadolibre.html", response.body)
-        for categories__container in response.css('div.categories__container'):
-            parent = None,
-            href = categories__container.css('h2 > a').attrib['href']
-            category_id = self._extract_category_ids_from_href(href).get('c_category_id')
-            uid = self._extract_category_ids_from_href(href).get('c_uid')
-            name = categories__container.css('h2 > a::text').get()
-            hierarchy = 1
-            subcategories = len(categories__container.css('ul.categories__list li'))
-            yield self._render_category_of_catalog(
-                category_id=category_id,
-                uid=uid,
-                name=name,
-                parent=parent,
-                href=href,
-                hierarchy=hierarchy,
-                subcategories=subcategories
-            )
-            # ?link de subcategorias
-            yield self._next_category_page(
-                href,
-                {'parent_id': category_id},
-                self._parse_next_page
-            )
-        pass
-
     def _next_category_page(self, href, meta, callback):
         return scrapy.Request(
             href,
@@ -51,45 +36,83 @@ class CategoryGlossarySpider(scrapy.Spider):
             callback=callback
         )
 
-    def _parse_next_page(self, response):
-        # self.logger.info("Visited %s", response.url)
-        for categories__container in response.css('div.desktop__view-child'):
-            parent = response.meta.get('parent_id'),
-            href = categories__container.css('a').attrib['href']
-            category_id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
-            uid = None
-            name = categories__container.css('div.category-list__permanlink > h3::text').get()
-            hierarchy = 2
-            subcategories = len(categories__container.css("ul.desktop__view-ul > li"))
-            yield self._render_category_of_catalog(
-                category_id=category_id,
-                uid=uid,
-                name=name,
-                parent=parent,
-                href=href,
-                hierarchy=hierarchy,
-                subcategories=subcategories
+    def parse(self, response):
+        ## self._create_web_page_file("mercadolibre.html", response.body)
+        # TODO recorrer categorias de primer nivel
+        for index, categories_container in enumerate(response.css(config()['queries']['categories_container'])):
+            href = categories_container.css(config()['queries']['category_href']).attrib['href']
+            id = self._extract_category_ids_from_href(href).get('c_category_id')
+            yield self._extract_category_data(categories_container, id, href, index)
+            # ?link de subcategorias
+            yield self._next_category_page(
+                href,
+                {'parent_id': id},
+                self.parse_category_page
             )
-            for category_container in categories__container.css("ul.desktop__view-ul > li"):
-                parent = copy.copy(category_id)
-                href = category_container.css('a').attrib['href']
-                # category_id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
-                uid = None
-                name = category_container.css('h4::text').get()
-                hierarchy = 3
-                subcategories = 0
-                yield self._render_category_of_catalog(
-                    category_id=self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id'),
-                    uid=uid,
-                    name=name,
-                    parent=parent,
-                    href=href,
-                    hierarchy=hierarchy,
-                    subcategories=subcategories
-                )
+        pass
 
-    def extract_category_data(self, href):
-        return self._extract_category_ids_from_href("".join((href).split("#")[1:2]))
+    def parse_category_page(self, response):
+        # self.logger.info("Visited %s", response.url)
+        for index, categories_container in enumerate(response.css(config()['queries']['categories_container_category_page'])):
+            href = categories_container.css('a').attrib['href']
+            id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
+            yield self._render_category_of_catalog(
+                id=id,
+                uid=None,
+                index=index,
+                name=categories_container.css(config()['queries']['category_name_category_page']).get(),
+                parent=response.meta.get('parent_id'),
+                href=href,
+                hierarchy=2,
+                subcategories=len(categories_container.css(config()['queries']['category_subcategories_category_page']))
+            )
+            # for category_container in categories__container.css("ul.desktop__view-ul > li"):
+            #     parent = copy.copy(id)
+            #     href = category_container.css('a').attrib['href']
+            #     # category_id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
+            #     uid = None
+            #     name = category_container.css('h4::text').get()
+            #     hierarchy = 3
+            #     subcategories = 0
+            #     yield self._render_category_of_catalog(
+            #         category_id=self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id'),
+            #         uid=uid,
+            #         name=name,
+            #         parent=parent,
+            #         href=href,
+            #         hierarchy=hierarchy,
+            #         subcategories=subcategories
+            #     )
+
+    def _extract_category_data(self, category_container, id, href, index):
+        return self._render_category_of_catalog(
+            id=id,
+            uid=self._extract_category_ids_from_href(href).get('c_uid'),
+            index=index,
+            name=category_container.css(config()['queries']['category_name']).get(),
+            parent=None,
+            href=href,
+            hierarchy=1,
+            subcategories=len(category_container.css(config()['queries']['category_subcategories']))
+        )
+
+    def _render_category_of_catalog(self, id=None, uid=None, name=None, parent=None, href=None, hierarchy=None,
+                                    subcategories=0, index=0):
+        # print(f"id={category_id}")
+        # ? some validation
+        # ? ...
+        # * prints
+        self._print_category_name(name, hierarchy)
+        return {
+            'id': id,
+            'uid': uid,
+            'parent': parent,
+            'name': name,
+            'href': href,
+            'index': index,
+            'hierarchy': hierarchy,
+            'subcategories': subcategories
+        }
 
     def _extract_category_ids_from_href(self, href, split_separator='&', start=None, stop=None):
         """Return dict with category ids
@@ -107,26 +130,8 @@ class CategoryGlossarySpider(scrapy.Spider):
         return {_.split("=")[0].replace("CATEGORY_ID", "c_category_id"): _.split("=")[1] for _ in
                 href.split(split_separator)[start:stop]}
 
-    def _render_category_of_catalog(self, category_id=None, uid=None, name=None, parent=None, href=None, hierarchy=None,
-                                    subcategories=0):
-        # print(f"id={category_id}")
-        # ? some validation
-        # ? ...
-        # * prints
-        self._print_category_name(name, hierarchy)
-        return {
-            'id': category_id,
-            'uid': uid,
-            'name': name,
-            'parent': parent,
-            'href': href,
-            'hierarchy': hierarchy,
-            'subcategories': subcategories
-        }
-
     def _print_category_name(self, name, hierarchy=None):
         print("-" * hierarchy, f" {name}")
-        # print("-"*hierarchy, f" {name}")
 
     def _create_web_page_file(self, filename, body):
         with open(filename, 'wb') as f:

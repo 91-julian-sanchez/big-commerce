@@ -1,0 +1,18 @@
+id: mercadolibre
+country:
+  co:
+    name: Colombia
+    origin: https://www.mercadolibre.com.co
+    url_categories: https://www.mercadolibre.com.co/categorias
+  mx:
+    name: Mexico
+    origin: https://www.mercadolibre.com.mx
+    url_categories: https://www.mercadolibre.com.mx/categorias
+queries:
+  categories_container: 'div.categories__container'
+  category_href: 'h2.categories__title > a'
+  category_name: 'h2.categories__title > a::text'
+  category_subcategories: 'ul.categories__list li'
+  categories_container_category_page: 'div.desktop__view-child'
+  category_name_category_page: 'div.category-list__permanlink > h3::text'
+  category_subcategories_category_page: 'ul.desktop__view-ul > li'
