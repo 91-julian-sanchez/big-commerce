@@ -2,8 +2,8 @@ import scrapy
 import copy
 import os
 import ntpath
-import yaml
 import logging
+from ..common import config
 
 logging.basicConfig(
     filename=f'.log/{ntpath.basename(os.path.basename(__file__)).replace(".py", "")}.log',
@@ -11,16 +11,16 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-__config = None
+# __config = None
 
 
-def config():
-    global __config
-    if not __config:
-        with open('config.yaml', mode='r') as f:
-            __config = yaml.load(f, Loader=yaml.FullLoader)
+# def config():
+#     global __config
+#     if not __config:
+#         with open('config.yaml', mode='r') as f:
+#             __config = yaml.load(f, Loader=yaml.FullLoader)
 
-    return __config
+#     return __config
 
 
 class CategoryGlossarySpider(scrapy.Spider):
