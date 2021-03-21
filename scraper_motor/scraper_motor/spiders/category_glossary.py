@@ -47,6 +47,7 @@ class CategoryGlossarySpider(scrapy.Spider):
 
     def parse(self, response):
         ## self._create_web_page_file("mercadolibre.html", response.body)
+        self.logger.info("Visited %s", response.url)
         # TODO recorrer categorias de primer nivel
         level = 1
         for index, categories_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
@@ -62,7 +63,7 @@ class CategoryGlossarySpider(scrapy.Spider):
         pass
 
     def parse_category_page(self, response):
-        # self.logger.info("Visited %s", response.url)
+        self.logger.info("Visited %s", response.url)
         level= response.meta.get('level')
         # TODO recorrer categorias de segundo nivel
         for index, categories_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
