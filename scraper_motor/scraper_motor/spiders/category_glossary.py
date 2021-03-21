@@ -28,7 +28,7 @@ class CategoryGlossarySpider(scrapy.Spider):
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
     # allowed_domains = ['https://www.mercadolibre.com.co']
     # start_urls = ['https://www.mercadolibre.com.co/categorias']
-    custom_settings = {'FEED_URI': "category_glossary_%(time)s.csv",
+    custom_settings = {'FEED_URI': "./.output/category_glossary_%(time)s.csv",
                        'FEED_FORMAT': 'csv'}
 
     def start_requests(self):
