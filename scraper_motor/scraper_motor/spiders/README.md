@@ -6,3 +6,10 @@ $ scrapy genspider {NAME_SPIDER} {URL_TO_CRAWLING}
 ```bash
 $ scrapy crawl {NAME_SPIDER}
 ```
+
+
+**Options**
+Optional argument | Description
+--- | --- 
+`--nolog` | Sets LOG_ENABLED to False
+
