@@ -10,7 +10,7 @@ def scrapy_crawl_category_glossary():
 
 def run_main():
     list_files = subprocess.run(["python", "main.py", "mercadolibre",
-                                 "--categories_path","./scraper_motor/category_glossary.csv",
+                                 "--categories_path","./scraper_motor/scraper_motor/spiders/category_glossary.csv",
                                  "--recursive","True"
                                  ])
     print("The exit code was: %d" % list_files.returncode)

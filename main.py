@@ -260,6 +260,16 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
                         'link': row2['href'],
                         'parent': row2['parent']
                     })
+                    print("sdas", row2['name'], row2['id'])
+                    for index2, row3 in df[df['parent'] == row2['id']].iterrows():
+                        name_category += f"\n         - {row3['name']}"
+                        print("sdas")
+                        subcategories.append({
+                            'id': row3['id'],
+                            'name': row3['name'],
+                            'link': row3['href'],
+                            'parent': row3['parent']
+                        })
                 categories.append({
                     'id': row['id'],
                     'name': name_category,
@@ -280,7 +290,11 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
         
     # TODO Iniciar scrapper
     for link in categories_to_scraper:
-        scrapper_marketplace(marketplace_uid, country_uid, link=link, recursive=recursive, overwrite=False)
+        try:
+            scrapper_marketplace(marketplace_uid, country_uid, link=link, recursive=recursive, overwrite=False)
+        except:
+            print("An exception occurred")
+        
 
 
 def main(marketplace: str, country: str, recursive: bool, categories_path: str):

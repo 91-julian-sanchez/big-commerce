@@ -59,18 +59,30 @@ class CategoryGlossarySpider(scrapy.Spider):
         for index, categories_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
             href = categories_container.css(config()['queries'][f'category_href_level_{level}']).attrib['href']
             id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
-            hierarchy = 2
-            yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=level, parent=response.meta.get('parent_id'),hierarchy=hierarchy)
+            yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=level, parent=response.meta.get('parent_id'), hierarchy=2)
             # TODO recorrer categorias de tercer nivel
             next_level= 3
             next_parent_id = copy.copy(id)
             for count, category_container in enumerate(categories_container.css(config()['queries'][f'categories_container_level_{next_level}'])):
-                parent = next_parent_id
                 href = category_container.css(config()['queries'][f'category_href_level_{next_level}']).attrib['href']
                 id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
-                hierarchy = 3
-                yield self._extract_category_data(id, category_container=category_container, href=href, index=count, level=next_level, parent=parent,hierarchy=hierarchy)
-
+                yield self._extract_category_data(id, category_container=category_container, href=href, index=count, level=next_level, parent=next_parent_id, hierarchy=3)
+                yield self._next_category_page(
+                    href,
+                    {'parent_id': id, "level": 4},
+                    self.parse_products_category_page
+                )
+                
+    def parse_products_category_page(self, response):
+        self.logger.info("Visited %s", response.url)
+        level = 4
+        print("-->",len(response.css(config()['queries'][f'categories_container_level_{level}'])))
+        
+        for index, category_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
+            href = category_container.css(config()['queries'][f'category_href_level_{level}']).attrib['href']
+            id = "LAST_ID"
+            yield self._extract_category_data(id, category_container=category_container, href=href, index=index, level=level, hierarchy=4, parent=response.meta.get('parent_id'))
+        
     def _extract_category_data(self, id, category_container=None,  href:str =None, index:int =0, level:int=None, parent=None, hierarchy:int =1):
         
         if config()['queries'][f'category_subcategories_level_{level}']:
@@ -80,7 +92,7 @@ class CategoryGlossarySpider(scrapy.Spider):
             
         return self._render_category_of_catalog(
             id=id,
-            uid=self._extract_category_ids_from_href(href).get('c_uid'),
+            # uid=self._extract_category_ids_from_href(href).get('c_uid'),
             index=index,
             name=category_container.css(config()['queries'][f'category_name_level_{level}']).get(),
             parent=parent,
