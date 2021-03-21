@@ -5,7 +5,10 @@ scraper_motor/scraper_motor/_pycache_
 # Develop
 .idea/
 venv/
-output/
-output/*
+# logs
+.log/*
 scraper_motor/scraper_motor/spiders/.log/*
+# outputs
+output/*
+.output/*
 scraper_motor/scraper_motor/spiders/.output/*
