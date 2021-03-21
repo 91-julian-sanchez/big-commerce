@@ -1,6 +1,15 @@
 import scrapy
 import copy
+import os
+import ntpath
 import yaml
+import logging
+
+logging.basicConfig(
+    filename=f'.log/{ntpath.basename(os.path.basename(__file__)).replace(".py", "")}.log',
+    format='%(levelname)s: %(message)s',
+    level=logging.INFO
+)
 
 __config = None
 
@@ -19,7 +28,7 @@ class CategoryGlossarySpider(scrapy.Spider):
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
     # allowed_domains = ['https://www.mercadolibre.com.co']
     # start_urls = ['https://www.mercadolibre.com.co/categorias']
-    custom_settings = {'FEED_URI': "category_glossary.csv",
+    custom_settings = {'FEED_URI': "category_glossary_%(time)s.csv",
                        'FEED_FORMAT': 'csv'}
 
     def start_requests(self):
@@ -45,11 +54,11 @@ class CategoryGlossarySpider(scrapy.Spider):
             id = self._extract_category_ids_from_href(href).get('c_category_id')
             yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=1)
             # ?link de subcategorias
-            yield self._next_category_page(
-                href,
-                {'parent_id': id, "level": 2},
-                self.parse_category_page
-            )
+            # yield self._next_category_page(
+            #     href,
+            #     {'parent_id': id, "level": 2},
+            #     self.parse_category_page
+            # )
         pass
 
     def parse_category_page(self, response):
