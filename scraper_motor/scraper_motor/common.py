@@ -1,4 +1,14 @@
 import yaml
+import os
+import ntpath
+import logging
+
+# logging.basicConfig(
+#     filename=f'../../../.log/{ntpath.basename(os.path.basename(__file__)).replace(".py", "")}.log',
+#     format='%(levelname)s: %(message)s',
+#     level=logging.INFO
+# )
+
 __config = None
 
 def config():
