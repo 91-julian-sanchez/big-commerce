@@ -4,6 +4,7 @@ import os
 import ntpath
 import logging
 from ..common import config
+from ..items import CategoryItem
 
 logging.basicConfig(
     filename=f'.log/{ntpath.basename(os.path.basename(__file__)).replace(".py", "")}.log',
@@ -43,11 +44,11 @@ class CategoryGlossarySpider(scrapy.Spider):
             id = self._extract_category_ids_from_href(href).get('c_category_id')
             yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=1)
             # ?link de subcategorias
-            yield self._next_category_page(
-                href,
-                {'parent_id': id, "level": 2},
-                self.parse_category_page
-            )
+            # yield self._next_category_page(
+            #     href,
+            #     {'parent_id': id, "level": 2},
+            #     self.parse_category_page
+            # )
         pass
 
     def parse_category_page(self, response):
@@ -101,21 +102,19 @@ class CategoryGlossarySpider(scrapy.Spider):
 
     def _render_category_of_catalog(self, id=None, uid=None, name=None, parent=None, href=None, hierarchy=None,
                                     subcategories=0, index=0):
-        # print(f"id={category_id}")
-        # ? some validation
-        # ? ...
         # * prints
         self._print_category_name(name, hierarchy)
-        return {
-            'id': id,
-            'uid': uid,
-            'parent': parent,
-            'name': name,
-            'href': href,
-            'index': index,
-            'hierarchy': hierarchy,
-            'subcategories': subcategories
-        }
+        # * return itrm
+        categoryItem = CategoryItem()
+        categoryItem['id'] = id
+        categoryItem['uid'] = uid
+        categoryItem['parent'] = parent
+        categoryItem['name'] = name
+        categoryItem['href'] = href
+        categoryItem['index'] = index
+        categoryItem['hierarchy'] = hierarchy
+        categoryItem['subcategories'] = subcategories
+        return categoryItem
 
     def _extract_category_ids_from_href(self, href, split_separator='&', start=None, stop=None):
         """Return dict with category ids
