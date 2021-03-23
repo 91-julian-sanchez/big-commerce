@@ -21,11 +21,17 @@ class CategoryGlossarySpider(scrapy.Spider):
                        'FEED_FORMAT': 'csv'}
 
     def start_requests(self):
-        urls = [
-            'https://www.mercadolibre.com.co/categorias',
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+
+        if hasattr(self, 'category_id') and hasattr(self, 'category_href'):
+            urls =[self.category_href]
+            for url in urls:
+                yield scrapy.Request(url=url, meta={'parent_id': self.category_id, "level": 2}, callback=self.parse_category_page)
+        else:
+            urls = [
+                'https://www.mercadolibre.com.co/categorias',
+            ]
+            for url in urls:
+                yield scrapy.Request(url=url, callback=self.parse_categories_page)
 
     def _next_category_page(self, href, meta, callback):
         return scrapy.Request(
@@ -34,16 +40,17 @@ class CategoryGlossarySpider(scrapy.Spider):
             callback=callback
         )
 
-    def parse(self, response):
+    def parse_categories_page(self, response):
         ## self._create_web_page_file("mercadolibre.html", response.body)
-        self.logger.info("Visited %s", response.url)
+        self.logger.info("parse_categories_page>> Visited %s", response.url)
         # TODO recorrer categorias de primer nivel
         level = 1
         for index, categories_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
             href = categories_container.css(config()['queries'][f'category_href_level_{level}']).attrib['href']
             id = self._extract_category_ids_from_href(href).get('c_category_id')
             yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=1)
-            # ?link de subcategorias
+            # !add flag to recursive
+            # # ?link de subcategorias 
             # yield self._next_category_page(
             #     href,
             #     {'parent_id': id, "level": 2},
@@ -52,25 +59,27 @@ class CategoryGlossarySpider(scrapy.Spider):
         pass
 
     def parse_category_page(self, response):
-        self.logger.info("Visited %s", response.url)
+        self.logger.info("parse_category_page>> Visited %s", response.url)
         level= response.meta.get('level')
         # TODO recorrer categorias de segundo nivel
         for index, categories_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
             href = categories_container.css(config()['queries'][f'category_href_level_{level}']).attrib['href']
             id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
             yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=level, parent=response.meta.get('parent_id'), hierarchy=2)
-            # TODO recorrer categorias de tercer nivel
+            # # TODO recorrer categorias de tercer nivel
             next_level= 3
             next_parent_id = copy.copy(id)
             for count, category_container in enumerate(categories_container.css(config()['queries'][f'categories_container_level_{next_level}'])):
                 href = category_container.css(config()['queries'][f'category_href_level_{next_level}']).attrib['href']
                 id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
                 yield self._extract_category_data(id, category_container=category_container, href=href, index=count, level=next_level, parent=next_parent_id, hierarchy=3)
-                yield self._next_category_page(
-                    href,
-                    {'parent_id': id, "level": 4},
-                    self.parse_products_category_page
-                )
+                # !add flag to recursive
+                # ?link de subcategorias 
+                # yield self._next_category_page(
+                #     href,
+                #     {'parent_id': id, "level": 4},
+                #     self.parse_products_category_page
+                # )
                 
     def parse_products_category_page(self, response):
         self.logger.info("Visited %s", response.url)
