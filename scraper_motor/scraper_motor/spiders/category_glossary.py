@@ -19,8 +19,14 @@ class CategoryGlossarySpider(scrapy.Spider):
     # start_urls = ['https://www.mercadolibre.com.co/categorias']
     custom_settings = {'FEED_URI': "./.output/category_glossary_%(time)s.csv",
                        'FEED_FORMAT': 'csv'}
-
+    
     def start_requests(self):
+        
+        if hasattr(self, 'config_path'):
+            self.config = config(config_path=self.config_path)
+        else:
+            self.config = config() 
+        
         if hasattr(self, 'category_href'):
             urls = [self.category_href]
             category_id = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
@@ -50,8 +56,8 @@ class CategoryGlossarySpider(scrapy.Spider):
         self.logger.info("parse_categories_page>> Visited %s", response.url)
         # TODO recorrer categorias de primer nivel
         level = 1
-        for index, categories_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
-            href = categories_container.css(config()['queries'][f'category_href_level_{level}']).attrib['href']
+        for index, categories_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
+            href = categories_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
             id = self._extract_category_ids_from_href(href).get('c_category_id')
             yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=1)
             # !add flag to recursive
@@ -67,17 +73,17 @@ class CategoryGlossarySpider(scrapy.Spider):
         self.logger.info("parse_category_page>> Visited %s", response.url)
         level= response.meta.get('level')
         # TODO recorrer categorias de segundo nivel
-        for index, categories_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
-            href = categories_container.css(config()['queries'][f'category_href_level_{level}']).attrib['href']
+        for index, categories_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
+            href = categories_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
             id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
             yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=level, parent=response.meta.get('parent_id'), hierarchy=2)
             # # TODO recorrer categorias de tercer nivel
             next_level= 3
             next_parent_id = copy.copy(id)
-            for count, category_container in enumerate(categories_container.css(config()['queries'][f'categories_container_level_{next_level}'])):
-                href = category_container.css(config()['queries'][f'category_href_level_{next_level}']).attrib['href']
-                id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
-                yield self._extract_category_data(id, category_container=category_container, href=href, index=count, level=next_level, parent=next_parent_id, hierarchy=3)
+            # for count, category_container in enumerate(categories_container.css(self.config['queries'][f'categories_container_level_{next_level}'])):
+            #     href = category_container.css(self.config['queries'][f'category_href_level_{next_level}']).attrib['href']
+            #     id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
+            #     yield self._extract_category_data(id, category_container=category_container, href=href, index=count, level=next_level, parent=next_parent_id, hierarchy=3)
                 # !add flag to recursive
                 # ?link de subcategorias 
                 # yield self._next_category_page(
@@ -89,17 +95,17 @@ class CategoryGlossarySpider(scrapy.Spider):
     def parse_products_category_page(self, response):
         self.logger.info("parse_products_category_page>> Visited %s", response.url)
         level = 4
-        print("-->",len(response.css(config()['queries'][f'categories_container_level_{level}'])))
+        print("-->",len(response.css(self.config['queries'][f'categories_container_level_{level}'])))
         
-        for index, category_container in enumerate(response.css(config()['queries'][f'categories_container_level_{level}'])):
-            href = category_container.css(config()['queries'][f'category_href_level_{level}']).attrib['href']
+        for index, category_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
+            href = category_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
             id = "LAST_ID"
             yield self._extract_category_data(id, category_container=category_container, href=href, index=index, level=level, hierarchy=4, parent=response.meta.get('parent_id'))
         
     def _extract_category_data(self, id, category_container=None,  href:str =None, index:int =0, level:int=None, parent=None, hierarchy:int =1):
         
-        if config()['queries'][f'category_subcategories_level_{level}']:
-            subcategories = len(category_container.css(config()['queries'][f'category_subcategories_level_{level}']))
+        if self.config['queries'][f'category_subcategories_level_{level}']:
+            subcategories = len(category_container.css(self.config['queries'][f'category_subcategories_level_{level}']))
         else:
             subcategories = 0
             
@@ -107,7 +113,7 @@ class CategoryGlossarySpider(scrapy.Spider):
             id=id,
             # uid=self._extract_category_ids_from_href(href).get('c_uid'),
             index=index,
-            name=category_container.css(config()['queries'][f'category_name_level_{level}']).get(),
+            name=category_container.css(self.config['queries'][f'category_name_level_{level}']).get(),
             parent=parent,
             href=href,
             hierarchy=hierarchy,
