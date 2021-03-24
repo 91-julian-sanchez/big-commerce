@@ -17,21 +17,25 @@ class CategoryGlossarySpider(scrapy.Spider):
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
     # allowed_domains = ['https://www.mercadolibre.com.co']
     # start_urls = ['https://www.mercadolibre.com.co/categorias']
-    custom_settings = {'FEED_URI': "./.output/category_glossary_%(time)s.csv",
+    custom_settings = {'FEED_URI': "./.output/mercadolibre_category_glossary_%(time)s.csv",
                        'FEED_FORMAT': 'csv'}
     
     def start_requests(self):
-        
+        # marketplace = ''
+        # if hasattr(self, 'marketplace'):
+        #     marketplace = f"{self.marketplace}_"
         if hasattr(self, 'config_path'):
             self.config = config(config_path=self.config_path)
         else:
             self.config = config() 
-        
+        print("hola putos.")
         if hasattr(self, 'category_href'):
+            print("hola putos..")
             urls = [self.category_href]
             category_id = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
             level = int(self.category_level)
             if level == 2:
+                print("hola putos...")
                 for url in urls:
                     yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
             elif level == 4:

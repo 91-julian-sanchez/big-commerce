@@ -5,10 +5,21 @@ from examples import custom_style_2
 
 class CliMenu:
     
-    def __init__(self, questions):
-        print("CliMenu.__init__()")
-        self.questions = questions
-        
+    def __init__(self, name=None, message=None, choices=None, questions=None):
+        # print("CliMenu.__init__()")
+        if questions is not None:
+            self.questions = questions
+        else:
+            self.questions = [
+                {
+                    'type': 'list',
+                    'name': name,
+                    'message': message,
+                    'choices': choices,
+                    # 'filter': lambda val: val.lower()
+                },
+            ]
+            
     def start(self):
         answers = prompt(self.questions, style=custom_style_2)
         return answers
