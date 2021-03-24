@@ -8,8 +8,22 @@ from scraper_motor.scraper_motor.spiders.category_glossary import CategoryGlossa
 from common import config
 from bootstrap import Bootstrap
 from menu import CliMenu
+from multiprocessing import Process, Queue
 
-    
+def crawl():
+  crawler = CrawlerProcess({
+        'LOG_ENABLED': False
+  })
+  crawler.crawl(CategoryGlossarySpider, config_path='./')
+  crawler.start()
+
+def crawl2():
+  process = CrawlerProcess({
+    'LOG_ENABLED': False
+  })
+  process.crawl(CategoryGlossarySpider, config_path='./', category_level=2, category_href="https://www.mercadolibre.com.co/c/deportes-y-fitness#c_id=/home/categories/category-l1/category-l1&c_category_id=MCO1276&c_uid=57b3e67f-8c42-11eb-8ac8-7d7e2c82dfcf")
+  process.start()
+
 def select_marketplace_menu():
   climenu = CliMenu(
     name='marketplace',
@@ -51,25 +65,13 @@ def motor_scraper_start(marketplace_selected, country_selected, category_level=N
   if marketplace_selected == 'mercadolibre':
     
     if category_level is not None and category_href is not None:
-      # process = CrawlerProcess({
-      #   'LOG_ENABLED': False
-      # })
-      # process.crawl(CategoryGlossarySpider, config_path='./', category_level=category_level, category_href=category_href)
-      # process.start()
-      process = CrawlerProcess({
-        'LOG_ENABLED': False
-      })
-      process.crawl(CategoryGlossarySpider, config_path='./')
-      process.stop()
+      process = Process(target=crawl2)
       process.start()
+      process.join()
     else:
-      process = CrawlerProcess({
-        'LOG_ENABLED': False
-      })
-      process.crawl(CategoryGlossarySpider, config_path='./')
+      process = Process(target=crawl)
       process.start()
-    
-    return process
+      process.join()
   else:
     print("linio no esta en scrapy")
     
@@ -78,7 +80,7 @@ def open_last_scrapy_file():
   path = f"./.output/{filenames[len(filenames)-1]}"
   df = pd.read_csv(path)
   df = df[['id','name','href']]
-  print(df.head())
+  # print(df.head())
   return df
 
 if __name__ == '__main__':
@@ -89,15 +91,16 @@ if __name__ == '__main__':
   args = parser.parse_args()
   marketplace_selected = select_marketplace_menu().get('marketplace')
   country_selected = select_country_menu(marketplace_selected).get('country')
-  process = motor_scraper_start(marketplace_selected, country_selected)
+  motor_scraper_start(marketplace_selected, country_selected)
   # process.stop()
   print("ya acabe....")
   category_glossary_df = open_last_scrapy_file()
   href_category_selected = select_category_menu(dict(zip(category_glossary_df['name'], category_glossary_df['href']))).get('category')
-  print(marketplace_selected, country_selected, href_category_selected)
+  # print(marketplace_selected, country_selected, href_category_selected)
   # * LEVEL 2
   motor_scraper_start(marketplace_selected, country_selected, category_level=2, category_href=href_category_selected)
-  # category_glossary_df = open_last_scrapy_file()
-  
+  category_glossary_df = open_last_scrapy_file()
+  href_category_selected = select_category_menu(dict(zip(category_glossary_df['name'], category_glossary_df['href']))).get('category')
+  # print(marketplace_selected, country_selected, href_category_selected)
   
   

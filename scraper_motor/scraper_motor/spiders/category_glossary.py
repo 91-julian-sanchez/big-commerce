@@ -27,15 +27,12 @@ class CategoryGlossarySpider(scrapy.Spider):
         if hasattr(self, 'config_path'):
             self.config = config(config_path=self.config_path)
         else:
-            self.config = config() 
-        print("hola putos.")
+            self.config = config()
         if hasattr(self, 'category_href'):
-            print("hola putos..")
             urls = [self.category_href]
             category_id = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
             level = int(self.category_level)
             if level == 2:
-                print("hola putos...")
                 for url in urls:
                     yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
             elif level == 4:
@@ -99,7 +96,7 @@ class CategoryGlossarySpider(scrapy.Spider):
     def parse_products_category_page(self, response):
         self.logger.info("parse_products_category_page>> Visited %s", response.url)
         level = 4
-        print("-->",len(response.css(self.config['queries'][f'categories_container_level_{level}'])))
+        # print("-->",len(response.css(self.config['queries'][f'categories_container_level_{level}'])))
         
         for index, category_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
             href = category_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
@@ -127,7 +124,7 @@ class CategoryGlossarySpider(scrapy.Spider):
     def _render_category_of_catalog(self, id=None, uid=None, name=None, parent=None, href=None, hierarchy=None,
                                     subcategories=0, index=0):
         # * prints
-        self._print_category_name(name, hierarchy)
+        # self._print_category_name(name, hierarchy)
         # * return itrm
         categoryItem = CategoryItem()
         categoryItem['id'] = id
