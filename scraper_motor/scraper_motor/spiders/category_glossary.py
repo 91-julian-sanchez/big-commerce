@@ -21,11 +21,16 @@ class CategoryGlossarySpider(scrapy.Spider):
                        'FEED_FORMAT': 'csv'}
 
     def start_requests(self):
-
-        if hasattr(self, 'category_id') and hasattr(self, 'category_href'):
-            urls =[self.category_href]
-            for url in urls:
-                yield scrapy.Request(url=url, meta={'parent_id': self.category_id, "level": 2}, callback=self.parse_category_page)
+        if hasattr(self, 'category_href'):
+            urls = [self.category_href]
+            category_id = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
+            level = int(self.category_level)
+            if level == 2:
+                for url in urls:
+                    yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
+            elif level == 4:
+                for url in urls:
+                    yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_products_category_page)
         else:
             urls = [
                 'https://www.mercadolibre.com.co/categorias',
@@ -82,7 +87,7 @@ class CategoryGlossarySpider(scrapy.Spider):
                 # )
                 
     def parse_products_category_page(self, response):
-        self.logger.info("Visited %s", response.url)
+        self.logger.info("parse_products_category_page>> Visited %s", response.url)
         level = 4
         print("-->",len(response.css(config()['queries'][f'categories_container_level_{level}'])))
         
