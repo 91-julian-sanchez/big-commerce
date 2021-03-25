@@ -3,9 +3,11 @@ import os
 
 def scrapy_crawl_category_glossary():
     wd = os.getcwd()
-    os.chdir("scraper_motor/")
-    subprocess.Popen("ls")
-    subprocess.run("scrapy crawl category_glossary")
+    os.chdir("scraper_motor/scraper_motor/spiders/")
+    # subprocess.Popen("scrapy crawl category_glossary")
+    p= subprocess.Popen("scrapy crawl category_glossary", shell=True, stdout=subprocess.PIPE)
+    print(p.communicate())
+    print("Acabe...............")
     os.chdir(wd)
 
 def run_main():
@@ -17,5 +19,5 @@ def run_main():
 
 
 if __name__ == '__main__':
-    # scrapy_crawl_category_glossary()
-    run_main()
+    scrapy_crawl_category_glossary()
+    # run_main()

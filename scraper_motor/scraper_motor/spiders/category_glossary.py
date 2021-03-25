@@ -21,6 +21,7 @@ class CategoryGlossarySpider(scrapy.Spider):
                        'FEED_FORMAT': 'csv'}
     
     def start_requests(self):
+        print(f"holiiiiiiiiiiiiiiii:")
         # marketplace = ''
         # if hasattr(self, 'marketplace'):
         #     marketplace = f"{self.marketplace}_"
@@ -32,10 +33,12 @@ class CategoryGlossarySpider(scrapy.Spider):
             urls = [self.category_href]
             category_id = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
             level = int(self.category_level)
+            print("------>level: ",level)
             if level == 2:
                 for url in urls:
                     yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
             elif level == 4:
+                print("hola guapo")
                 for url in urls:
                     yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_products_category_page)
         else:
@@ -81,18 +84,18 @@ class CategoryGlossarySpider(scrapy.Spider):
             # # TODO recorrer categorias de tercer nivel
             next_level= 3
             next_parent_id = copy.copy(id)
-            # for count, category_container in enumerate(categories_container.css(self.config['queries'][f'categories_container_level_{next_level}'])):
-            #     href = category_container.css(self.config['queries'][f'category_href_level_{next_level}']).attrib['href']
-            #     id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
-            #     yield self._extract_category_data(id, category_container=category_container, href=href, index=count, level=next_level, parent=next_parent_id, hierarchy=3)
+            for count, category_container in enumerate(categories_container.css(self.config['queries'][f'categories_container_level_{next_level}'])):
+                href = category_container.css(self.config['queries'][f'category_href_level_{next_level}']).attrib['href']
+                id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
+                yield self._extract_category_data(id, category_container=category_container, href=href, index=count, level=next_level, parent=next_parent_id, hierarchy=3)
                 # !add flag to recursive
-                # ?link de subcategorias 
+                # ?link de subcategorias
                 # yield self._next_category_page(
                 #     href,
                 #     {'parent_id': id, "level": 4},
                 #     self.parse_products_category_page
                 # )
-                
+                #
     def parse_products_category_page(self, response):
         self.logger.info("parse_products_category_page>> Visited %s", response.url)
         level = 4
