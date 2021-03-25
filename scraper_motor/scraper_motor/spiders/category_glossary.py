@@ -15,13 +15,14 @@ logging.basicConfig(
 class CategoryGlossarySpider(scrapy.Spider):
     name = 'category_glossary'
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
-    # allowed_domains = ['https://www.mercadolibre.com.co']
-    # start_urls = ['https://www.mercadolibre.com.co/categorias']
-    custom_settings = {'FEED_URI': "./.output/mercadolibre_category_glossary_%(time)s.csv",
+    custom_settings = {'FEED_URI': "../../../.output/mercadolibre_category_glossary_%(time)s.csv",
                        'FEED_FORMAT': 'csv'}
     
+    # custom_settings = {'FEED_URI': "./.output/mercadolibre_category_glossary_%(time)s.csv",
+    #                    'FEED_FORMAT': 'csv'}
+    
     def start_requests(self):
-        print(f"holiiiiiiiiiiiiiiii:")
+        # print(f"start_requests run...")
         # marketplace = ''
         # if hasattr(self, 'marketplace'):
         #     marketplace = f"{self.marketplace}_"
@@ -30,15 +31,16 @@ class CategoryGlossarySpider(scrapy.Spider):
         else:
             self.config = config()
         if hasattr(self, 'category_href'):
-            urls = [self.category_href]
             category_id = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
             level = int(self.category_level)
-            print("------>level: ",level)
+            print("------>href: ", self.category_href)
+            print("------>level: ", level)
+            print("------>category_id: ", category_id)
+            urls = [self.category_href]
             if level == 2:
                 for url in urls:
                     yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
             elif level == 4:
-                print("hola guapo")
                 for url in urls:
                     yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_products_category_page)
         else:
@@ -112,12 +114,16 @@ class CategoryGlossarySpider(scrapy.Spider):
             subcategories = len(category_container.css(self.config['queries'][f'category_subcategories_level_{level}']))
         else:
             subcategories = 0
-            
+          
+        name = category_container.css(self.config['queries'][f'category_name_level_{level}']).get()
+        if level == 3:
+            name = f"- {name}"
+          
         return self._render_category_of_catalog(
             id=id,
             # uid=self._extract_category_ids_from_href(href).get('c_uid'),
             index=index,
-            name=category_container.css(self.config['queries'][f'category_name_level_{level}']).get(),
+            name=name,
             parent=parent,
             href=href,
             hierarchy=hierarchy,
@@ -150,11 +156,15 @@ class CategoryGlossarySpider(scrapy.Spider):
             [type]: {'c_category_id': str, 'c_uid': str}
         """
         # !CAMBIAR POR REGEX
-        if start is None and stop is None:
+        try:
+            if start is None and stop is None:
+                return {_.split("=")[0].replace("CATEGORY_ID", "c_category_id"): _.split("=")[1] for _ in
+                        href.split(split_separator)}
             return {_.split("=")[0].replace("CATEGORY_ID", "c_category_id"): _.split("=")[1] for _ in
-                    href.split(split_separator)}
-        return {_.split("=")[0].replace("CATEGORY_ID", "c_category_id"): _.split("=")[1] for _ in
-                href.split(split_separator)[start:stop]}
+                    href.split(split_separator)[start:stop]} 
+        except Exception as e:
+            return "UNKNOWN"
+        
 
     def _print_category_name(self, name, hierarchy=None):
         print("-" * hierarchy, f" {name}")
