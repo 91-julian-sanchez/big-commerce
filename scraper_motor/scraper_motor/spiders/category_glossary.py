@@ -98,6 +98,7 @@ class CategoryGlossarySpider(scrapy.Spider):
     def parse_products_category_page(self, response):
         self.logger.info("parse_products_category_page>> Visited %s", response.url)
         level = 4
+        # print(response.css('.ui-search-filter-dl').body)
         for index, category_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
             href = category_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
             id = "LAST_ID"
