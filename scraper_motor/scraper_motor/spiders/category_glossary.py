@@ -15,33 +15,29 @@ logging.basicConfig(
 class CategoryGlossarySpider(scrapy.Spider):
     name = 'category_glossary'
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
-    custom_settings = {'FEED_URI': "../../../.output/mercadolibre_category_glossary_%(time)s.csv",
-                       'FEED_FORMAT': 'csv'}
-    
-    # custom_settings = {'FEED_URI': "./.output/mercadolibre_category_glossary_%(time)s.csv",
-    #                    'FEED_FORMAT': 'csv'}
+    custom_settings = {
+    'FEEDS':{
+        '../../../.output/mercadolibre_category_glossary_%(time)s.csv': {
+            'format': 'csv',
+            'encoding': 'utf8',
+        },
+    }}
     
     def start_requests(self):
-        # print(f"start_requests run...")
-        # marketplace = ''
-        # if hasattr(self, 'marketplace'):
-        #     marketplace = f"{self.marketplace}_"
         if hasattr(self, 'config_path'):
             self.config = config(config_path=self.config_path)
         else:
             self.config = config()
-        if hasattr(self, 'category_href'):
+        if hasattr(self, 'category_href') and hasattr(self, 'category_level'):
             category_id = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
             level = int(self.category_level)
-            print("------>href: ", self.category_href)
-            print("------>level: ", level)
-            print("------>category_id: ", category_id)
             urls = [self.category_href]
-            if level == 2:
-                for url in urls:
+            for url in urls:
+                if level == 2:
                     yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
-            elif level == 4:
-                for url in urls:
+                if level == 3:
+                    yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
+                elif level == 4:
                     yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_products_category_page)
         else:
             urls = [
@@ -98,11 +94,10 @@ class CategoryGlossarySpider(scrapy.Spider):
                 #     self.parse_products_category_page
                 # )
                 #
+    
     def parse_products_category_page(self, response):
         self.logger.info("parse_products_category_page>> Visited %s", response.url)
         level = 4
-        # print("-->",len(response.css(self.config['queries'][f'categories_container_level_{level}'])))
-        
         for index, category_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
             href = category_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
             id = "LAST_ID"
@@ -116,9 +111,7 @@ class CategoryGlossarySpider(scrapy.Spider):
             subcategories = 0
           
         name = category_container.css(self.config['queries'][f'category_name_level_{level}']).get()
-        if level == 3:
-            name = f"- {name}"
-          
+    
         return self._render_category_of_catalog(
             id=id,
             # uid=self._extract_category_ids_from_href(href).get('c_uid'),
