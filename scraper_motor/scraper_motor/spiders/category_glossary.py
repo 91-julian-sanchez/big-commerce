@@ -158,7 +158,6 @@ class CategoryGlossarySpider(scrapy.Spider):
         except Exception as e:
             return "UNKNOWN"
         
-
     def _print_category_name(self, name, hierarchy=None):
         print("-" * hierarchy, f" {name}")
 
