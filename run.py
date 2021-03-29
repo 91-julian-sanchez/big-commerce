@@ -123,7 +123,9 @@ if __name__ == '__main__':
   country_selected = select_country_menu(marketplace_selected).get('country')
   
   # TODO INIT SCRAPER ==================================================================================================================
-  
+  # tree = {
+  #   'hierarchy':None,'href':None,'id':None,'index':None,'name':None,'parent':None,'subcategories':None,'uid':None
+  # }
   # * LEVEL 1
   motor_scraper_start(marketplace_selected, country_selected, debug=DEBUG_MODE)
   category_glossary_df = open_last_scrapy_file()
@@ -136,32 +138,25 @@ if __name__ == '__main__':
   category_glossary_df = open_last_scrapy_file()
   level_2_category_glossary_df = category_glossary_df[category_glossary_df['hierarchy']==2]
   choices = []
-  choices_aux = []
+  parent_id = None
   for index, row in level_2_category_glossary_df.iterrows():
+    print("level 2:", row['name'])
     name_parent = row['name']
+    parent_id = row['id']
     choices.append(name_parent)
-    # * LEVEL 3
-    level_3_category_glossary_df = category_glossary_df[category_glossary_df['parent']==row['id']]
-    for index, row in level_3_category_glossary_df.iterrows():
-      choices.append( {
-          'name': row['name'],
-          'disabled': name_parent,
-          'href': row['href']
-      })
-      
+    
+  # * LEVEL 3    
   category_selected = select_category_menu(choices)
-  category_tree = list(filter( lambda choice: (choice == category_selected) or (isinstance(choice, dict) and choice.get('disabled') == category_selected), choices ) )
-  
-  for row in category_tree:
-    if isinstance(row, dict):
-      print("name: ", row['name'])
-      print("category_href: ", row['href'])
-      # * LEVEL 4
-      motor_scraper_start(marketplace_selected, country_selected, category_level=4, category_href=row['href'], debug=DEBUG_MODE)
-      level_4_category_glossary_df = open_last_scrapy_file()
-      category_tree.append( {
-          'name': row['name'],
-          'disabled': category_tree[1]
-      })
-
-  print(category_tree)
+  category_id_selected = category_glossary_df[category_glossary_df['name']==category_selected]['id'].iloc[0]
+  print("category_selected: ", category_selected, category_id_selected)
+  level_3_category_glossary_df = category_glossary_df[category_glossary_df['parent']==category_id_selected]
+  for index, row in level_3_category_glossary_df.iterrows():
+    print("   ", row['name'])
+    try:
+        # * LEVEL 4
+        motor_scraper_start(marketplace_selected, country_selected, category_level=4, category_href=row['href'], debug=DEBUG_MODE)
+        level_4_category_glossary_df = open_last_scrapy_file()
+        for index, row in level_4_category_glossary_df.iterrows():
+          print("    ", row['name'])
+    except Exception as e:
+      print(e)
