@@ -11,29 +11,6 @@ from common import config
 from bootstrap import Bootstrap
 from menu import CliMenu
 from multiprocessing import Process, Queue
-CRAWL_SETTINGS = {
-   'LOG_ENABLED': False
-}
-
-
-def crawl():
-  crawler = CrawlerProcess(CRAWL_SETTINGS)
-  crawler.crawl(CategoryGlossarySpider, config_path='./')
-  crawler.start()
-
-
-def crawl2(category_level=None,category_href=None):
-  crawler = CrawlerProcess(CRAWL_SETTINGS)
-  crawler.crawl(CategoryGlossarySpider, config_path='./', category_level=category_level, category_href=category_href)
-  crawler.start()
-
-
-def crawl3(category_level=None,category_href=None,xxx=None):
-  print("aca estoy reputo")
-  crawler = CrawlerProcess(CRAWL_SETTINGS)
-  crawler.crawl(CategoryGlossarySpider, config_path='./', category_level=category_level, category_href=category_href, xxx=xxx)
-  crawler.start()
-
 
 def select_marketplace_menu():
   climenu = CliMenu(
@@ -69,9 +46,12 @@ def select_category_menu(choices):
     choices=choices
   )
   selected = climenu.start()
-  # print(categories_dict.get(selected.get('category')))
   print("selected: ", selected)
-  return selected.get('category')
+  category_selected =  list(filter(lambda choice: choice.get('name') == selected.get('category'), choices))
+  if len(category_selected) > 0:
+    return category_selected[0]
+  else:
+    return None
 
 
 def motor_scraper_subprocess_shell(category_level=None, category_href=None, debug=False):
@@ -92,7 +72,7 @@ def motor_scraper_subprocess_shell(category_level=None, category_href=None, debu
 
 
 def motor_scraper_start(marketplace_selected, country_selected, category_level=None, category_href=None, debug=None):
-  print("Extrayendo datos...")
+  # print("Extrayendo datos...")
   # process = CrawlerProcess(get_project_settings())
   if marketplace_selected == 'mercadolibre':
     motor_scraper_subprocess_shell(category_level=category_level, category_href=category_href, debug=debug)
@@ -123,40 +103,34 @@ if __name__ == '__main__':
   country_selected = select_country_menu(marketplace_selected).get('country')
   
   # TODO INIT SCRAPER ==================================================================================================================
-  # tree = {
-  #   'hierarchy':None,'href':None,'id':None,'index':None,'name':None,'parent':None,'subcategories':None,'uid':None
-  # }
+
   # * LEVEL 1
+  print("Extrayendo datos...")
   motor_scraper_start(marketplace_selected, country_selected, debug=DEBUG_MODE)
   category_glossary_df = open_last_scrapy_file()
-  categories = dict(zip(category_glossary_df['name'], category_glossary_df['href']))
-  category_selected = select_category_menu(categories.keys())
-  href_category_selected = categories.get(category_selected)
+  categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent']} for index, row in category_glossary_df.iterrows()]
+  category_selected = select_category_menu(choices=categories)
+  # print("category_selected: ", category_selected)
   
   # * LEVEL 2
-  motor_scraper_start(marketplace_selected, country_selected, category_level=2, category_href=href_category_selected, debug=DEBUG_MODE)
+  print("Extrayendo datos...")
+  motor_scraper_start(marketplace_selected, country_selected, category_level=2, category_href=category_selected.get('href'), debug=DEBUG_MODE)
   category_glossary_df = open_last_scrapy_file()
-  level_2_category_glossary_df = category_glossary_df[category_glossary_df['hierarchy']==2]
-  choices = []
-  parent_id = None
-  for index, row in level_2_category_glossary_df.iterrows():
-    print("level 2:", row['name'])
-    name_parent = row['name']
-    parent_id = row['id']
-    choices.append(name_parent)
-    
-  # * LEVEL 3    
-  category_selected = select_category_menu(choices)
-  category_id_selected = category_glossary_df[category_glossary_df['name']==category_selected]['id'].iloc[0]
-  print("category_selected: ", category_selected, category_id_selected)
-  level_3_category_glossary_df = category_glossary_df[category_glossary_df['parent']==category_id_selected]
+  level_2_category_glossary_df = category_glossary_df[category_glossary_df['hierarchy']==2] 
+  categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent']} for index, row in level_2_category_glossary_df.iterrows()]
+  category_selected = select_category_menu(choices=categories)
+  # print("category_selected: ", category_selected)
+  
+  # * LEVEL 3   
+  print("Extrayendo datos...") 
+  level_3_category_glossary_df = category_glossary_df[category_glossary_df['parent']==category_selected.get('id')]
   for index, row in level_3_category_glossary_df.iterrows():
-    print("   ", row['name'])
+    print("-", row['name'])
     try:
         # * LEVEL 4
         motor_scraper_start(marketplace_selected, country_selected, category_level=4, category_href=row['href'], debug=DEBUG_MODE)
         level_4_category_glossary_df = open_last_scrapy_file()
         for index, row in level_4_category_glossary_df.iterrows():
-          print("    ", row['name'])
+          print("---", row['name'])
     except Exception as e:
       print(e)
