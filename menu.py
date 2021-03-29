@@ -5,13 +5,13 @@ from examples import custom_style_2
 
 class CliMenu:
     
-    def __init__(self, name=None, message=None, choices=None, questions=None):
+    def __init__(self, name=None, message=None, choices=None, questions=None, type='list'):
         if questions is not None:
             self.questions = questions
         else:
             self.questions = [
                 {
-                    'type': 'list',
+                    'type': type,
                     'name': name,
                     'message': message,
                     'choices': choices,
