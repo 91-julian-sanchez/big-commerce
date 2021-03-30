@@ -2,6 +2,7 @@
 _pycache_/
 __pycache__/*
 scraper_motor/scraper_motor/spiders/__pycache__/
+scraper_motor/scraper_motor/spiders/__pycache__/*
 scraper_motor/scraper_motor/_pycache_
 # Develop
 .idea/

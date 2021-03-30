@@ -16,12 +16,14 @@ class CategoryGlossarySpider(scrapy.Spider):
     name = 'category_glossary'
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
     custom_settings = {
-    'FEEDS':{
-        '../../../.output/mercadolibre_category_glossary_%(time)s.csv': {
-            'format': 'csv',
-            'encoding': 'utf8',
-        },
-    }}
+            'FEEDS':{
+                '../../../.output/mercadolibre_category_glossary_%(time)s.csv': {
+                    'format': 'csv',
+                    'encoding': 'utf8',
+                    'overwrite': False
+                },
+            }
+        }
     
     def start_requests(self):
         if hasattr(self, 'config_path'):
@@ -29,16 +31,21 @@ class CategoryGlossarySpider(scrapy.Spider):
         else:
             self.config = config()
         if hasattr(self, 'category_href') and hasattr(self, 'category_level'):
-            category_id = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
+            
+            parent = self._extract_category_ids_from_href(self.category_href).get('c_category_id')
+            if hasattr(self, 'parent'):
+                parent = self.parent
+                
             level = int(self.category_level)
             urls = [self.category_href]
+            
             for url in urls:
                 if level == 2:
-                    yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
+                    yield scrapy.Request(url=url, meta={'parent_id': parent, "level": level}, callback=self.parse_category_page)
                 if level == 3:
-                    yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_category_page)
+                    yield scrapy.Request(url=url, meta={'parent_id': parent, "level": level}, callback=self.parse_category_page)
                 elif level == 4:
-                    yield scrapy.Request(url=url, meta={'parent_id': category_id, "level": level}, callback=self.parse_products_category_page)
+                    yield scrapy.Request(url=url, meta={'parent_id': parent, "level": level}, callback=self.parse_products_category_page)
         else:
             urls = [
                 'https://www.mercadolibre.com.co/categorias',
