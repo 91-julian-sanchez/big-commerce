@@ -326,14 +326,18 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
     # TODO Select marketplace
-    parser.add_argument('marketplace', help='The marketplace that you want to scraper', type=str, choices=Bootstrap.get_marketplace_avalible())
-    # * Select country args --country {ISO_3166_COUNTRY_CODE} 
-    parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx")
-    # * Recursive scrapper pages
-    parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages: True or False")
-    # * Categories tree path
-    parser.add_argument("--categories_path", required=False, help=f"Categories path")
-    # * Init scraper
+    parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str, choices=Bootstrap.get_marketplace_avalible())
+    # # * Select country args --country {ISO_3166_COUNTRY_CODE}
+    # parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx")
+    # # * Recursive scrapper pages
+    # parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages: True or False")
+    # # * Categories tree path
+    # parser.add_argument("--categories_path", required=False, help=f"Categories path")
+    # # * Init scraper
     args = parser.parse_args()
-    main(args.marketplace, args.country, bool(args.recursive), args.categories_path)
+    if args.marketplace is None:
+        args.marketplace = Bootstrap.select_marketplace()
+
+    print("args.marketplace: ", args.marketplace)
+    # main(args.marketplace, args.country, bool(args.recursive), args.categories_path)
     pass

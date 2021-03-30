@@ -4,15 +4,9 @@ from os import walk
 import subprocess
 import csv
 import pandas as pd
-import scrapy
 from datetime import datetime
-from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
-from scraper_motor.scraper_motor.spiders.category_glossary import CategoryGlossarySpider
-from common import config
 from bootstrap import Bootstrap
 from menu import CliMenu
-from multiprocessing import Process, Queue
 
 def select_marketplace_menu():
   climenu = CliMenu(
