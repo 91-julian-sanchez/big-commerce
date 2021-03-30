@@ -8,11 +8,15 @@ marketplace:
       co:
         name: Colombia
         origin: https://www.mercadolibre.com.co
-        path_categories: categorias
+        url_categories: https://www.mercadolibre.com.co/categorias
+      cl:
+        name: Chile
+        origin: https://www.mercadolibre.cl
+        url_categories: https://www.mercadolibre.cl/categorias
       mx:
         name: Mexico
         origin: https://www.mercadolibre.com.mx
-        path_categories: categorias
+        url_categories: https://www.mercadolibre.com.mx/categorias
     queries:
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
       list_products: '.ui-search-layout'
