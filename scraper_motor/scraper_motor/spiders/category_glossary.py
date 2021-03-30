@@ -47,8 +47,9 @@ class CategoryGlossarySpider(scrapy.Spider):
                 elif level == 4:
                     yield scrapy.Request(url=url, meta={'parent_id': parent, "level": level}, callback=self.parse_products_category_page)
         else:
+            # print(self.country)
             urls = [
-                'https://www.mercadolibre.com.co/categorias',
+                f'https://www.mercadolibre.com.{self.country}/categorias',
             ]
             for url in urls:
                 yield scrapy.Request(url=url, callback=self.parse_categories_page)

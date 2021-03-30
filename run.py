@@ -69,13 +69,17 @@ def select_category_menu(choices):
     return None
 
 
-def motor_scraper_subprocess_shell(marketplace=None , category_level=None, category_href=None, parent=None, debug=False, pid=None):
+def motor_scraper_subprocess_shell(marketplace=None, country=None, category_level=None, category_href=None, parent=None, debug=False, pid=None):
   wd = os.getcwd()
   os.chdir("scraper_motor/scraper_motor/spiders/")
   # subprocess.Popen("ls")
   nolog = '--nolog'
   if debug is True:
     nolog = ''
+  
+  argument_country = ''
+  if country is not None:
+    argument_country = f'-a country={country}'
     
   argument_parent = ''
   if parent is not None:
@@ -83,23 +87,23 @@ def motor_scraper_subprocess_shell(marketplace=None , category_level=None, categ
     
   output = ''
   if pid is not None:
-    output = f'-o ../../../.output/{pid}-{marketplace}-categories.csv'
+    output = f'-o ../../../.output/{pid}-{marketplace}-{country}-categories.csv'
     
   if category_level is not None and category_href is not None:
-    command = f"scrapy crawl category_glossary -a category_level={category_level} -a category_href={category_href} {argument_parent} {output} {nolog}"
+    command = f"scrapy crawl category_glossary {argument_country} -a category_level={category_level} -a category_href={category_href} {argument_parent} {output} {nolog}"
   else:
-    command = f"scrapy crawl category_glossary {output} {nolog}"
+    command = f"scrapy crawl category_glossary {argument_country} {output} {nolog}"
     
   # print(f"command>> {command}")
   subprocess.run(command)
   os.chdir(wd)
 
 
-def motor_scraper_start(marketplace, country_selected, category_level=None, category_href=None, parent=None, debug=None, pid=None):
+def motor_scraper_start(marketplace, country, category_level=None, category_href=None, parent=None, debug=None, pid=None):
   # print("Extrayendo datos...")
   # process = CrawlerProcess(get_project_settings())
   if marketplace == 'mercadolibre':
-    motor_scraper_subprocess_shell(marketplace=marketplace, category_level=category_level, parent=parent, category_href=category_href, debug=debug, pid=pid)
+    motor_scraper_subprocess_shell(marketplace=marketplace, country=country, category_level=category_level, parent=parent, category_href=category_href, debug=debug, pid=pid)
   else:
     print("linio no esta en scrapy")
 

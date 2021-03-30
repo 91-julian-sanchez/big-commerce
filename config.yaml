@@ -8,11 +8,11 @@ marketplace:
       co:
         name: Colombia
         origin: https://www.mercadolibre.com.co
-        url_categories: https://www.mercadolibre.com.co/categorias#menu=categories
+        path_categories: categorias
       mx:
         name: Mexico
         origin: https://www.mercadolibre.com.mx
-        url_categories: https://www.mercadolibre.com.mx/categorias#menu=categories
+        path_categories: categorias
     queries:
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
       list_products: '.ui-search-layout'
@@ -69,7 +69,6 @@ queries:
   category_href_level_3: 'a'
   category_name_level_3: 'h4::text'
   category_subcategories_level_3: ''
-  # categories_container_level_4: 'dl.ui-search-filter-dl'
   categories_container_level_4: '.ui-search-filter-dl:nth-child(3) > dd.ui-search-filter-container'
   category_href_level_4: 'a.ui-search-link'
   category_name_level_4: 'a.ui-search-link > span.ui-search-filter-name::text'
