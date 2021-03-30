@@ -4,19 +4,8 @@ from os import walk
 import subprocess
 import csv
 import pandas as pd
-from datetime import datetime
 from bootstrap import Bootstrap
 from menu import CliMenu
-
-def select_marketplace_menu():
-  climenu = CliMenu(
-    name='marketplace',
-    message='Que marketplace quieres scrapear?',
-    choices=Bootstrap.get_marketplace_avalible()
-  )
-  selected = climenu.start()
-  # print(selected)
-  return selected
 
 
 def confirm_init_scraper_menu():
@@ -27,20 +16,6 @@ def confirm_init_scraper_menu():
     'default': True,
   }
   climenu = CliMenu(questions=questions)
-  selected = climenu.start()
-  # print(selected)
-  return selected
-
-
-def select_country_menu(marketplace):
-  # TODO Init scraper
-  # * Select country
-  bootstrap = Bootstrap(marketplace)
-  climenu = CliMenu(
-    name='country',
-    message='Que país?',
-    choices=list(bootstrap.countries_config.keys())
-  )
   selected = climenu.start()
   # print(selected)
   return selected
@@ -88,7 +63,7 @@ def motor_scraper_subprocess_shell(marketplace=None, country=None, category_leve
   else:
     command = f"scrapy crawl category_glossary {argument_country} {output} {nolog}"
     
-  # print(f"command>> {command}")
+  print(f"command>> {command}")
   subprocess.run(command)
   os.chdir(wd)
 
@@ -112,14 +87,18 @@ def remove_duplicates_header_rows(path):
 
       
 def open_last_scrapy_file(pid=None):
+  if not os.path.exists('./.output'):
+    os.makedirs('./.output')
   _, _, filenames = next(walk("./.output"))
   path = f"./.output/{filenames[len(filenames)-1]}"
   remove_duplicates_header_rows(path)
   df = pd.read_csv(path)
+  # raise Exception('kill')
   return df
 
 
 if __name__ == '__main__':
+  print("Aca estoy puto")
   parser = argparse.ArgumentParser()
   ## TODO Select marketplace
   # * Config marketplace
@@ -128,13 +107,15 @@ if __name__ == '__main__':
   parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx")
   # * Config DEBUG MODE
   parser.add_argument("--debug", required=False, help=f"DEBUG MODE", choices=['True', 'False'])
+  # * Process id
+  parser.add_argument("--pid", required=False, help=f"Process ID")
   args = parser.parse_args()
   
   DEBUG_MODE = True if args.debug == 'True' else False
-  MARKETPLACE_SELECTED = args.marketplace if args.marketplace else select_marketplace_menu().get('marketplace')
-  COUNTRY_SELECTED = args.country if args.country else select_country_menu(MARKETPLACE_SELECTED).get('country')
-  PID = datetime.today().strftime('%y%m%d%H%M%S')
-  
+  MARKETPLACE_SELECTED = args.marketplace
+  COUNTRY_SELECTED = args.country
+  PID = args.pid
+
   if MARKETPLACE_SELECTED == 'mercadolibre':
 
     # TODO INIT SCRAPER ==================================================================================================================

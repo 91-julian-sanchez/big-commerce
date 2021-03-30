@@ -9,7 +9,7 @@ scraper_motor/scraper_motor/_pycache_
 venv/
 # logs
 .log/*
-scraper_motor/scraper_motor/spiders/.log/*
+scraper_motor/scraper_motor/.log/*
 # outputs
 output/*
 .output/*

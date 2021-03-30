@@ -10,7 +10,7 @@ import page_objects as pages
 from requests.exceptions import HTTPError
 from urllib3.exceptions import MaxRetryError
 from bootstrap import Bootstrap
-from common import config
+from datetime import datetime
 from bcolors import bcolors
 
 logging.basicConfig(level=logging.INFO)
@@ -321,19 +321,82 @@ def main(marketplace: str, country: str, recursive: bool, categories_path: str):
         categories_path= categories_path,
         recursive=recursive)
 
+import os
+from os import walk
+import subprocess
+
+def remove_duplicates_header_rows(path):
+  with open(path) as f:
+    data = list(csv.reader(f))
+    new_data = [a for i, a in enumerate(data) if a not in data[:i]]
+    with open(path, 'w') as t:
+      write = csv.writer(t)
+      write.writerows(new_data)
+
+
+def open_last_scrapy_file(pid=None):
+  if not os.path.exists('./.output'):
+    os.makedirs('./.output')
+  _, _, filenames = next(walk("./.output"))
+  path = f"./.output/{filenames[len(filenames)-1]}"
+  remove_duplicates_header_rows(path)
+  df = pd.read_csv(path)
+  # raise Exception('kill')
+  return df
+
+def motor_scraper_subprocess_shell(marketplace=None, country=None, category_level=None, category_href=None, parent=None,
+                                   debug=False, pid=None):
+    wd = os.getcwd()
+    os.chdir("scraper_motor/scraper_motor/spiders/")
+    # subprocess.Popen("ls")
+    nolog = '--nolog'
+    if debug is True:
+        nolog = ''
+
+    argument_country = ''
+    if country is not None:
+        argument_country = f'-a country={country}'
+
+    argument_parent = ''
+    if parent is not None:
+        argument_parent = f'-a parent={parent}'
+
+    output = ''
+    if pid is not None:
+        output = f'-o ../../../.output/{pid}-{marketplace}-{country}-categories.csv'
+
+    if category_level is not None and category_href is not None:
+        command = f"scrapy crawl category_glossary {argument_country} -a category_level={category_level} -a category_href={category_href} {argument_parent} {output} {nolog}"
+    else:
+        command = f"scrapy crawl category_glossary {argument_country} {output} {nolog}"
+
+    print(f"command>> {command}")
+    subprocess.run(command)
+    os.chdir(wd)
+
+
+def motor_scraper_start(marketplace, country, category_level=None, category_href=None, parent=None, debug=None, pid=None):
+  if marketplace == 'mercadolibre':
+    motor_scraper_subprocess_shell(marketplace=marketplace, country=country, category_level=category_level, parent=parent, category_href=category_href, debug=debug, pid=pid)
+  else:
+    print("linio no esta en scrapy")
+
 
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    # TODO Select marketplace
+    # TODO scraper settings
+    # * Select marketplace
     parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str, choices=Bootstrap.get_marketplace_avalible())
     # * Select country args --country {ISO_3166_COUNTRY_CODE}
     parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx, cl")
-    # # * Recursive scrapper pages
-    # parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages: True or False")
-    # # * Categories tree path
-    # parser.add_argument("--categories_path", required=False, help=f"Categories path")
-    # # * Init scraper
+    # * Config DEBUG MODE
+    parser.add_argument("--debug", required=False, help=f"DEBUG MODE", choices=['True', 'False'])
+    # * Recursive scrapper pages
+    parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages: True or False")
+    # * Categories tree path
+    parser.add_argument("--categories_path", required=False, help=f"Categories path")
+
     args = parser.parse_args()
     if args.marketplace is None:
         args.marketplace = Bootstrap.select_marketplace()
@@ -341,6 +404,24 @@ if __name__ == '__main__':
     if args.country is None:
         args.country = Bootstrap.select_country(args.marketplace)
 
-    print("args.country: ", args.country)
+    MARKETPLACE = args.marketplace
+    COUNTRY = args.country
+    DEBUG_MODE = True if args.debug == 'True' else False
+    PID = datetime.today().strftime('%y%m%d%H%M%S')
+    print(MARKETPLACE, COUNTRY, DEBUG_MODE, PID)
+
+    # if MARKETPLACE == 'mercadolibre':
+    #     # TODO INIT SCRAPER ==================================================================================================================
+    #     category_glossary_tree = []
+    #
+    #     # * LEVEL 1
+    #     print(f"Crawl {MARKETPLACE}: Extrayendo categorias...")
+    #     motor_scraper_start(MARKETPLACE, COUNTRY, pid=PID, debug=DEBUG_MODE)
+    #     category_glossary_df = open_last_scrapy_file(pid=PID)
+    #     categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
+    #                    'hierarchy': row['hierarchy']} for index, row in category_glossary_df.iterrows()]
+    #     print("categories: ", categories)
+    #     # category_selected = select_category_menu(choices=categories)
+    # * Init scraper
     # main(args.marketplace, args.country, bool(args.recursive), args.categories_path)
     pass

@@ -10,7 +10,7 @@ def render_cli_menu(name=None, message=None, choices=None):
     )
 
 
-def select_marketplace_menu(choices: list):
+def select_marketplace_menu(choices: list = None):
     selected = render_cli_menu(
         name='marketplace',
         message='Que marketplace quieres scrapear?',
@@ -20,31 +20,33 @@ def select_marketplace_menu(choices: list):
     return selected
 
 
-def select_country_menu(choices: list):
-  selected = render_cli_menu(
-    name='country',
-    message='Que país?',
-    choices=choices
-  ).start()
-  # print("selected: ", selected)
-  return selected
+def select_country_menu(choices: list = None):
+    selected = render_cli_menu(
+        name='country',
+        message='Que país?',
+        choices=choices
+    ).start()
+    # print("selected: ", selected)
+    return selected
 
 
 class Bootstrap:
-    MARKETPLACE_AVALIBLE = list(config()['marketplace'].keys())
+    CONFIG = config()
 
     @classmethod
     def get_marketplace_avalible(cls):
-        return cls.MARKETPLACE_AVALIBLE
+        return list(cls.CONFIG['marketplace'].keys())
 
     @classmethod
     def select_marketplace(cls):
-        return select_marketplace_menu(cls.MARKETPLACE_AVALIBLE).get('marketplace')
+        return select_marketplace_menu(
+            choices=list(cls.CONFIG['marketplace'].keys())
+        ).get('marketplace')
 
     @classmethod
     def select_country(cls, marketplace=None):
         return select_country_menu(
-            choices=list(Bootstrap(marketplace).countries_config.keys())
+            choices=list(cls.CONFIG['marketplace'][marketplace]['country'].keys())
         ).get('country')
 
     countries_config = None

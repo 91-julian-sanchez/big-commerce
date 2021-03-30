@@ -7,10 +7,11 @@ from ..common import config
 from ..items import CategoryItem
 
 logging.basicConfig(
-    filename=f'.log/{ntpath.basename(os.path.basename(__file__)).replace(".py", "")}.log',
+    filename=f'{ntpath.basename(os.path.basename(__file__)).replace(".py", "")}.log',
     format='%(levelname)s: %(message)s',
     level=logging.INFO
 )
+
 
 class CategoryGlossarySpider(scrapy.Spider):
     name = 'category_glossary'
