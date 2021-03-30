@@ -10,14 +10,24 @@ def render_cli_menu(name=None, message=None, choices=None):
     )
 
 
-def select_marketplace_menu():
+def select_marketplace_menu(choices: list):
     selected = render_cli_menu(
         name='marketplace',
         message='Que marketplace quieres scrapear?',
-        choices=Bootstrap.get_marketplace_avalible()
+        choices=choices
     ).start()
-    # print(selected)
+    # print("selected: ", selected)
     return selected
+
+
+def select_country_menu(choices: list):
+  selected = render_cli_menu(
+    name='country',
+    message='Que país?',
+    choices=choices
+  ).start()
+  # print("selected: ", selected)
+  return selected
 
 
 class Bootstrap:
@@ -29,7 +39,13 @@ class Bootstrap:
 
     @classmethod
     def select_marketplace(cls):
-        return select_marketplace_menu().get('marketplace')
+        return select_marketplace_menu(cls.MARKETPLACE_AVALIBLE).get('marketplace')
+
+    @classmethod
+    def select_country(cls, marketplace=None):
+        return select_country_menu(
+            choices=list(Bootstrap(marketplace).countries_config.keys())
+        ).get('country')
 
     countries_config = None
     _countries_codes = None
