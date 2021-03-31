@@ -11,3 +11,6 @@ def config():
             __config = yaml.load(f, Loader=yaml.FullLoader)
 
     return __config
+
+if __name__ == '__main__':
+    print(config())

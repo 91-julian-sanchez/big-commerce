@@ -36,3 +36,4 @@ Optional argument | Description
 ```sh
 $ python main.py --help
 ```
+python main.py --categories_path ./.output/210330223919-mercadolibre-co-categories.csv
