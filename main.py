@@ -9,7 +9,7 @@ import pandas as pd
 import page_objects as pages
 from requests.exceptions import HTTPError
 from urllib3.exceptions import MaxRetryError
-from bootstrap import Bootstrap
+from bootstrap import Bootstrap, select_category_menu, confirm_init_scraper_menu
 from datetime import datetime
 from bcolors import bcolors
 
@@ -145,10 +145,10 @@ def select_country_menu(country_config) -> str:
     print("* Seleccione País:")
     return list(country_config.keys())[menu([value['name'] for key, value in list(country_config.items())])]
 
-
-def select_category_menu(categories) -> object:
-    print("* Seleccione Categoria:")
-    return categories[menu([category['name'] for category in categories], "Categorias")]
+#
+# def select_category_menu(categories) -> object:
+#     print("* Seleccione Categoria:")
+#     return categories[menu([category['name'] for category in categories], "Categorias")]
 
     
 def select_subcategory_menu(subcategories) -> object:
@@ -296,7 +296,6 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
             print("An exception occurred")
         
 
-
 def main(marketplace: str, country: str, recursive: bool, categories_path: str):
     """
     :param marketplace: name of marketplace
@@ -309,7 +308,7 @@ def main(marketplace: str, country: str, recursive: bool, categories_path: str):
     if country is None: 
         # * Select country by menu console
         bootstrap.country = select_country_menu(bootstrap.countries_config)
-    print(bcolors.OKCYAN,f"Selecciono: {bootstrap.country_config['name']}", bcolors.ENDC)
+        print(bcolors.OKCYAN,f"Selecciono: {bootstrap.country_config['name']}", bcolors.ENDC)
     # * Recursive scraper mode
     bootstrap.recursive = recursive
     # * Run scraper
@@ -320,66 +319,6 @@ def main(marketplace: str, country: str, recursive: bool, categories_path: str):
         url_categories = bootstrap.country_config['url_categories'], # * Url categories page
         categories_path= categories_path,
         recursive=recursive)
-
-import os
-from os import walk
-import subprocess
-
-def remove_duplicates_header_rows(path):
-  with open(path) as f:
-    data = list(csv.reader(f))
-    new_data = [a for i, a in enumerate(data) if a not in data[:i]]
-    with open(path, 'w') as t:
-      write = csv.writer(t)
-      write.writerows(new_data)
-
-
-def open_last_scrapy_file(pid=None):
-  if not os.path.exists('./.output'):
-    os.makedirs('./.output')
-  _, _, filenames = next(walk("./.output"))
-  path = f"./.output/{filenames[len(filenames)-1]}"
-  remove_duplicates_header_rows(path)
-  df = pd.read_csv(path)
-  # raise Exception('kill')
-  return df
-
-def motor_scraper_subprocess_shell(marketplace=None, country=None, category_level=None, category_href=None, parent=None,
-                                   debug=False, pid=None):
-    wd = os.getcwd()
-    os.chdir("scraper_motor/scraper_motor/spiders/")
-    # subprocess.Popen("ls")
-    nolog = '--nolog'
-    if debug is True:
-        nolog = ''
-
-    argument_country = ''
-    if country is not None:
-        argument_country = f'-a country={country}'
-
-    argument_parent = ''
-    if parent is not None:
-        argument_parent = f'-a parent={parent}'
-
-    output = ''
-    if pid is not None:
-        output = f'-o ../../../.output/{pid}-{marketplace}-{country}-categories.csv'
-
-    if category_level is not None and category_href is not None:
-        command = f"scrapy crawl category_glossary {argument_country} -a category_level={category_level} -a category_href={category_href} {argument_parent} {output} {nolog}"
-    else:
-        command = f"scrapy crawl category_glossary {argument_country} {output} {nolog}"
-
-    print(f"command>> {command}")
-    subprocess.run(command)
-    os.chdir(wd)
-
-
-def motor_scraper_start(marketplace, country, category_level=None, category_href=None, parent=None, debug=None, pid=None):
-  if marketplace == 'mercadolibre':
-    motor_scraper_subprocess_shell(marketplace=marketplace, country=country, category_level=category_level, parent=parent, category_href=category_href, debug=debug, pid=pid)
-  else:
-    print("linio no esta en scrapy")
 
 
 if __name__ == '__main__':
@@ -405,23 +344,45 @@ if __name__ == '__main__':
         args.country = Bootstrap.select_country(args.marketplace)
 
     MARKETPLACE = args.marketplace
-    COUNTRY = args.country
     DEBUG_MODE = True if args.debug == 'True' else False
+    COUNTRY = args.country
+    RECURSIVE = args.recursive
     PID = datetime.today().strftime('%y%m%d%H%M%S')
-    print(MARKETPLACE, COUNTRY, DEBUG_MODE, PID)
+    # print(MARKETPLACE, COUNTRY, PID, DEBUG_MODE, RECURSIVE)
 
-    # if MARKETPLACE == 'mercadolibre':
-    #     # TODO INIT SCRAPER ==================================================================================================================
-    #     category_glossary_tree = []
-    #
-    #     # * LEVEL 1
-    #     print(f"Crawl {MARKETPLACE}: Extrayendo categorias...")
-    #     motor_scraper_start(MARKETPLACE, COUNTRY, pid=PID, debug=DEBUG_MODE)
-    #     category_glossary_df = open_last_scrapy_file(pid=PID)
-    #     categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
-    #                    'hierarchy': row['hierarchy']} for index, row in category_glossary_df.iterrows()]
-    #     print("categories: ", categories)
-    #     # category_selected = select_category_menu(choices=categories)
+    bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
+    if MARKETPLACE == 'mercadolibre':
+        # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
+        category_glossary_tree = []
+        # * LEVEL 1
+        categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
+        parent_category_selected = select_category_menu(choices=categories)
+        category_glossary_tree.append(parent_category_selected)
+
+        # * LEVEL 2
+        categories = bootstrap.category_glossary(
+            MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=parent_category_selected, level=2
+        )
+        category_selected = select_category_menu(choices=categories)
+        category_glossary_tree.append(category_selected)
+
+        # * LEVEL 3 and 4
+        categories = bootstrap.category_glossary(
+            MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, parent_category=parent_category_selected
+            , level=3
+        )
+        category_glossary_tree = category_glossary_tree + categories
+
+        # * CONFIRM CRAWL PRODUCTS OF CATEGORIES SELECTED
+        bullets = ['', ' >', '  *', '   -']
+        for category in category_glossary_tree:
+            print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
+
+    confirm = confirm_init_scraper_menu()
+
+    if confirm.get('continue') is True:
+        print("iniciar mercadolibre main.py")
+
     # * Init scraper
     # main(args.marketplace, args.country, bool(args.recursive), args.categories_path)
     pass
