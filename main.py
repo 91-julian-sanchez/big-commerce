@@ -101,7 +101,7 @@ def _save_products(marketplace_uid, country_uid, products, overwrite=True, pid=N
     pass
 
 
-def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True, pid=None):
+def scrapperProducts(products, marketplace_uid, country_uid, category_id=None, overwrite=True, pid=None):
     logger.info(f" \n\nPRODUCTOS({len(products)}):\n")
     global total_products_scraped
     for counter, product in enumerate(products, 1):
@@ -124,6 +124,7 @@ def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True, pid
         #     logger.info(product_page.title)
         #
         #     break;
+        product['category_id'] = category_id
         counter += 1
     print(f"products scraped: {len(products)}")
     total_products_scraped += len(products)
@@ -172,7 +173,7 @@ def print_subcategory_selected(subcategory_selected):
 
 
 
-def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=True, recursive=False, products_counter=0, pid=None):
+def scrapper_marketplace(marketplace_uid, country_uid,  link=None, category_id=None, overwrite=True, recursive=False, products_counter=0, pid=None):
     """
     Scraper start function
     :param link:
@@ -185,8 +186,8 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=Tru
     print(bcolors.OKCYAN,f"""
             Inicia scrapper...
             """, bcolors.ENDC)
-    productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)    
-    scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid, overwrite=overwrite, pid=pid)
+    productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid, category_id=category_id)    
+    scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid, category_id=category_id, overwrite=overwrite, pid=pid)
     # print(recursive, type(recursive))
     # raise Exception("kill")
     # TODO BROWSE PAGES
@@ -209,9 +210,9 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=Tru
                 scraper_sleep = random.randint(1,10)
                 print(f"Si, siguiente pagina en {scraper_sleep}(s)")
                 time.sleep(scraper_sleep)
-                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, recursive=recursive, products_counter=products_counter, pid=pid) 
+                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], category_id=category_id, overwrite=False, recursive=recursive, products_counter=products_counter, pid=pid) 
             elif menu(['Si','No']) == 0:
-                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, products_counter=products_counter, pid=pid )
+                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], category_id=category_id, overwrite=False, products_counter=products_counter, pid=pid )
         elif paginator['next_page_url'] is None:
             print("Termina scrapper")
     else:
@@ -231,17 +232,17 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
         df= df[['id', 'name', 'href', 'hierarchy','parent']]
         df= df[(df['hierarchy']==3) | (df['hierarchy']==4)]
         for index, row in df.iterrows():
-            categories_to_scraper.append(row['href'])
+            categories_to_scraper.append((row['id'], row['href']))
         
     elif marketplace_uid == 'linio':
         macrocategories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
         macrocategory_selected = select_category_menu(macrocategories)
-        categories_to_scraper = [macrocategory_selected['link']]
+        categories_to_scraper = [('unknown', macrocategory_selected['link'])]
         
     # TODO Iniciar scrapper
-    for link in categories_to_scraper:
+    for category_id, link in categories_to_scraper:
         try:
-            scrapper_marketplace(marketplace_uid, country_uid, link=link, recursive=recursive, overwrite=False, pid=pid)
+            scrapper_marketplace(marketplace_uid, country_uid, link=link, category_id=category_id, recursive=recursive, overwrite=False, pid=pid)
         except Exception as e:
             print("An exception occurred")
             print(e)
@@ -291,7 +292,6 @@ if __name__ == '__main__':
     RECURSIVE = True if args.recursive == 'True' else False
     PID = datetime.today().strftime('%y%m%d%H%M%S')
     categories_path = args.categories_path
-    # print(MARKETPLACE, COUNTRY, PID, DEBUG_MODE, RECURSIVE, categories_path)
 
     bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
     if MARKETPLACE == 'mercadolibre':
@@ -323,6 +323,7 @@ if __name__ == '__main__':
             bullets = ['', ' >', '  *', '   -']
             for category in category_glossary_tree:
                 print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
+                
     elif MARKETPLACE == 'linio':
         confirm_message = 'Extraer productos de categorias?'
 
@@ -330,7 +331,5 @@ if __name__ == '__main__':
     confirm = confirm_init_scraper_menu(confirm_message)
     if confirm.get('continue') is True:
         main(MARKETPLACE, COUNTRY, RECURSIVE, pid=PID, categories_path=categories_path, marketplace_config=bootstrap.country_config)
-
-    # * Init scraper
-    # main(args.marketplace, args.country, bool(args.recursive), args.categories_path)
+        
     pass

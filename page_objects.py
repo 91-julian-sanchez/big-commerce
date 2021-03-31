@@ -87,10 +87,11 @@ class ProductSectionPage(HomePage):
     _marketplace_id = None
     _origin = None
 
-    def __init__(self, marketplace_id, url, country_id=None):
+    def __init__(self, marketplace_id, url, country_id=None, category_id=None):
         super().__init__(marketplace_id, url)
         self._marketplace_id = marketplace_id
         self._country_id = country_id
+        self.category_id = category_id
         self._origin = config()['marketplace'][self._marketplace_id]['country'][self._country_id]['origin']
 
     @property
@@ -159,7 +160,8 @@ class ProductSectionPage(HomePage):
                     'price': price,
                     'price_discount': price_discount,
                     'best_seller': best_seller,
-                    'promotional': promotional
+                    'promotional': promotional,
+                    'category_id': self.category_id,
                 })
         else:
             raise Exception("Multiple products layout")
