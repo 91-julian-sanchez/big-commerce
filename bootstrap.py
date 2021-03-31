@@ -49,10 +49,10 @@ def select_category_menu(choices):
         return None
 
 
-def confirm_init_scraper_menu():
+def confirm_init_scraper_menu(message):
     selected = CliMenu(questions={
         'type': 'confirm',
-        'message': 'Extraer productos del arbol de categorias?',
+        'message': message,
         'name': 'continue',
         'default': True,
     }).start()
@@ -74,7 +74,7 @@ def open_last_scrapy_file(pid=None):
         os.makedirs('./.output')
     import time
     # print("Printed immediately.")
-    time.sleep(4)
+    time.sleep(5)
     _, _, filenames = next(walk("./.output"))
     path = f"./.output/{filenames[len(filenames) - 1]}"
     remove_duplicates_header_rows(path)

@@ -79,10 +79,9 @@ def menu(options: list, label=None) -> int:
     return selected
 
 
-def _save_products(marketplace_uid, country_uid, products, overwrite=True):
+def _save_products(marketplace_uid, country_uid, products, overwrite=True, pid=None):
     # print("_save_products", products)
-    now = datetime.datetime.now().strftime('%Y_%m_%d')
-    out_file_name = f'./output/{marketplace_uid}_{country_uid}_{now}_products.csv'
+    out_file_name = f'./.output/{pid}-{marketplace_uid}_{country_uid}_products.csv'
     csv_headers = list(products[0].keys())
 
     if overwrite is True:
@@ -98,11 +97,11 @@ def _save_products(marketplace_uid, country_uid, products, overwrite=True):
             csv_writer = writer(f)
             for product in products:
                 csv_writer.writerow(list(product.values()))
-        
+
     pass
 
 
-def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True):
+def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True, pid=None):
     logger.info(f" \n\nPRODUCTOS({len(products)}):\n")
     global total_products_scraped
     for counter, product in enumerate(products, 1):
@@ -129,7 +128,7 @@ def scrapperProducts(products, marketplace_uid, country_uid, overwrite=True):
     print(f"products scraped: {len(products)}")
     total_products_scraped += len(products)
     print(f"products total: {total_products_scraped}")
-    _save_products(marketplace_uid, country_uid, products, overwrite=overwrite)
+    _save_products(marketplace_uid, country_uid, products, overwrite=overwrite, pid=pid)
     return counter
 
     
@@ -173,7 +172,7 @@ def print_subcategory_selected(subcategory_selected):
 
 
 
-def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=True, recursive=False, products_counter=0):
+def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=True, recursive=False, products_counter=0, pid=None):
     """
     Scraper start function
     :param link:
@@ -187,7 +186,7 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=Tru
             Inicia scrapper...
             """, bcolors.ENDC)
     productsPage = pages.ProductSectionPage(marketplace_uid, link, country_id=country_uid)    
-    scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid, overwrite=overwrite)
+    scrapperProducts(productsPage.produtcs, marketplace_uid, country_uid, overwrite=overwrite, pid=pid)
     # print(recursive, type(recursive))
     # raise Exception("kill")
     # TODO BROWSE PAGES
@@ -210,9 +209,9 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=Tru
                 scraper_sleep = random.randint(1,10)
                 print(f"Si, siguiente pagina en {scraper_sleep}(s)")
                 time.sleep(scraper_sleep)
-                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, recursive=recursive, products_counter=products_counter)
+                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, recursive=recursive, products_counter=products_counter, pid=pid) 
             elif menu(['Si','No']) == 0:
-                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, products_counter=products_counter)
+                scrapper_marketplace(marketplace_uid, country_uid,  link=paginator['next_page_url'], overwrite=False, products_counter=products_counter, pid=pid )
         elif paginator['next_page_url'] is None:
             print("Termina scrapper")
     else:
@@ -222,101 +221,44 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, overwrite=Tru
         """, bcolors.ENDC)
         
             
-def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False, categories_path=None):
+def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False, categories_path=None, pid=None):
     print(f"run scraper {marketplace_uid} {country_uid}")
     scraper_link = None
-
-    # TODO Scrapper Categorias
-    macrocategories = list()
-    if categories_path is not None:
-        df= pd.read_csv(categories_path)
-        df= df[['id', 'name', 'href', 'hierarchy']]
-
-        for index, row  in (df[df['hierarchy']==1]).iterrows():
-            macrocategories.append({
-                'id': row['id'],
-                'name': row['name'],
-                'link': row['href']
-            })
-    else:
-        macrocategories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
-
-    macrocategory_selected = select_category_menu(macrocategories)
-    
+    categories_to_scraper = []
     # TODO Scrapper Subcategorias
     if marketplace_uid == 'mercadolibre':
-        if categories_path is not None:
-            df = pd.read_csv(categories_path)
-            df = df[['id', 'name', 'href', 'parent']]
-            categories= []
-            for index, row in df[df['parent']==macrocategory_selected['id']].iterrows():
-                name_category = row['name']
-                subcategories = list()
-                for index1, row2 in df[df['parent'] == row['id']].iterrows():
-                    name_category += f"\n       * {row2['name']}"
-                    subcategories.append({
-                        'id': row2['id'],
-                        'name': row2['name'],
-                        'link': row2['href'],
-                        'parent': row2['parent']
-                    })
-                    print("sdas", row2['name'], row2['id'])
-                    for index2, row3 in df[df['parent'] == row2['id']].iterrows():
-                        name_category += f"\n         - {row3['name']}"
-                        print("sdas")
-                        subcategories.append({
-                            'id': row3['id'],
-                            'name': row3['name'],
-                            'link': row3['href'],
-                            'parent': row3['parent']
-                        })
-                categories.append({
-                    'id': row['id'],
-                    'name': name_category,
-                    'link': row['href'],
-                    'parent': row['parent'],
-                    'subcategories': subcategories
-                })
-        else:
-            categories = scraper_subcategories(marketplace_uid, macrocategory_selected['link'])
-
-        category_selected = select_subcategory_menu(categories)
-        categories_to_scraper = [category_selected['link']]
-        for category in category_selected['subcategories']:
-            categories_to_scraper.append(category['link'])
-
-    elif marketplace_uid == 'linio':    
+        df= pd.read_csv(categories_path)
+        df= df[['id', 'name', 'href', 'hierarchy','parent']]
+        df= df[(df['hierarchy']==3) | (df['hierarchy']==4)]
+        for index, row in df.iterrows():
+            categories_to_scraper.append(row['href'])
+        
+    elif marketplace_uid == 'linio':
+        macrocategories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
+        macrocategory_selected = select_category_menu(macrocategories)
         categories_to_scraper = [macrocategory_selected['link']]
         
     # TODO Iniciar scrapper
     for link in categories_to_scraper:
         try:
-            scrapper_marketplace(marketplace_uid, country_uid, link=link, recursive=recursive, overwrite=False)
-        except:
+            scrapper_marketplace(marketplace_uid, country_uid, link=link, recursive=recursive, overwrite=False, pid=pid)
+        except Exception as e:
             print("An exception occurred")
+            print(e)
         
 
-def main(marketplace: str, country: str, recursive: bool, categories_path: str):
+def main(marketplace: str, country: str, recursive: bool, categories_path: str = None, marketplace_config: dict = None, pid :str = None):
     """
     :param marketplace: name of marketplace
     :param country: code country in standard ISO_3166_COUNTRY_CODE
     :param categories_path: path categories generated with scrapy
     """
-    # TODO Init scraper
-    # * Select country
-    bootstrap = Bootstrap(marketplace)
-    if country is None: 
-        # * Select country by menu console
-        bootstrap.country = select_country_menu(bootstrap.countries_config)
-        print(bcolors.OKCYAN,f"Selecciono: {bootstrap.country_config['name']}", bcolors.ENDC)
-    # * Recursive scraper mode
-    bootstrap.recursive = recursive
-    # * Run scraper
     run(
         marketplace, 
-        bootstrap.country, 
-        origin = bootstrap.country_config['origin'], # * Url marketplace Website
-        url_categories = bootstrap.country_config['url_categories'], # * Url categories page
+        country, 
+        pid = pid,
+        origin = marketplace_config['origin'], # * Url marketplace Website
+        url_categories = marketplace_config['url_categories'], # * Url categories page
         categories_path= categories_path,
         recursive=recursive)
 
@@ -346,42 +288,48 @@ if __name__ == '__main__':
     MARKETPLACE = args.marketplace
     DEBUG_MODE = True if args.debug == 'True' else False
     COUNTRY = args.country
-    RECURSIVE = args.recursive
+    RECURSIVE = True if args.recursive == 'True' else False
     PID = datetime.today().strftime('%y%m%d%H%M%S')
-    # print(MARKETPLACE, COUNTRY, PID, DEBUG_MODE, RECURSIVE)
+    categories_path = args.categories_path
+    # print(MARKETPLACE, COUNTRY, PID, DEBUG_MODE, RECURSIVE, categories_path)
 
     bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
     if MARKETPLACE == 'mercadolibre':
-        # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
-        category_glossary_tree = []
-        # * LEVEL 1
-        categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
-        parent_category_selected = select_category_menu(choices=categories)
-        category_glossary_tree.append(parent_category_selected)
+        confirm_message = 'Extraer productos del arbol de categorias?'
+        if args.categories_path is None:
+            # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
+            category_glossary_tree = []
+            categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
+            # * LEVEL 1
+            categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
+            parent_category_selected = select_category_menu(choices=categories)
+            category_glossary_tree.append(parent_category_selected)
 
-        # * LEVEL 2
-        categories = bootstrap.category_glossary(
-            MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=parent_category_selected, level=2
-        )
-        category_selected = select_category_menu(choices=categories)
-        category_glossary_tree.append(category_selected)
+            # * LEVEL 2
+            categories = bootstrap.category_glossary(
+                MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=parent_category_selected, level=2
+            )
+            category_selected = select_category_menu(choices=categories)
+            category_glossary_tree.append(category_selected)
 
-        # * LEVEL 3 and 4
-        categories = bootstrap.category_glossary(
-            MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, parent_category=parent_category_selected
-            , level=3
-        )
-        category_glossary_tree = category_glossary_tree + categories
+            # * LEVEL 3 and 4
+            categories = bootstrap.category_glossary(
+                MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, parent_category=parent_category_selected
+                , level=3
+            )
+            category_glossary_tree = category_glossary_tree + categories
 
-        # * CONFIRM CRAWL PRODUCTS OF CATEGORIES SELECTED
-        bullets = ['', ' >', '  *', '   -']
-        for category in category_glossary_tree:
-            print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
+            # * CONFIRM CRAWL PRODUCTS OF CATEGORIES SELECTED
+            bullets = ['', ' >', '  *', '   -']
+            for category in category_glossary_tree:
+                print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
+    elif MARKETPLACE == 'linio':
+        confirm_message = 'Extraer productos de categorias?'
 
-    confirm = confirm_init_scraper_menu()
 
+    confirm = confirm_init_scraper_menu(confirm_message)
     if confirm.get('continue') is True:
-        print("iniciar mercadolibre main.py")
+        main(MARKETPLACE, COUNTRY, RECURSIVE, pid=PID, categories_path=categories_path, marketplace_config=bootstrap.country_config)
 
     # * Init scraper
     # main(args.marketplace, args.country, bool(args.recursive), args.categories_path)
