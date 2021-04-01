@@ -222,17 +222,23 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, category_id=N
         """, bcolors.ENDC)
         
             
-def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, recursive=False, categories_path=None, pid=None):
-    print(f"run scraper {marketplace_uid} {country_uid}")
+def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, category_id= None, recursive=False, categories_path=None, pid=None):
     scraper_link = None
     categories_to_scraper = []
     # TODO Scrapper Subcategorias
     if marketplace_uid == 'mercadolibre':
         df= pd.read_csv(categories_path)
         df= df[['id', 'name', 'href', 'hierarchy','parent']]
-        df= df[(df['hierarchy']==3) | (df['hierarchy']==4)]
+
+        level3_df= df[df['parent']==category_id]
+        level4_df= df[
+            df['parent'].apply( lambda parente_id: parente_id in list(level3_df['id'].unique()) ) 
+        ]
+        result = pd.concat([level3_df, level4_df])
+        # result.to_csv('7.csv')
         for index, row in df.iterrows():
-            categories_to_scraper.append((row['id'], row['href']))
+            if  row['parent']==category_id:
+                categories_to_scraper.append((row['id'], row['href']))
         
     elif marketplace_uid == 'linio':
         macrocategories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
@@ -248,7 +254,7 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
             print(e)
         
 
-def main(marketplace: str, country: str, recursive: bool, categories_path: str = None, marketplace_config: dict = None, pid :str = None):
+def main(marketplace: str, country: str, recursive: bool, category_id: str = None , categories_path: str = None, marketplace_config: dict = None, pid :str = None):
     """
     :param marketplace: name of marketplace
     :param country: code country in standard ISO_3166_COUNTRY_CODE
@@ -259,6 +265,7 @@ def main(marketplace: str, country: str, recursive: bool, categories_path: str =
         country, 
         pid = pid,
         origin = marketplace_config['origin'], # * Url marketplace Website
+        category_id = category_id,
         url_categories = marketplace_config['url_categories'], # * Url categories page
         categories_path= categories_path,
         recursive=recursive)
@@ -294,6 +301,7 @@ if __name__ == '__main__':
     categories_path = args.categories_path
 
     bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
+    category_selected = None
     if MARKETPLACE == 'mercadolibre':
         confirm_message = 'Extraer productos del arbol de categorias?'
         if args.categories_path is None:
@@ -327,9 +335,8 @@ if __name__ == '__main__':
     elif MARKETPLACE == 'linio':
         confirm_message = 'Extraer productos de categorias?'
 
-
     confirm = confirm_init_scraper_menu(confirm_message)
     if confirm.get('continue') is True:
-        main(MARKETPLACE, COUNTRY, RECURSIVE, pid=PID, categories_path=categories_path, marketplace_config=bootstrap.country_config)
+        main(MARKETPLACE, COUNTRY, RECURSIVE, categories_path=categories_path, pid=PID, category_id=category_selected.get('id'), marketplace_config=bootstrap.country_config)
         
     pass
