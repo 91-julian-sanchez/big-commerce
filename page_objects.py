@@ -162,6 +162,11 @@ class ProductSectionPage(HomePage):
                     'best_seller': best_seller,
                     'promotional': promotional,
                     'category_id': self.category_id,
+                    #Only with scraper page product
+                    'number_sales': None,
+                    'seller': None,
+                    'delivery': None,
+                    'rating': None,
                 })
         else:
             raise Exception("Multiple products layout")

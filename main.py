@@ -351,6 +351,5 @@ if __name__ == '__main__':
     
     else:
         
-        print("scraper product")
+        print("Scraper product page")
         _fetchProduct('mercadolibre', args.product_link)
-        # https://articulo.mercadolibre.com.co/MCO-568027298-wahoo-kickr-simulador-inteligente-para-bicicletas-_JM#position=1&type=item&tracking_id=56114e91-b1d9-45c4-b79b-dec519f9023a
