@@ -87,10 +87,11 @@ class ProductSectionPage(HomePage):
     _marketplace_id = None
     _origin = None
 
-    def __init__(self, marketplace_id, url, country_id=None):
+    def __init__(self, marketplace_id, url, country_id=None, category_id=None):
         super().__init__(marketplace_id, url)
         self._marketplace_id = marketplace_id
         self._country_id = country_id
+        self.category_id = category_id
         self._origin = config()['marketplace'][self._marketplace_id]['country'][self._country_id]['origin']
 
     @property
@@ -159,7 +160,13 @@ class ProductSectionPage(HomePage):
                     'price': price,
                     'price_discount': price_discount,
                     'best_seller': best_seller,
-                    'promotional': promotional
+                    'promotional': promotional,
+                    'category_id': self.category_id,
+                    #Only with scraper page product
+                    'number_sales': None,
+                    'seller': None,
+                    'delivery': None,
+                    'rating': None,
                 })
         else:
             raise Exception("Multiple products layout")
@@ -264,3 +271,49 @@ class CategoryPage(HomePage):
                 print("No se pudo...")
 
         return subcategories
+
+class ProductPage(HomePage):
+
+    _country_id = None
+    _marketplace_id = None
+    _origin = None
+
+    def __init__(self, marketplace_id, url, country_id=None):
+        super().__init__(marketplace_id, url)
+        self._marketplace_id = marketplace_id
+        self._country_id = country_id
+        
+    def get_product(self):
+       
+        # print(  )
+        seller = None
+        delivery = None
+        rating = None
+        
+        try:
+            seller_container = self._select('div.ui-pdp-seller__header__info-container')[0]
+            seller = seller_container.find('span','ui-pdp-color--BLUE').text
+        except Exception as e:
+            print(e)
+        
+        # try:
+        #     summary = self._select('div.ui-pdp-container__row ui-pdp-container__row--pick-up-summary')[0]
+        #     delivery = summary.find('h2','ui-pdp-color--GREEN ui-pdp-media__title').text  
+        #     if delivery is None:
+        #         summary = self._select('ui-pdp-container__row ui-pdp-container__row--shipping-summary')[0]
+        #         delivery = summary.find('span','price-tag-fraction').text
+        # except Exception as e:
+        #     print(e)
+            
+        try:
+            reviews__rating = self._select('div.ui-pdp-reviews__rating')[0]
+            rating = reviews__rating.find('h2','ui-pdp-reviews__rating__summary__average').text  
+        except Exception as e:
+            print(e)
+            
+        return  {
+            'number_sales': self._findText(self._html, "span", "ui-pdp-subtitle"),
+            'seller': seller,
+            'delivery': delivery,
+            'rating': rating,
+        }

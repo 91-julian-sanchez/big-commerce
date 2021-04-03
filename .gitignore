@@ -1,4 +1,16 @@
-output/
+# Cache
 _pycache_/
+__pycache__/*
+scraper_motor/scraper_motor/spiders/__pycache__/
+scraper_motor/scraper_motor/spiders/__pycache__/*
+scraper_motor/scraper_motor/_pycache_
+# Develop
 .idea/
+venv/
+# logs
+.log/*
+scraper_motor/scraper_motor/.log/*
+# outputs
 output/*
+.output/*
+scraper_motor/scraper_motor/spiders/.output/*
