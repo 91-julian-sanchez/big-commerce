@@ -27,22 +27,18 @@ def _build_link(host, link):
         return f"{host}/{link}"
 
 
-def _fetchProduct(marketplace, host, link):
+def _fetchProduct(marketplace,  link):
     # logger.info(f'Start fetching product at {link}')
 
     product = None
     try:
-        product = pages.HomePage(marketplace, _build_link(host, link))
-        # print(product._html)
+        product_page = pages.ProductPage(marketplace, link)
+        product = product_page.get_product()
     except (HTTPError, MaxRetryError) as e:
         logger.warning('Error while fetching article!', exc_info=False)
         pass
 
-    if product and not product._html.body:
-        logger.warning('Invalid product. There is not body')
-        return None
-
-    return product._html
+    return product
 
 
 def menu(options: list, label=None) -> int:
@@ -116,14 +112,27 @@ def scrapperProducts(products, marketplace_uid, country_uid, category_id=None, o
         #             link: {product['link']}
         #             """)
         print(f"{counter}. {product['name']}")
-        # TODO Scrapper product
-        # product_page = _fetchProduct(marketplace_uid,  product['link'])
-        #
-        # if product_page:
-        #     logger.info("product detail scraper!")
-        #     logger.info(product_page.title)
-        #
-        #     break;
+        # # TODO Scrapper product
+        product['number_sales'] = None
+        product['seller'] = None
+        product['delivery'] = None
+        product['rating'] = None
+        try:
+            # scraper_sleep = random.randint(1,9)
+            scraper_sleep = 0.2
+            # print(f"Siguiente producto en {scraper_sleep}(s)")
+            time.sleep(scraper_sleep)
+            product_page = _fetchProduct(marketplace_uid,  product['link'])
+            if product_page is not None:
+                product['number_sales'] = product_page.get('number_sales')
+                product['seller'] = product_page.get('seller')
+                product['delivery'] = product_page.get('delivery')
+                product['rating'] = product_page.get('rating')
+                
+        except Exception as e:
+            print("Fallo product_page.get_product()")
+            print(e)
+
         product['category_id'] = category_id
         counter += 1
     print(f"products scraped: {len(products)}")
@@ -145,11 +154,6 @@ def select_country_menu(country_config) -> str:
     print("* Seleccione País:")
     return list(country_config.keys())[menu([value['name'] for key, value in list(country_config.items())])]
 
-#
-# def select_category_menu(categories) -> object:
-#     print("* Seleccione Categoria:")
-#     return categories[menu([category['name'] for category in categories], "Categorias")]
-
     
 def select_subcategory_menu(subcategories) -> object:
     print("* Seleccione Subcategoria:")
@@ -170,7 +174,6 @@ def print_subcategory_selected(subcategory_selected):
             link: {subcategory_selected['link']}
     """, bcolors.ENDC)
     # print(f"selecciono: ", subcategory_selected)
-
 
 
 def scrapper_marketplace(marketplace_uid, country_uid,  link=None, category_id=None, overwrite=True, recursive=False, products_counter=0, pid=None):
@@ -285,58 +288,69 @@ if __name__ == '__main__':
     parser.add_argument("--recursive", required=False, help=f"Recursive scrapper pages: True or False")
     # * Categories tree path
     parser.add_argument("--categories_path", required=False, help=f"Categories path")
-
+    # * Scraper product
+    parser.add_argument("--product_link", required=False, help=f"Product link to scraper")
+    
     args = parser.parse_args()
+    
     if args.marketplace is None:
-        args.marketplace = Bootstrap.select_marketplace()
-
+            args.marketplace = Bootstrap.select_marketplace()
+    
     if args.country is None:
-        args.country = Bootstrap.select_country(args.marketplace)
+            args.country = Bootstrap.select_country(args.marketplace)
+            
+    if args.product_link is None:
 
-    MARKETPLACE = args.marketplace
-    DEBUG_MODE = True if args.debug == 'True' else False
-    COUNTRY = args.country
-    RECURSIVE = True if args.recursive == 'True' else False
-    PID = datetime.today().strftime('%y%m%d%H%M%S')
-    categories_path = args.categories_path
+        MARKETPLACE = args.marketplace
+        DEBUG_MODE = True if args.debug == 'True' else False
+        COUNTRY = args.country
+        RECURSIVE = True if args.recursive == 'True' else False
+        PID = datetime.today().strftime('%y%m%d%H%M%S')
+        categories_path = args.categories_path
 
-    bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
-    category_selected = None
-    if MARKETPLACE == 'mercadolibre':
-        confirm_message = 'Extraer productos del arbol de categorias?'
-        if args.categories_path is None:
-            # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
-            category_glossary_tree = []
-            categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
-            # * LEVEL 1
-            categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
-            parent_category_selected = select_category_menu(choices=categories)
-            category_glossary_tree.append(parent_category_selected)
+        bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
+        category_selected = None
+        if MARKETPLACE == 'mercadolibre':
+            confirm_message = 'Extraer productos del arbol de categorias?'
+            if args.categories_path is None:
+                # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
+                category_glossary_tree = []
+                categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
+                # * LEVEL 1
+                categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
+                parent_category_selected = select_category_menu(choices=categories)
+                category_glossary_tree.append(parent_category_selected)
 
-            # * LEVEL 2
-            categories = bootstrap.category_glossary(
-                MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=parent_category_selected, level=2
-            )
-            category_selected = select_category_menu(choices=categories)
-            category_glossary_tree.append(category_selected)
+                # * LEVEL 2
+                categories = bootstrap.category_glossary(
+                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=parent_category_selected, level=2
+                )
+                category_selected = select_category_menu(choices=categories)
+                category_glossary_tree.append(category_selected)
 
-            # * LEVEL 3 and 4
-            categories = bootstrap.category_glossary(
-                MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, parent_category=parent_category_selected
-                , level=3
-            )
-            category_glossary_tree = category_glossary_tree + categories
+                # * LEVEL 3 and 4
+                categories = bootstrap.category_glossary(
+                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, parent_category=parent_category_selected
+                    , level=3
+                )
+                category_glossary_tree = category_glossary_tree + categories
 
-            # * CONFIRM CRAWL PRODUCTS OF CATEGORIES SELECTED
-            bullets = ['', ' >', '  *', '   -']
-            for category in category_glossary_tree:
-                print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
-                
-    elif MARKETPLACE == 'linio':
-        confirm_message = 'Extraer productos de categorias?'
+                # * CONFIRM CRAWL PRODUCTS OF CATEGORIES SELECTED
+                bullets = ['', ' >', '  *', '   -']
+                for category in category_glossary_tree:
+                    print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
+                    
+        elif MARKETPLACE == 'linio':
+            confirm_message = 'Extraer productos de categorias?'
 
-    confirm = confirm_init_scraper_menu(confirm_message)
-    if confirm.get('continue') is True:
-        main(MARKETPLACE, COUNTRY, RECURSIVE, categories_path=categories_path, pid=PID, category_id=category_selected.get('id'), marketplace_config=bootstrap.country_config)
+        confirm = confirm_init_scraper_menu(confirm_message)
+        if confirm.get('continue') is True:
+            main(MARKETPLACE, COUNTRY, RECURSIVE, categories_path=categories_path, pid=PID, category_id=category_selected.get('id'), marketplace_config=bootstrap.country_config)
+            
+        pass
+    
+    else:
         
-    pass
+        print("scraper product")
+        _fetchProduct('mercadolibre', args.product_link)
+        # https://articulo.mercadolibre.com.co/MCO-568027298-wahoo-kickr-simulador-inteligente-para-bicicletas-_JM#position=1&type=item&tracking_id=56114e91-b1d9-45c4-b79b-dec519f9023a
