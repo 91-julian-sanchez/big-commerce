@@ -225,12 +225,27 @@ def scrapper_marketplace(marketplace_uid, country_uid,  link=None, category_id=N
         """, bcolors.ENDC)
         
             
-def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str, category_id= None, recursive=False, categories_path=None, pid=None):
+def run(
+    marketplace_uid: str, country_uid: str, origin: str, 
+    url_categories: str, category_id= None, categories_path=None, 
+    pid=None, recursive=False):
+    """[summary]
+
+    Args:
+        marketplace_uid (str): marketplace to scrape
+        country_uid (str): country code
+        origin (str): domain marketplace
+        url_categories (str): [description]
+        category_id ([type], optional): category to scrape
+        recursive (bool, optional): scraper recursive MODE
+        categories_path ([type], optional): path categories csv file
+        pid ([type], optional): id process scraper
+    """
     scraper_link = None
     categories_to_scraper = []
     # TODO Scrapper Subcategorias
+    df= pd.read_csv(categories_path)
     if marketplace_uid == 'mercadolibre':
-        df= pd.read_csv(categories_path)
         df= df[['id', 'name', 'href', 'hierarchy','parent']]
 
         level3_df= df[df['parent']==category_id]
@@ -238,15 +253,13 @@ def run(marketplace_uid: str, country_uid: str, origin: str, url_categories: str
             df['parent'].apply( lambda parente_id: parente_id in list(level3_df['id'].unique()) ) 
         ]
         result = pd.concat([level3_df, level4_df])
-        # result.to_csv('7.csv')
         for index, row in df.iterrows():
             if  row['parent']==category_id:
                 categories_to_scraper.append((row['id'], row['href']))
         
     elif marketplace_uid == 'linio':
-        macrocategories = scrapper_categories(marketplace_uid, url_categories, origin=origin)
-        macrocategory_selected = select_category_menu(macrocategories)
-        categories_to_scraper = [('unknown', macrocategory_selected['link'])]
+        for index, row in df.iterrows():
+            categories_to_scraper.append((row['id'], row['href']))
         
     # TODO Iniciar scrapper
     for category_id, link in categories_to_scraper:
@@ -309,9 +322,9 @@ if __name__ == '__main__':
         categories_path = args.categories_path
 
         bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
+        MARKETPLACE_CONFIG = bootstrap.country_config
         category_selected = None
         if MARKETPLACE == 'mercadolibre':
-            confirm_message = 'Extraer productos del arbol de categorias?'
             if args.categories_path is None:
                 # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
                 category_glossary_tree = []
@@ -340,8 +353,25 @@ if __name__ == '__main__':
                 for category in category_glossary_tree:
                     print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
                     
+            confirm_message = 'Extraer productos del arbol de categorias?'
+                    
         elif MARKETPLACE == 'linio':
             confirm_message = 'Extraer productos de categorias?'
+            categories = scrapper_categories(MARKETPLACE, MARKETPLACE_CONFIG['url_categories'], origin=MARKETPLACE_CONFIG['origin'])
+            category_selected = select_category_menu(categories)
+            for category in categories:
+                if category_selected.get('id') == category.get('id'):
+                    category_selected = category
+                    break
+            category_selected['hierarchy'] = 1
+            category_selected['href'] = category_selected['link']
+            category_selected['parent'] = None
+            category_selected['subcategories'] = 0
+            category_selected['uid'] = None
+            category_selected['index'] = 0
+            df = pd.DataFrame([category_selected])
+            categories_path = f"./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv"
+            df.to_csv(categories_path, index=False)
 
         confirm = confirm_init_scraper_menu(confirm_message)
         if confirm.get('continue') is True:

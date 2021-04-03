@@ -14,3 +14,4 @@ scraper_motor/scraper_motor/.log/*
 output/*
 .output/*
 scraper_motor/scraper_motor/spiders/.output/*
+_datascience/*.csv
