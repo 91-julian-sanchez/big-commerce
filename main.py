@@ -111,7 +111,7 @@ def scrapperProducts(products, marketplace_uid, country_uid, category_id=None, o
         #             Promocionado (Ads): {product['promotional']}
         #             link: {product['link']}
         #             """)
-        print(f"{counter}. {product['name']}")
+        print(f"{counter}. {product.get('name')}")
         # # TODO Scrapper product
         product['number_sales'] = None
         product['seller'] = None
@@ -289,10 +289,11 @@ def main(marketplace: str, country: str, recursive: bool, category_id: str = Non
 
 if __name__ == '__main__':
     
+    AVAILABLE_MARKETPLACES = Bootstrap.get_available_marketplaces()
     parser = argparse.ArgumentParser()
     # TODO scraper settings
     # * Select marketplace
-    parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str, choices=Bootstrap.get_marketplace_avalible())
+    parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str, choices=AVAILABLE_MARKETPLACES)
     # * Select country args --country {ISO_3166_COUNTRY_CODE}
     parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx, cl")
     # * Config DEBUG MODE
@@ -306,24 +307,25 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     
+    DEBUG_MODE = True if args.debug == 'True' else False
+    PID = datetime.today().strftime('%y%m%d%H%M%S')
+    
     if args.marketplace is None:
-            args.marketplace = Bootstrap.select_marketplace()
+            args.marketplace = Bootstrap.select_marketplace(available_marketplaces=AVAILABLE_MARKETPLACES)
+    MARKETPLACE = args.marketplace
     
     if args.country is None:
             args.country = Bootstrap.select_country(args.marketplace)
-            
+    COUNTRY = args.country
+    
     if args.product_link is None:
 
-        MARKETPLACE = args.marketplace
-        DEBUG_MODE = True if args.debug == 'True' else False
-        COUNTRY = args.country
         RECURSIVE = True if args.recursive == 'True' else False
-        PID = datetime.today().strftime('%y%m%d%H%M%S')
         categories_path = args.categories_path
-
         bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
         MARKETPLACE_CONFIG = bootstrap.country_config
         category_selected = None
+        
         if MARKETPLACE == 'mercadolibre':
             if args.categories_path is None:
                 # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
@@ -382,4 +384,9 @@ if __name__ == '__main__':
     else:
         
         print("Scraper product page")
-        _fetchProduct('mercadolibre', args.product_link)
+        products = [
+            {
+               'link': args.product_link,
+            } 
+        ]
+        scrapperProducts( products, MARKETPLACE, COUNTRY, pid=PID)

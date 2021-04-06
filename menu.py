@@ -1,7 +1,8 @@
 from __future__ import print_function, unicode_literals
 from PyInquirer import prompt, Separator
 from examples import custom_style_2
-
+import logging
+logging.basicConfig(filename='app.log', level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 class CliMenu:
     
@@ -20,6 +21,7 @@ class CliMenu:
             ]
             
     def start(self):
+        logging.debug("start menu")
         answers = prompt(self.questions, style=custom_style_2)
         return answers
     # def get_delivery_options(answers):

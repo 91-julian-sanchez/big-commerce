@@ -1,13 +1,18 @@
-from common import config
-from menu import CliMenu
+import logging
 import pandas as pd
 import csv
 import os
-from os import walk
 import subprocess
+import logging
+from common import config
+from menu import CliMenu
+from os import walk
+
+logging.basicConfig(filename='app.log', level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 
 def render_cli_menu(name=None, message=None, choices=None):
+    logging.debug("display select menu")
     return CliMenu(
         name=name,
         message=message,
@@ -16,22 +21,24 @@ def render_cli_menu(name=None, message=None, choices=None):
 
 
 def select_marketplace_menu(choices: list = None):
+    logging.debug("init marketplace menu")
     selected = render_cli_menu(
         name='marketplace',
         message='Que marketplace quieres scrapear?',
         choices=choices
     ).start()
-    # print("selected: ", selected)
+    logging.debug(f"returning {selected}")
     return selected
 
 
 def select_country_menu(choices: list = None):
+    logging.debug("init country menu")
     selected = render_cli_menu(
         name='country',
         message='En que país?',
         choices=choices
     ).start()
-    # print("selected: ", selected)
+    logging.debug(f"returning {selected}")
     return selected
 
 
@@ -133,20 +140,36 @@ class Bootstrap:
     _debug = None
 
     @classmethod
-    def get_marketplace_avalible(cls):
-        return list(cls.CONFIG['marketplace'].keys())
+    def get_available_marketplaces(cls):
+        logging.info(f"get avalible marketplaces")
+        available_marketplaces = list(cls.CONFIG['marketplace'].keys())
+        logging.info(f"avalible marketplaces: '{', '.join(available_marketplaces)}'")
+        return available_marketplaces
 
     @classmethod
-    def select_marketplace(cls):
-        return select_marketplace_menu(
-            choices=list(cls.CONFIG['marketplace'].keys())
+    def select_marketplace(cls, available_marketplaces=None):
+        logging.info(f"Select marketplace to scraper")
+        marketplace_selected = select_marketplace_menu(
+            choices=cls.get_available_marketplaces() if available_marketplaces is None else available_marketplaces
         ).get('marketplace')
+        logging.info(f"marketplace selected: '{marketplace_selected}'")
+        return marketplace_selected
 
+    @classmethod
+    def get_available_countrys(cls, marketplace):
+        logging.info(f"get avalible countrys")
+        available_countrys = list(cls.CONFIG['marketplace'][marketplace]['country'].keys())
+        logging.info(f"available countrys: '{', '.join(available_countrys)}'")
+        return available_countrys
+    
     @classmethod
     def select_country(cls, marketplace=None):
-        return select_country_menu(
-            choices=list(cls.CONFIG['marketplace'][marketplace]['country'].keys())
+        logging.info(f"Select country for marketplace")
+        country_selected = select_country_menu(
+            choices=cls.get_available_countrys(marketplace)
         ).get('country')
+        logging.info(f"country selected: '{country_selected}'")
+        return country_selected
 
     @property
     def marketplace(self):
@@ -154,7 +177,7 @@ class Bootstrap:
 
     @marketplace.setter
     def marketplace(self, marketplace):
-        if marketplace in Bootstrap.get_marketplace_avalible():
+        if marketplace in Bootstrap.get_available_marketplaces():
             self._marketplace = marketplace
         else:
             raise Exception(f"Marketplace invalido: {marketplace}")
@@ -250,7 +273,7 @@ class Bootstrap:
 
 
 if __name__ == '__main__':
-    print(Bootstrap.get_marketplace_avalible())
+    print(Bootstrap.get_available_marketplaces())
     bootstrap = Bootstrap("mercadolibre")
     print(bootstrap.marketplace)
     bootstrap.country = 'co'
