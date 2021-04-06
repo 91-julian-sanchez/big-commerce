@@ -12,6 +12,7 @@ from urllib3.exceptions import MaxRetryError
 from bootstrap import Bootstrap, select_category_menu, confirm_init_scraper_menu
 from datetime import datetime
 from bcolors import bcolors
+from utils import is_true
 
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
 is_well_formed_link = re.compile(r'^https?://.+/.+$')
 is_root_path = re.compile(r'^/.+$')
 total_products_scraped = 0
+
 
 def _build_link(host, link):
     if is_well_formed_link.match(link):
@@ -289,9 +291,11 @@ def main(marketplace: str, country: str, recursive: bool, category_id: str = Non
 
 if __name__ == '__main__':
     
-    AVAILABLE_MARKETPLACES = Bootstrap.get_available_marketplaces()
-    parser = argparse.ArgumentParser()
     # TODO scraper settings
+    AVAILABLE_MARKETPLACES = Bootstrap.get_available_marketplaces()
+    PID = datetime.today().strftime('%y%m%d%H%M%S')
+    # * Options args
+    parser = argparse.ArgumentParser()
     # * Select marketplace
     parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str, choices=AVAILABLE_MARKETPLACES)
     # * Select country args --country {ISO_3166_COUNTRY_CODE}
@@ -304,11 +308,9 @@ if __name__ == '__main__':
     parser.add_argument("--categories_path", required=False, help=f"Categories path")
     # * Scraper product
     parser.add_argument("--product_link", required=False, help=f"Product link to scraper")
-    
     args = parser.parse_args()
     
-    DEBUG_MODE = True if args.debug == 'True' else False
-    PID = datetime.today().strftime('%y%m%d%H%M%S')
+    DEBUG_MODE = is_true(args.debug)
     
     if args.marketplace is None:
             args.marketplace = Bootstrap.select_marketplace(available_marketplaces=AVAILABLE_MARKETPLACES)
@@ -320,14 +322,13 @@ if __name__ == '__main__':
     
     if args.product_link is None:
 
-        RECURSIVE = True if args.recursive == 'True' else False
+        RECURSIVE = is_true(args.recursive)
         categories_path = args.categories_path
         bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
-        MARKETPLACE_CONFIG = bootstrap.country_config
         category_selected = None
         
         if MARKETPLACE == 'mercadolibre':
-            if args.categories_path is None:
+            if categories_path is None:
                 # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
                 category_glossary_tree = []
                 categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
@@ -335,7 +336,6 @@ if __name__ == '__main__':
                 categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
                 parent_category_selected = select_category_menu(choices=categories)
                 category_glossary_tree.append(parent_category_selected)
-
                 # * LEVEL 2
                 categories = bootstrap.category_glossary(
                     MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=parent_category_selected, level=2
@@ -359,6 +359,7 @@ if __name__ == '__main__':
                     
         elif MARKETPLACE == 'linio':
             confirm_message = 'Extraer productos de categorias?'
+            MARKETPLACE_CONFIG = bootstrap.country_config
             categories = scrapper_categories(MARKETPLACE, MARKETPLACE_CONFIG['url_categories'], origin=MARKETPLACE_CONFIG['origin'])
             category_selected = select_category_menu(categories)
             for category in categories:

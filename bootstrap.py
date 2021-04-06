@@ -133,21 +133,22 @@ def motor_scraper_start(marketplace, country, category_level=None, category_href
 
 class Bootstrap:
     CONFIG = config()
+    _AVAILABLE_MARKETPLACES =  list(config()['marketplace'].keys())
     countries_config = None
     country_config = None
     _marketplace = None
     _recursive = None
     _debug = None
-
+    
     @classmethod
     def get_available_marketplaces(cls):
         logging.info(f"get avalible marketplaces")
-        available_marketplaces = list(cls.CONFIG['marketplace'].keys())
+        available_marketplaces = cls._AVAILABLE_MARKETPLACES
         logging.info(f"avalible marketplaces: '{', '.join(available_marketplaces)}'")
         return available_marketplaces
 
     @classmethod
-    def select_marketplace(cls, available_marketplaces=None):
+    def select_marketplace(cls, available_marketplaces: list = None):
         logging.info(f"Select marketplace to scraper")
         marketplace_selected = select_marketplace_menu(
             choices=cls.get_available_marketplaces() if available_marketplaces is None else available_marketplaces
@@ -163,7 +164,7 @@ class Bootstrap:
         return available_countrys
     
     @classmethod
-    def select_country(cls, marketplace=None):
+    def select_country(cls, marketplace: str = None):
         logging.info(f"Select country for marketplace")
         country_selected = select_country_menu(
             choices=cls.get_available_countrys(marketplace)
@@ -177,7 +178,7 @@ class Bootstrap:
 
     @marketplace.setter
     def marketplace(self, marketplace):
-        if marketplace in Bootstrap.get_available_marketplaces():
+        if marketplace in self._AVAILABLE_MARKETPLACES:
             self._marketplace = marketplace
         else:
             raise Exception(f"Marketplace invalido: {marketplace}")
@@ -206,13 +207,18 @@ class Bootstrap:
         else:
             raise Exception("Recursion no valida.")
 
-    def __init__(self, marketplace, country, recursive=False, debug=False):
-        self.debug = debug
+    def __init__(self, marketplace: str, country: str, recursive: bool = False, debug: bool = False):
+        logging.info(f"""Init scraper:
+        marketplace: '{marketplace}''
+        country: '{country}'
+        recursive: {recursive}
+        debug: {debug}""")
         self.marketplace = marketplace
+        self.debug = debug
+        self.recursive = recursive
         self.countries_config: dict = self.CONFIG['marketplace'][marketplace]['country']
         self.country = country
         self.country_config = self.countries_config.get(country)
-        self.recursive = recursive
 
     def category_glossary(
             self, marketplace, country, pid, debug_mode, level=1, category: dict = None, parent_category: dict = None
@@ -262,7 +268,7 @@ class Bootstrap:
                     print(e)
 
             return category_glossary_tree
-        # print("categories: ", categories)
+        print(f"returning {len(categories)} categories")
         return categories
 
     def __str__(self):
