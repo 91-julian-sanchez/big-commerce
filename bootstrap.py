@@ -268,7 +268,7 @@ class Bootstrap:
                     print(e)
 
             return category_glossary_tree
-        print(f"returning {len(categories)} categories")
+        logging.info(f"returning {len(categories)} categories")
         return categories
 
     def __str__(self):

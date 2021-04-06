@@ -310,7 +310,8 @@ class ProductPage(HomePage):
             rating = reviews__rating.find('h2','ui-pdp-reviews__rating__summary__average').text  
         except Exception as e:
             print(e)
-            
+        
+        # raise Exception('kill')  
         return  {
             'number_sales': self._findText(self._html, "span", "ui-pdp-subtitle"),
             'seller': seller,
