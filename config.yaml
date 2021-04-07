@@ -18,6 +18,23 @@ marketplace:
         origin: https://www.mercadolibre.com.mx
         url_categories: https://www.mercadolibre.com.mx/categorias
     queries:
+      categories_container_level_1: 'div.categories__container'
+      category_href_level_1: 'h2.categories__title > a'
+      category_name_level_1: 'h2.categories__title > a::text'
+      category_subcategories_level_1: 'ul.categories__list li'
+      categories_container_level_2: 'div.desktop__view-child'
+      category_href_level_2: 'a'
+      category_name_level_2: 'div.category-list__permanlink > h3::text'
+      category_subcategories_level_2: 'ul.desktop__view-ul > li'
+      categories_container_level_3: 'ul.desktop__view-ul > li'
+      category_href_level_3: 'a'
+      category_name_level_3: 'h4::text'
+      category_subcategories_level_3: ''
+      categories_container_level_4: '.ui-search-filter-dl:nth-child(3) > dd.ui-search-filter-container'
+      category_href_level_4: 'a.ui-search-link'
+      category_name_level_4: 'a.ui-search-link > span.ui-search-filter-name::text'
+      category_subcategories_level_4: ''
+      # ! OLD
       categorypage_subcategories_links: '.ui-search-filter-dl:nth-child(3) > .ui-search-filter-container > a'
       list_products: '.ui-search-layout'
       product_container: 'ui-search-layout__item'
@@ -39,12 +56,10 @@ marketplace:
       co:
         name: Colombia
         origin: https://www.linio.com.co
-        url: https://linio.com.co/c/deportes
         url_categories: https://www.linio.com.co
       mx:
         name: Mexico
         origin: https://www.linio.com.mx
-        url: https://linio.com.mx/c/deportes
         url_categories: https://www.linio.com.mx
     queries:
       categorypage_subcategories_links: '.catalogue-list > ul > li.active > ul > li > a'
@@ -60,20 +75,5 @@ marketplace:
       product_best_seller: 'ui-search-item__highlight-label--best_seller'
       product_promotional: '.catalogue-sponsored-product'
       page_categories: '.main-menu .nav > li'
-queries:
-  categories_container_level_1: 'div.categories__container'
-  category_href_level_1: 'h2.categories__title > a'
-  category_name_level_1: 'h2.categories__title > a::text'
-  category_subcategories_level_1: 'ul.categories__list li'
-  categories_container_level_2: 'div.desktop__view-child'
-  category_href_level_2: 'a'
-  category_name_level_2: 'div.category-list__permanlink > h3::text'
-  category_subcategories_level_2: 'ul.desktop__view-ul > li'
-  categories_container_level_3: 'ul.desktop__view-ul > li'
-  category_href_level_3: 'a'
-  category_name_level_3: 'h4::text'
-  category_subcategories_level_3: ''
-  categories_container_level_4: '.ui-search-filter-dl:nth-child(3) > dd.ui-search-filter-container'
-  category_href_level_4: 'a.ui-search-link'
-  category_name_level_4: 'a.ui-search-link > span.ui-search-filter-name::text'
-  category_subcategories_level_4: ''
+
+  
