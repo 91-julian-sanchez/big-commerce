@@ -16,6 +16,9 @@ Optional argument | Description
 
 DOWNLOAD_DELAY: pause length to (N) seconds
 Example: Deportes y Fitness > Ciclismo: 
+
+### MERCADOLIBRE
+
 * All categories
 ```bash
  $ scrapy crawl category_glossary
@@ -29,4 +32,10 @@ scrapy crawl category_glossary -a category_href="https://www.mercadolibre.com.co
 * Accesorios para Bicicletas category
 ```bash
 scrapy crawl category_glossary -a category_href="https://deportes.mercadolibre.com.co/ciclismo-accesorios-bicicletas/#CATEGORY_ID=MCO12214&S=hc_deportes-y-fitness" -a category_level=4
+```
+
+### LINIO
+* All categories
+```bash
+ $ scrapy crawl linio -a country=co
 ```

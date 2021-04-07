@@ -225,49 +225,60 @@ class Bootstrap:
     ):
         # TODO INIT SCRAPER =====================================================================
         category_glossary_tree = []
-        # * LEVEL 1
-        if level == 1:
-            print(f"Crawl {marketplace}: Extrayendo categorias...")
-            motor_scraper_start(marketplace, country, pid=pid, debug=debug_mode)
-            category_glossary_df = open_last_scrapy_file(pid=pid)
-            categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
-                           'hierarchy': row['hierarchy']} for index, row in category_glossary_df.iterrows()]
-        # * LEVEL 2
-        if level == 2:
-            print(f"Crawl {marketplace}> Extrayendo categorias de '{category.get('name')}'...")
-            motor_scraper_start(marketplace, country, pid=pid, category_level=level,
-                                category_href=category.get('href'), debug=debug_mode)
-            category_glossary_df = open_last_scrapy_file()
-            level_2_category_glossary_df = category_glossary_df[category_glossary_df['hierarchy'] == 2]
-            categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
-                           'hierarchy': row['hierarchy']} for index, row in level_2_category_glossary_df.iterrows()]
+        if marketplace == 'mercadolibre':
+            # * LEVEL 1
+            if level == 1:
+                print(f"Crawl {marketplace}: Extrayendo categorias...")
+                motor_scraper_start(marketplace, country, pid=pid, debug=debug_mode)
+                category_glossary_df = open_last_scrapy_file(pid=pid)
+                categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
+                            'hierarchy': row['hierarchy']} for index, row in category_glossary_df.iterrows()]
+            # * LEVEL 2
+            if level == 2:
+                print(f"Crawl {marketplace}> Extrayendo categorias de '{category.get('name')}'...")
+                motor_scraper_start(marketplace, country, pid=pid, category_level=level,
+                                    category_href=category.get('href'), debug=debug_mode)
+                category_glossary_df = open_last_scrapy_file()
+                level_2_category_glossary_df = category_glossary_df[category_glossary_df['hierarchy'] == 2]
+                categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
+                            'hierarchy': row['hierarchy']} for index, row in level_2_category_glossary_df.iterrows()]
 
-        # * LEVEL 3
-        if level == 3:
-            print(
-                f"Crawl {marketplace}: Extrayendo categorias de '{parent_category.get('name')} > {category.get('name')}'...")
-            category_glossary_df = open_last_scrapy_file()
-            level_3_category_glossary_df = category_glossary_df[category_glossary_df['parent'] == category.get('id')]
-            for index, row in level_3_category_glossary_df.iterrows():
-                category_glossary_tree.append(
-                    {'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
-                     'hierarchy': row['hierarchy']})
-                try:
-                    # * LEVEL 4
-                    motor_scraper_start(marketplace, country, pid=pid, category_level=4,
-                                        category_href=row['href'], debug=debug_mode, parent=row['id'])
-                    level_4_category_glossary_df = open_last_scrapy_file()
-                    level_4_category_glossary_df = level_4_category_glossary_df[
-                        level_4_category_glossary_df['parent'] == row['id']
-                        ]
-                    for index, row in level_4_category_glossary_df.iterrows():
-                        category_glossary_tree.append(
-                            {'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
-                             'hierarchy': row['hierarchy']})
-                except Exception as e:
-                    print(e)
+            # * LEVEL 3
+            if level == 3:
+                print(
+                    f"Crawl {marketplace}: Extrayendo categorias de '{parent_category.get('name')} > {category.get('name')}'...")
+                category_glossary_df = open_last_scrapy_file()
+                level_3_category_glossary_df = category_glossary_df[category_glossary_df['parent'] == category.get('id')]
+                for index, row in level_3_category_glossary_df.iterrows():
+                    category_glossary_tree.append(
+                        {'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
+                        'hierarchy': row['hierarchy']})
+                    try:
+                        # * LEVEL 4
+                        motor_scraper_start(marketplace, country, pid=pid, category_level=4,
+                                            category_href=row['href'], debug=debug_mode, parent=row['id'])
+                        level_4_category_glossary_df = open_last_scrapy_file()
+                        level_4_category_glossary_df = level_4_category_glossary_df[
+                            level_4_category_glossary_df['parent'] == row['id']
+                            ]
+                        for index, row in level_4_category_glossary_df.iterrows():
+                            category_glossary_tree.append(
+                                {'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
+                                'hierarchy': row['hierarchy']})
+                    except Exception as e:
+                        print(e)
 
-            return category_glossary_tree
+                return category_glossary_tree
+            
+        if marketplace == 'linio':
+            # * LEVEL 1
+            if level == 1:
+                print(f"Crawl {marketplace}: Extrayendo categorias...")
+                motor_scraper_start(marketplace, country, pid=pid, debug=debug_mode)
+                category_glossary_df = open_last_scrapy_file(pid=pid)
+                categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
+                            'hierarchy': row['hierarchy']} for index, row in category_glossary_df.iterrows()]
+                
         logging.info(f"returning {len(categories)} categories")
         return categories
 

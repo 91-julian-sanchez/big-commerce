@@ -358,23 +358,29 @@ if __name__ == '__main__':
             confirm_message = 'Extraer productos del arbol de categorias?'
                     
         elif MARKETPLACE == 'linio':
-            confirm_message = 'Extraer productos de categorias?'
-            MARKETPLACE_CONFIG = bootstrap.country_config
-            categories = scrapper_categories(MARKETPLACE, MARKETPLACE_CONFIG['url_categories'], origin=MARKETPLACE_CONFIG['origin'])
-            category_selected = select_category_menu(categories)
-            for category in categories:
-                if category_selected.get('id') == category.get('id'):
-                    category_selected = category
-                    break
-            category_selected['hierarchy'] = 1
-            category_selected['href'] = category_selected['link']
-            category_selected['parent'] = None
-            category_selected['subcategories'] = 0
-            category_selected['uid'] = None
-            category_selected['index'] = 0
-            df = pd.DataFrame([category_selected])
-            categories_path = f"./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv"
-            df.to_csv(categories_path, index=False)
+            # confirm_message = 'Extraer productos de categorias?'
+            # MARKETPLACE_CONFIG = bootstrap.country_config
+            # categories = scrapper_categories(MARKETPLACE, MARKETPLACE_CONFIG['url_categories'], origin=MARKETPLACE_CONFIG['origin'])
+            # category_selected = select_category_menu(categories)
+            # for category in categories:
+            #     if category_selected.get('id') == category.get('id'):
+            #         category_selected = category
+            #         break
+            # category_selected['hierarchy'] = 1
+            # category_selected['href'] = category_selected['link']
+            # category_selected['parent'] = None
+            # category_selected['subcategories'] = 0
+            # category_selected['uid'] = None
+            # category_selected['index'] = 0
+            # df = pd.DataFrame([category_selected])
+            # categories_path = f"./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv"
+            # df.to_csv(categories_path, index=False)
+            category_glossary_tree = []
+            categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
+            # * LEVEL 1
+            categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
+            parent_category_selected = select_category_menu(choices=categories)
+            category_glossary_tree.append(parent_category_selected)
 
         confirm = confirm_init_scraper_menu(confirm_message)
         if confirm.get('continue') is True:

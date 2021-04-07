@@ -19,3 +19,5 @@ scraper_motor/scraper_motor/spiders/.output/*
 _datascience/*.csv
 app.log
 _datascience/ETL.csv
+scraper_motor/scraper_motor/spiders/*.csv
+scraper_motor/scraper_motor/spiders/*.log
