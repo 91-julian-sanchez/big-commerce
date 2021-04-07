@@ -48,9 +48,7 @@ class CategoryGlossarySpider(scrapy.Spider):
                 elif level == 4:
                     yield scrapy.Request(url=url, meta={'parent_id': parent, "level": level}, callback=self.parse_products_category_page)
         else:
-            # print(self.country)
             urls = [
-                # f'https://www.mercadolibre.com.{self.country}/categorias',
                 self.config['marketplace']['mercadolibre']['country'][self.country]['url_categories']
             ]
             for url in urls:
@@ -68,8 +66,8 @@ class CategoryGlossarySpider(scrapy.Spider):
         self.logger.info("parse_categories_page>> Visited %s", response.url)
         # TODO recorrer categorias de primer nivel
         level = 1
-        for index, categories_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
-            href = categories_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
+        for index, categories_container in enumerate(response.css(self.config['marketplace']['mercadolibre']['queries'][f'categories_container_level_{level}'])):
+            href = categories_container.css(self.config['marketplace']['mercadolibre']['queries'][f'category_href_level_{level}']).attrib['href']
             id = self._extract_category_ids_from_href(href).get('c_category_id')
             yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=1)
             # !add flag to recursive
@@ -85,15 +83,15 @@ class CategoryGlossarySpider(scrapy.Spider):
         self.logger.info("parse_category_page>> Visited %s", response.url)
         level= response.meta.get('level')
         # TODO recorrer categorias de segundo nivel
-        for index, categories_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
-            href = categories_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
+        for index, categories_container in enumerate(response.css(self.config['marketplace']['mercadolibre']['queries'][f'categories_container_level_{level}'])):
+            href = categories_container.css(self.config['marketplace']['mercadolibre']['queries'][f'category_href_level_{level}']).attrib['href']
             id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
             yield self._extract_category_data(id, category_container=categories_container, href=href, index=index, level=level, parent=response.meta.get('parent_id'), hierarchy=2)
             # # TODO recorrer categorias de tercer nivel
             next_level= 3
             next_parent_id = copy.copy(id)
-            for count, category_container in enumerate(categories_container.css(self.config['queries'][f'categories_container_level_{next_level}'])):
-                href = category_container.css(self.config['queries'][f'category_href_level_{next_level}']).attrib['href']
+            for count, category_container in enumerate(categories_container.css(self.config['marketplace']['mercadolibre']['queries'][f'categories_container_level_{next_level}'])):
+                href = category_container.css(self.config['marketplace']['mercadolibre']['queries'][f'category_href_level_{next_level}']).attrib['href']
                 id = self._extract_category_ids_from_href("".join((href).split("#")[1:2])).get('c_category_id')
                 yield self._extract_category_data(id, category_container=category_container, href=href, index=count, level=next_level, parent=next_parent_id, hierarchy=3)
                 # !add flag to recursive
@@ -108,19 +106,19 @@ class CategoryGlossarySpider(scrapy.Spider):
     def parse_products_category_page(self, response):
         self.logger.info("parse_products_category_page>> Visited %s", response.url)
         level = 4
-        for index, category_container in enumerate(response.css(self.config['queries'][f'categories_container_level_{level}'])):
-            href = category_container.css(self.config['queries'][f'category_href_level_{level}']).attrib['href']
+        for index, category_container in enumerate(response.css(self.config['marketplace']['mercadolibre']['queries'][f'categories_container_level_{level}'])):
+            href = category_container.css(self.config['marketplace']['mercadolibre']['queries'][f'category_href_level_{level}']).attrib['href']
             id = "LAST_ID"
             yield self._extract_category_data(id, category_container=category_container, href=href, index=index, level=level, hierarchy=4, parent=response.meta.get('parent_id'))
         
     def _extract_category_data(self, id, category_container=None,  href:str =None, index:int =0, level:int=None, parent=None, hierarchy:int =1):
         
-        if self.config['queries'][f'category_subcategories_level_{level}']:
-            subcategories = len(category_container.css(self.config['queries'][f'category_subcategories_level_{level}']))
+        if self.config['marketplace']['mercadolibre']['queries'][f'category_subcategories_level_{level}']:
+            subcategories = len(category_container.css(self.config['marketplace']['mercadolibre']['queries'][f'category_subcategories_level_{level}']))
         else:
             subcategories = 0
           
-        name = category_container.css(self.config['queries'][f'category_name_level_{level}']).get()
+        name = category_container.css(self.config['marketplace']['mercadolibre']['queries'][f'category_name_level_{level}']).get()
     
         return self._render_category_of_catalog(
             id=id,

@@ -19,9 +19,9 @@ Example: Deportes y Fitness > Ciclismo:
 
 ### MERCADOLIBRE
 
-* All categories
+* All categories level 1
 ```bash
- $ scrapy crawl category_glossary
+ $ scrapy crawl category_glossary -a country={COUNTRY_CODE}
 ```
 
 * Deportes y Fitness categories
@@ -37,5 +37,5 @@ scrapy crawl category_glossary -a category_href="https://deportes.mercadolibre.c
 ### LINIO
 * All categories
 ```bash
- $ scrapy crawl linio -a country=co
+ $ scrapy crawl linio -a country={COUNTRY_CODE}
 ```
