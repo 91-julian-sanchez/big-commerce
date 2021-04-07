@@ -255,6 +255,18 @@ def main(marketplace: str, country: str, recursive: bool, category_id: str = Non
         recursive=recursive)
 
 
+def get_marketplace(marketplace: str, available_marketplaces: list):
+    if marketplace is None:
+        marketplace = Bootstrap.select_marketplace(available_marketplaces=available_marketplaces)
+    return marketplace
+
+
+def get_country(country: str, marketplace: str):
+    if country is None:
+        country = Bootstrap.select_country(marketplace)
+    return country
+
+
 if __name__ == '__main__':
     
     # TODO scraper settings
@@ -277,17 +289,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     DEBUG_MODE = is_true(args.debug)
-    
-    if args.marketplace is None:
-        args.marketplace = Bootstrap.select_marketplace(available_marketplaces=AVAILABLE_MARKETPLACES)
-    MARKETPLACE = args.marketplace
-    
-    if args.country is None:
-        args.country = Bootstrap.select_country(args.marketplace)
-    COUNTRY = args.country
+    MARKETPLACE = get_marketplace(args.marketplace, AVAILABLE_MARKETPLACES)
+    COUNTRY = get_country(args.country, MARKETPLACE)
     
     if args.product_link is None:
-
         RECURSIVE = is_true(args.recursive)
         categories_path = args.categories_path
         bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)

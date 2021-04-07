@@ -57,13 +57,14 @@ def select_category_menu(choices):
 
 
 def confirm_init_scraper_menu(message):
+    logging.debug("init confirm menu")
     selected = CliMenu(questions={
         'type': 'confirm',
         'message': message,
         'name': 'continue',
         'default': True,
     }).start()
-    # print(selected)
+    logging.debug(f"returning {selected}")
     return selected
 
 
@@ -130,7 +131,6 @@ def motor_scraper_start(marketplace, country, category_level=None, category_href
     motor_scraper_subprocess_shell(marketplace=marketplace, country=country, category_level=category_level,
                                        parent=parent, category_href=category_href, debug=debug, pid=pid)
     
-
 
 class Bootstrap:
     CONFIG = config()
@@ -222,7 +222,8 @@ class Bootstrap:
         self.country_config = self.countries_config.get(country)
 
     def category_glossary(
-            self, marketplace, country, pid, debug_mode, level=1, category: dict = None, parent_category: dict = None
+            self, marketplace: str, country: str, pid: str, debug_mode: bool,
+            level: int = 1, category: dict = None, parent_category: dict = None
     ):
         # TODO INIT SCRAPER =====================================================================
         category_glossary_tree = []
@@ -280,7 +281,7 @@ class Bootstrap:
                 categories = [{'name': row['name'], 'href': row['href'], 'id': row['id'], 'parent': row['parent'],
                             'hierarchy': row['hierarchy']} for index, row in category_glossary_df.iterrows()]
                 
-        logging.info(f"returning {len(categories)} categories")
+        logging.info(f"returning {len(categories)} categories of level {level}")
         return categories
 
     def __str__(self):
