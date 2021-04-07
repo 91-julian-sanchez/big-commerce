@@ -267,15 +267,11 @@ def get_country(country: str, marketplace: str):
     return country
 
 
-if __name__ == '__main__':
-    
-    # TODO scraper settings
-    AVAILABLE_MARKETPLACES = Bootstrap.get_available_marketplaces()
-    PID = datetime.today().strftime('%y%m%d%H%M%S')
-    # * Options args
+def parse_args(available_marketplaces: list):
     parser = argparse.ArgumentParser()
     # * Select marketplace
-    parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str, choices=AVAILABLE_MARKETPLACES)
+    parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str,
+                        choices=available_marketplaces)
     # * Select country args --country {ISO_3166_COUNTRY_CODE}
     parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx, cl")
     # * Config DEBUG MODE
@@ -286,8 +282,22 @@ if __name__ == '__main__':
     parser.add_argument("--categories_path", required=False, help=f"Categories path")
     # * Scraper product
     parser.add_argument("--product_link", required=False, help=f"Product link to scraper")
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def scraper_categories(marketplace, country, pid, debug_mode):
+    categories = bootstrap.category_glossary(marketplace, country, pid, debug_mode)
+    category_selected = select_category_menu(choices=categories)
+    return categories, category_selected
+
+
+if __name__ == '__main__':
     
+    # TODO scraper settings
+    AVAILABLE_MARKETPLACES = Bootstrap.get_available_marketplaces()
+    PID = datetime.today().strftime('%y%m%d%H%M%S')
+    # * Options args
+    args = parse_args(AVAILABLE_MARKETPLACES)
     DEBUG_MODE = is_true(args.debug)
     MARKETPLACE = get_marketplace(args.marketplace, AVAILABLE_MARKETPLACES)
     COUNTRY = get_country(args.country, MARKETPLACE)
@@ -303,24 +313,24 @@ if __name__ == '__main__':
         if categories_path is None:
 
             categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
+            # * LEVEL 1
+            categories, category_selected = scraper_categories(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
+            category_glossary_tree.append(category_selected)
 
             if MARKETPLACE == 'mercadolibre':
                 # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
-                # * LEVEL 1
-                categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
-                parent_category_selected = select_category_menu(choices=categories)
-                category_glossary_tree.append(parent_category_selected)
+                parent_category_selected = category_selected
                 # * LEVEL 2
                 categories = bootstrap.category_glossary(
-                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=parent_category_selected, level=2
+                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, level=2
                 )
                 category_selected = select_category_menu(choices=categories)
                 category_glossary_tree.append(category_selected)
 
                 # * LEVEL 3 and 4
                 categories = bootstrap.category_glossary(
-                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, parent_category=parent_category_selected
-                    , level=3
+                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, level=3,
+                    parent_category=parent_category_selected
                 )
                 category_glossary_tree = category_glossary_tree + categories
 
@@ -333,10 +343,7 @@ if __name__ == '__main__':
 
             elif MARKETPLACE == 'linio':
                 # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
-                # * LEVEL 1
-                categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
-                category_selected = select_category_menu(choices=categories)
-                category_glossary_tree.append(category_selected)
+                print(f"Crawl {MARKETPLACE}> init...")
 
         confirm = confirm_init_scraper_menu(confirm_message)
         if confirm.get('continue') is True:
