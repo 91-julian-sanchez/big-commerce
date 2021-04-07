@@ -296,13 +296,16 @@ if __name__ == '__main__':
         RECURSIVE = is_true(args.recursive)
         categories_path = args.categories_path
         bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
+        category_glossary_tree = []
         category_selected = None
-        
-        if MARKETPLACE == 'mercadolibre':
-            if categories_path is None:
+        confirm_message = 'Extraer productos de categorias?'
+
+        if categories_path is None:
+
+            categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
+
+            if MARKETPLACE == 'mercadolibre':
                 # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
-                category_glossary_tree = []
-                categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
                 # * LEVEL 1
                 categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
                 parent_category_selected = select_category_menu(choices=categories)
@@ -325,22 +328,20 @@ if __name__ == '__main__':
                 bullets = ['', ' >', '  *', '   -']
                 for category in category_glossary_tree:
                     print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
-                    
-            confirm_message = 'Extraer productos del arbol de categorias?'
-                    
-        elif MARKETPLACE == 'linio':
-            category_glossary_tree = []
-            categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
-            # * LEVEL 1
-            categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
-            category_selected = select_category_menu(choices=categories)
-            category_glossary_tree.append(category_selected)
-            
-            confirm_message = 'Extraer productos de categorias?'
+
+                confirm_message = 'Extraer productos del arbol de categorias?'
+
+            elif MARKETPLACE == 'linio':
+                # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
+                # * LEVEL 1
+                categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
+                category_selected = select_category_menu(choices=categories)
+                category_glossary_tree.append(category_selected)
 
         confirm = confirm_init_scraper_menu(confirm_message)
         if confirm.get('continue') is True:
-            main(MARKETPLACE, COUNTRY, RECURSIVE, categories_path=categories_path, pid=PID, category_id=category_selected.get('id'), marketplace_config=bootstrap.country_config)
+            main(MARKETPLACE, COUNTRY, RECURSIVE, categories_path=categories_path, pid=PID,
+                 category_id=category_selected.get('id'), marketplace_config=bootstrap.country_config)
             
         pass
     
@@ -352,4 +353,4 @@ if __name__ == '__main__':
                'link': args.product_link,
             } 
         ]
-        scrapperProducts( products, MARKETPLACE, COUNTRY, pid=PID)
+        scrapperProducts(products, MARKETPLACE, COUNTRY, pid=PID)

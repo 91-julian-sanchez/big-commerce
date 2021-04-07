@@ -210,7 +210,7 @@ class Bootstrap:
 
     def __init__(self, marketplace: str, country: str, recursive: bool = False, debug: bool = False):
         logging.info(f"""Init scraper:
-        marketplace: '{marketplace}''
+        marketplace: '{marketplace}'
         country: '{country}'
         recursive: {recursive}
         debug: {debug}""")
