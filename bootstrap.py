@@ -71,7 +71,7 @@ def remove_duplicates_header_rows(path):
     with open(path) as f:
         data = list(csv.reader(f))
         new_data = [a for i, a in enumerate(data) if a not in data[:i]]
-        with open(path, 'w') as t:
+        with open(path, 'w', newline='') as t:
             write = csv.writer(t)
             write.writerows(new_data)
 
@@ -111,24 +111,25 @@ def motor_scraper_subprocess_shell(marketplace=None, country=None, category_leve
     if pid is not None:
         output = f'-o "../../../.output/{pid}-{marketplace}-{country}-categories.csv"'
 
+    spider_name = 'category_glossary'
+    if marketplace == 'linio':
+        spider_name = 'linio'
+        
     if category_level is not None and category_href is not None:
-        command = f'scrapy crawl category_glossary {argument_country} -a category_level={category_level} -a category_href="{category_href}" {argument_parent} {output} {nolog}'
+        command = f'scrapy crawl {spider_name} {argument_country} -a category_level={category_level} -a category_href="{category_href}" {argument_parent} {output} {nolog}'
     else:
-        command = f"scrapy crawl category_glossary {argument_country} {output} {nolog}"
+        command = f"scrapy crawl {spider_name} {argument_country} {output} {nolog}"
 
     # print(f"command>> {command}")
-    # subprocess.run(command)
     subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     os.chdir(wd)
 
 
 def motor_scraper_start(marketplace, country, category_level=None, category_href=None, parent=None, debug=None,
                         pid=None):
-    if marketplace == 'mercadolibre':
-        motor_scraper_subprocess_shell(marketplace=marketplace, country=country, category_level=category_level,
+    motor_scraper_subprocess_shell(marketplace=marketplace, country=country, category_level=category_level,
                                        parent=parent, category_href=category_href, debug=debug, pid=pid)
-    else:
-        print("linio no esta en scrapy")
+    
 
 
 class Bootstrap:
