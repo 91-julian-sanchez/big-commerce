@@ -214,15 +214,14 @@ def run(
     df = pd.read_csv(categories_path)
     if marketplace_uid == 'mercadolibre':
         df = df[['id', 'name', 'href', 'hierarchy','parent']]
-
+        level2_df = df[df['id']==category_id]
         level3_df = df[df['parent']==category_id]
         level4_df = df[
             df['parent'].apply( lambda parente_id: parente_id in list(level3_df['id'].unique()) ) 
         ]
-        result = pd.concat([level3_df, level4_df])
-        for index, row in df.iterrows():
-            if row['parent'] == category_id:
-                categories_to_scraper.append((row['id'], row['href']))
+        result = pd.concat([level2_df, level3_df, level4_df])
+        for index, row in result.iterrows():
+            categories_to_scraper.append((row['id'], row['href']))
         
     elif marketplace_uid == 'linio':
         df = df[['id', 'name', 'href', 'hierarchy','parent']]
