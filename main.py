@@ -214,15 +214,14 @@ def run(
     df = pd.read_csv(categories_path)
     if marketplace_uid == 'mercadolibre':
         df = df[['id', 'name', 'href', 'hierarchy','parent']]
-
+        level2_df = df[df['id']==category_id]
         level3_df = df[df['parent']==category_id]
         level4_df = df[
             df['parent'].apply( lambda parente_id: parente_id in list(level3_df['id'].unique()) ) 
         ]
-        result = pd.concat([level3_df, level4_df])
-        for index, row in df.iterrows():
-            if row['parent'] == category_id:
-                categories_to_scraper.append((row['id'], row['href']))
+        result = pd.concat([level2_df, level3_df, level4_df])
+        for index, row in result.iterrows():
+            categories_to_scraper.append((row['id'], row['href']))
         
     elif marketplace_uid == 'linio':
         df = df[['id', 'name', 'href', 'hierarchy','parent']]
@@ -255,15 +254,23 @@ def main(marketplace: str, country: str, recursive: bool, category_id: str = Non
         recursive=recursive)
 
 
-if __name__ == '__main__':
-    
-    # TODO scraper settings
-    AVAILABLE_MARKETPLACES = Bootstrap.get_available_marketplaces()
-    PID = datetime.today().strftime('%y%m%d%H%M%S')
-    # * Options args
+def get_marketplace(marketplace: str, available_marketplaces: list):
+    if marketplace is None:
+        marketplace = Bootstrap.select_marketplace(available_marketplaces=available_marketplaces)
+    return marketplace
+
+
+def get_country(country: str, marketplace: str):
+    if country is None:
+        country = Bootstrap.select_country(marketplace)
+    return country
+
+
+def parse_args(available_marketplaces: list):
     parser = argparse.ArgumentParser()
     # * Select marketplace
-    parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str, choices=AVAILABLE_MARKETPLACES)
+    parser.add_argument('--marketplace', help='The marketplace that you want to scraper', type=str,
+                        choices=available_marketplaces)
     # * Select country args --country {ISO_3166_COUNTRY_CODE}
     parser.add_argument("--country", required=False, help=f"Country where the scrapper will run, avalible: co, mx, cl")
     # * Config DEBUG MODE
@@ -274,45 +281,55 @@ if __name__ == '__main__':
     parser.add_argument("--categories_path", required=False, help=f"Categories path")
     # * Scraper product
     parser.add_argument("--product_link", required=False, help=f"Product link to scraper")
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def scraper_categories(marketplace, country, pid, debug_mode):
+    categories = bootstrap.category_glossary(marketplace, country, pid, debug_mode)
+    category_selected = select_category_menu(choices=categories)
+    return categories, category_selected
+
+
+if __name__ == '__main__':
     
+    # TODO scraper settings
+    AVAILABLE_MARKETPLACES = Bootstrap.get_available_marketplaces()
+    PID = datetime.today().strftime('%y%m%d%H%M%S')
+    # * Options args
+    args = parse_args(AVAILABLE_MARKETPLACES)
     DEBUG_MODE = is_true(args.debug)
-    
-    if args.marketplace is None:
-        args.marketplace = Bootstrap.select_marketplace(available_marketplaces=AVAILABLE_MARKETPLACES)
-    MARKETPLACE = args.marketplace
-    
-    if args.country is None:
-        args.country = Bootstrap.select_country(args.marketplace)
-    COUNTRY = args.country
+    MARKETPLACE = get_marketplace(args.marketplace, AVAILABLE_MARKETPLACES)
+    COUNTRY = get_country(args.country, MARKETPLACE)
     
     if args.product_link is None:
-
         RECURSIVE = is_true(args.recursive)
         categories_path = args.categories_path
         bootstrap = Bootstrap(MARKETPLACE, COUNTRY, recursive=RECURSIVE, debug=DEBUG_MODE)
+        category_glossary_tree = []
         category_selected = None
-        
-        if MARKETPLACE == 'mercadolibre':
-            if categories_path is None:
+        confirm_message = 'Extraer productos de categorias?'
+
+        if categories_path is None:
+
+            categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
+            # * LEVEL 1
+            categories, category_selected = scraper_categories(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
+            category_glossary_tree.append(category_selected)
+
+            if MARKETPLACE == 'mercadolibre':
                 # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
-                category_glossary_tree = []
-                categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
-                # * LEVEL 1
-                categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
-                parent_category_selected = select_category_menu(choices=categories)
-                category_glossary_tree.append(parent_category_selected)
+                parent_category_selected = category_selected
                 # * LEVEL 2
                 categories = bootstrap.category_glossary(
-                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=parent_category_selected, level=2
+                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, level=2
                 )
                 category_selected = select_category_menu(choices=categories)
                 category_glossary_tree.append(category_selected)
 
                 # * LEVEL 3 and 4
                 categories = bootstrap.category_glossary(
-                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, parent_category=parent_category_selected
-                    , level=3
+                    MARKETPLACE, COUNTRY, PID, DEBUG_MODE, category=category_selected, level=3,
+                    parent_category=parent_category_selected
                 )
                 category_glossary_tree = category_glossary_tree + categories
 
@@ -320,22 +337,17 @@ if __name__ == '__main__':
                 bullets = ['', ' >', '  *', '   -']
                 for category in category_glossary_tree:
                     print(bullets[category.get('hierarchy') - 1], f"{category.get('name')}")
-                    
-            confirm_message = 'Extraer productos del arbol de categorias?'
-                    
-        elif MARKETPLACE == 'linio':
-            category_glossary_tree = []
-            categories_path = f'./.output/{PID}-{MARKETPLACE}-{COUNTRY}-categories.csv'
-            # * LEVEL 1
-            categories = bootstrap.category_glossary(MARKETPLACE, COUNTRY, PID, DEBUG_MODE)
-            category_selected = select_category_menu(choices=categories)
-            category_glossary_tree.append(category_selected)
-            
-            confirm_message = 'Extraer productos de categorias?'
+
+                confirm_message = 'Extraer productos del arbol de categorias?'
+
+            elif MARKETPLACE == 'linio':
+                # TODO INIT CATEGORY GLOSSARY SCRAPER ===============================================
+                print(f"Crawl {MARKETPLACE}> init...")
 
         confirm = confirm_init_scraper_menu(confirm_message)
         if confirm.get('continue') is True:
-            main(MARKETPLACE, COUNTRY, RECURSIVE, categories_path=categories_path, pid=PID, category_id=category_selected.get('id'), marketplace_config=bootstrap.country_config)
+            main(MARKETPLACE, COUNTRY, RECURSIVE, categories_path=categories_path, pid=PID,
+                 category_id=category_selected.get('id'), marketplace_config=bootstrap.country_config)
             
         pass
     
@@ -347,4 +359,4 @@ if __name__ == '__main__':
                'link': args.product_link,
             } 
         ]
-        scrapperProducts( products, MARKETPLACE, COUNTRY, pid=PID)
+        scrapperProducts(products, MARKETPLACE, COUNTRY, pid=PID)

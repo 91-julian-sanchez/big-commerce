@@ -11,12 +11,12 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-class LinioSpider(scrapy.Spider):
+class LinioCategoryGlossarySpider(scrapy.Spider):
     name = 'linio'
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
     custom_settings = {
             'FEEDS':{
-                'linio_category_glossary_%(time)s.csv': {
+                '../../../.output/linio_category_glossary_%(time)s.csv': {
                     'format': 'csv',
                     'encoding': 'utf8',
                     'overwrite': False
