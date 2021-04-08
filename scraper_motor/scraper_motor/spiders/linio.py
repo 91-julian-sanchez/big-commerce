@@ -11,7 +11,7 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-class LinioCategoryGlossarySpider(scrapy.Spider):
+class LinioGlossarySpider(scrapy.Spider):
     name = 'linio'
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
     custom_settings = {
