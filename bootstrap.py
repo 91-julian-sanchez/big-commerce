@@ -112,7 +112,7 @@ def motor_scraper_subprocess_shell(marketplace=None, country=None, category_leve
     if pid is not None:
         output = f'-o "../../../.output/{pid}-{marketplace}-{country}-categories.csv"'
 
-    spider_name = 'category_glossary'
+    spider_name = 'mercadolibre'
     if marketplace == 'linio':
         spider_name = 'linio'
         

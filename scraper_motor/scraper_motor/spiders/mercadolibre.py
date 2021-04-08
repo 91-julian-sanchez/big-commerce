@@ -13,8 +13,8 @@ logging.basicConfig(
 )
 
 
-class CategoryGlossarySpider(scrapy.Spider):
-    name = 'category_glossary'
+class MercadolibreGlossarySpider(scrapy.Spider):
+    name = 'mercadolibre'
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36'
     custom_settings = {
             'FEEDS':{
